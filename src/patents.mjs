@@ -1,0 +1,7 @@
+export const patents = [
+  {"number":"KR102854968B1","year":2025,"title":{"ko":"기계 학습 모델 기반의 CT 영상을 분류 및 분할하기 위한 방법 및 장치","en":"Device and method for classifying and segmenting ct image based on machine learning model"},"granted":true,"area":"medical","inventors":"김남국, 경성구, 신기원, 홍길선","related":[]},
+  {"number":"KR102787021B1","year":2025,"title":{"ko":"기계 학습 모델에 기초하여 혈관을 분석하는 방법 및 장치","en":"Method and apparatus for analyzing blood vessels based on machine learning model"},"granted":true,"area":"medical","inventors":"김남국, 신기원, 김대원","related":[{"number":"US12591966B2","year":2026,"granted":true}]},
+  {"number":"KR20240174814A","year":2024,"title":{"ko":"딥 러닝 모델을 이용하여 심전도 신호를 분석하는 방법 및 심전도 신호를 분석하는 장치","en":"Method for analyzing electrocardiogram signals using a deep learning model and device for analyzing electrocardiogram signals"},"granted":false,"area":"medical","inventors":"김성훈, 신기원, 김남국, 김현석, 서우영, 박용석","related":[{"number":"WO2024253395A1","year":2024,"granted":false}]},
+  {"number":"KR102289952B1","year":2021,"title":{"ko":"보호음 출력장치, 차량, 및 그 제어방법","en":"Device for ouputting protectsound, vehicle and method for controlling thereof"},"granted":true,"area":"industry","inventors":"조은수, 윤태건, 박종민, 장경진, 이진성, 신기원, 박동철, 김병수, 김성현","related":[]},
+  {"number":"KR101814977B1","year":2018,"title":{"ko":"차량 및 그 제어방법","en":"Vehicle and controlling method thereof"},"granted":true,"area":"industry","inventors":"장경진, 윤태건, 김성현, 신기원, 박동철, 조은수, 이진성","related":[]},
+];

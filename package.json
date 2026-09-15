@@ -1,0 +1,14 @@
+{
+  "name": "tmi-lab",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Bilingual Translational Medical Intelligence Lab website",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node --check src/render.mjs && node --check src/content.mjs && node --check src/publications.mjs && node --check public/site.js && node --check scripts/build.mjs && node --check src/patents.mjs && node --check public/scroll.js"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
