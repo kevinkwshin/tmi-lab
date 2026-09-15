@@ -92,3 +92,7 @@ White canvas, sky-blue transfer/patent sections, navy contact band,1px rules. No
 WCAG2.2 AA target: contrast, keyboard focus, skip link, semantic landmarks, translated labels, proper document language,44px controls, responsive reflow, reduced motion, no-JS access. Current-page/current-location/current-step states have distinct meanings. Prior research is not relabeled as current institutional partnerships. No accepted product accessibility debt.
 
 QA covers both languages at375/768/1280px, all published sections, menu/keyboard, publication filters/search/reset, patent/career disclosure, language anchors, scroll stages, content entry, and reduced motion. Browser evidence is kept privately; source provenance is in `docs/asset-sources.md`.
+
+## Presentation-like navigation
+
+The user requested a light presentation-slide effect on September 16. Desktop scrolling uses native proximity snapping at section and mission-chapter boundaries. Tall publication and research sections retain ordinary internal scrolling. A bilingual, keyboard-accessible section dock shows the current title and position, with previous/next controls. Entry transitions use the shared 48px distance and a subtle scale from .985 to 1. Reduced-motion mode removes snapping and animation; without JavaScript, navigation and all content remain available and the dock is hidden.
