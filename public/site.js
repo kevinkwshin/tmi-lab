@@ -1,4 +1,3 @@
-document.documentElement.classList.add('js');
 const toggle = document.querySelector('.menu-toggle');
 const nav = document.querySelector('.nav');
 function closeMenu(restoreFocus = false) {

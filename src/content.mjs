@@ -51,7 +51,7 @@ export const content = {
       affiliation: '인하대학교 의과대학 디지털의료학과',
       bio: '의료영상, 생체신호, 멀티모달 AI를 연구합니다. 기계공학과 의공학을 바탕으로, 빠르게 발전하는 AI 기술을 의료 현장의 문제에 접목하고 임상에서 활용할 수 있는 형태로 발전시키는 중개의학 연구를 수행합니다.',
       educationLabel: '학력', education: ['2023 · 울산대학교 의공학 박사', '2013 · 한양대학교 기계공학 석사', '2011 · 한양대학교 기계공학 학사'],
-      careerLabel: '주요 경력', career: ['2026–현재 · 인하대학교 의과대학 조교수', '2025–2026 · 울산대학교 의과대학 연구교수', '2023–2025 · 고려대학교 연구교수', '2018–2023 · 서울아산병원 연구원·박사후연구원', '2013–2018 · 현대자동차 연구원'],
+      careerLabel: '주요 경력', career: ['2025–현재 · 대한의료인공지능학회 학술위원', '2024–현재 · MICCAI Area/Program Chair', '2026–현재 · 인하대학교 의과대학 조교수', '2025–2026 · 울산대학교 의과대학 연구교수', '2023–2025 · 고려대학교 의과대학 연구교수', '2018–2023 · 서울아산병원 연구원·박사후연구원', '2013–2018 · 현대자동차 연구원'],
       profileLink: '인하대학교 공식 교수 소개',
     },
     contact: {
@@ -67,8 +67,8 @@ export const content = {
     hero: {
       eyebrow: 'TMI-lab · INHA UNIVERSITY',
       titleLines: ['TMI-lab'],
-      description: 'TMI-lab develops and translates AI to address real clinical problems, support clinical judgment, and improve healthcare workflows.',
-      primary: 'Technology transfers', secondary: 'Explore our research',
+      description: 'TMI-lab translates AI into better clinical decisions and workflows.',
+      primary: 'Technology transfer', secondary: 'Research',
       caption: 'Research in understanding and quantifying anatomical structures in medical images',
     },
     intro: {
@@ -114,7 +114,7 @@ export const content = {
       affiliation: 'Department of Digital Medicine, Inha University College of Medicine',
       bio: 'Research interests span medical imaging, biosignals, and multimodal AI. With a background in mechanical and biomedical engineering, his translational research connects advances in AI with clinical needs and develops them toward practical use in medicine.',
       educationLabel: 'Education', education: ['2023 · PhD, Biomedical Engineering, University of Ulsan', '2013 · MS, Mechanical Engineering, Hanyang University', '2011 · BS, Mechanical Engineering, Hanyang University'],
-      careerLabel: 'Selected appointments', career: ['2026–present · Assistant Professor, Inha University College of Medicine', '2025–2026 · Research Professor, University of Ulsan College of Medicine', '2023–2025 · Research Professor, Korea University', '2018–2023 · Researcher and Postdoctoral Fellow, Asan Medical Center', '2013–2018 · Researcher, Hyundai Motor Company'],
+      careerLabel: 'Career & academic service', career: ['2025–present · Scientific Committee Member, Korean Society of Artificial Intelligence in Medicine', '2024–present · Area/Program Chair, MICCAI', '2026–present · Assistant Professor, Inha University College of Medicine', '2025–2026 · Research Professor, University of Ulsan College of Medicine', '2023–2025 · Research Professor, Korea University College of Medicine', '2018–2023 · Researcher and Postdoctoral Fellow, Asan Medical Center', '2013–2018 · Researcher, Hyundai Motor Company'],
       profileLink: 'Official Inha University profile',
     },
     contact: {

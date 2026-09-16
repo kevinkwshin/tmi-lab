@@ -10,7 +10,7 @@ const lines = (value) => escape(value).replaceAll('\n', '<br>');
 const link = (url, label, cls = 'text-link') => `<a class="${cls}" href="${escape(url)}">${escape(label)} ${arrow}</a>`;
 const heading = (section) => `<div class="section-heading"><div><p class="eyebrow">${escape(section.label)}</p><h2>${lines(section.title)}</h2>${section.intro ? `<p>${escape(section.intro)}</p>` : ''}</div></div>`;
 
-export function renderPage(lang, siteUrl) {
+export function renderPage(lang, siteUrl, languageScript) {
   const c = content[lang];
   const ko = lang === 'ko';
   const root = ko ? './' : '../';
@@ -30,6 +30,8 @@ export function renderPage(lang, siteUrl) {
 <link rel="alternate" hreflang="ko" href="${siteUrl}"><link rel="alternate" hreflang="en" href="${new URL('en/', siteUrl).href}"><link rel="alternate" hreflang="x-default" href="${siteUrl}">
 <meta property="og:image" content="${new URL('assets/tmi-logo.webp', siteUrl).href}"><meta property="og:image:alt" content="TMI-lab"><meta name="twitter:card" content="summary_large_image"><meta property="og:type" content="website"><meta property="og:site_name" content="TMI-lab"><meta property="og:title" content="${escape(title)}"><meta property="og:description" content="${escape(c.hero.description)}"><meta property="og:url" content="${pageUrl}"><meta property="og:locale" content="${ko ? 'ko_KR' : 'en_US'}">
 <link rel="icon" href="${root}favicon.svg" type="image/svg+xml">
+<script>document.documentElement.classList.add('js');</script>
+<script>${languageScript}</script>
 <link rel="stylesheet" href="${root}styles.css"><script src="${root}site.js" defer></script><script src="${root}scroll.js" defer></script>
 <script type="application/ld+json">${JSON.stringify(schema).replaceAll('<', '\\u003c')}</script>
 </head>
@@ -38,7 +40,7 @@ export function renderPage(lang, siteUrl) {
 <header class="site-header"><div class="header-inner container">
 <a class="brand" href="${root}" aria-label="${c.ui.home}"><span class="brand-mark" lang="en">TMI-lab</span><span class="brand-description" lang="en">Translational<br>Medical Intelligence</span></a>
 <nav class="nav" id="main-nav" aria-label="${ko ? '주 메뉴' : 'Main navigation'}">${c.nav.map(n => `<a href="#${n.id}">${n.label}</a>`).join('')}</nav>
-<div class="header-controls"><div class="language" role="group" aria-label="${c.ui.language}"><a href="${root}" data-language="ko" lang="ko" aria-label="KO · 한국어" ${ko ? 'aria-current="page"' : ''}>KO</a><a href="${root}en/" data-language="en" lang="en" aria-label="EN · English" ${!ko ? 'aria-current="page"' : ''}>EN</a></div><button class="menu-toggle" type="button" aria-controls="main-nav" aria-expanded="false" aria-label="${c.ui.menu}" data-open="${c.ui.menu}" data-close="${c.ui.close}"><span aria-hidden="true">☰</span></button></div>
+<div class="header-controls"><div class="language" role="group" aria-label="${c.ui.language}"><a href="${root}?lang=ko" data-language="ko" lang="ko" aria-label="KO · 한국어" ${ko ? 'aria-current="page"' : ''}>KO</a><a href="${root}en/?lang=en" data-language="en" lang="en" aria-label="EN · English" ${!ko ? 'aria-current="page"' : ''}>EN</a></div><button class="menu-toggle" type="button" aria-controls="main-nav" aria-expanded="false" aria-label="${c.ui.menu}" data-open="${c.ui.menu}" data-close="${c.ui.close}"><span aria-hidden="true">☰</span></button></div>
 </div><div class="reading-progress" aria-hidden="true"><span></span></div></header>
 <main id="main">
 <section class="hero container" id="welcome" data-slide="TMI-lab" aria-labelledby="hero-title">
@@ -72,7 +74,7 @@ ${heading(c.research)}
 <section class="section patents-section" id="patents" data-slide="${ko ? '특허' : 'Patents'}"><div class="container"><div class="section-heading"><div><p class="eyebrow">05 / PATENTS</p><h2>${ko ? '특허' : 'Patents & applications'}</h2></div></div><div class="patent-list">${patents.filter(p=>p.area==='medical').map(patentRow).join('')}<details class="details"><summary>${ko ? '이전 산업 연구 특허' : 'Earlier industrial research patents'}</summary>${patents.filter(p=>p.area==='industry').map(patentRow).join('')}</details></div></div></section>
 <section class="section people-section" id="people" data-slide="${ko ? '구성원' : 'People'}"><div class="container">
 ${heading(c.people)}
-<div class="profile-layout"><figure class="portrait-wrap"><img src="${asset('keewon-shin')}" width="640" height="795" loading="lazy" alt="${ko ? '신기원 교수' : 'Professor Keewon Shin'}"></figure><div><h3 class="profile-name">${c.people.name} <span class="meta" lang="en">${ko ? 'Keewon Shin' : 'PhD'}</span></h3><p class="profile-role">${c.people.role}</p><p class="meta">${c.people.affiliation}</p><p class="profile-bio">${escape(c.people.bio)}</p><div class="profile-links cluster">${link(scholar, 'Google Scholar')}${link('https://github.com/kevinkwshin', 'GitHub')}${link('https://orcid.org/0000-0002-5028-5716', 'ORCID')}</div><details class="details"><summary>${c.people.educationLabel} · ${c.people.careerLabel}</summary><h4>${c.people.educationLabel}</h4><ul>${c.people.education.map(e => `<li>${escape(e)}</li>`).join('')}</ul><h4>${c.people.careerLabel}</h4><ul>${c.people.career.map(e => `<li>${escape(e)}</li>`).join('')}</ul>${link(profile, c.people.profileLink)}</details></div></div>
+<div class="profile-layout"><figure class="portrait-wrap"><img src="${asset('keewon-shin')}" width="640" height="795" loading="lazy" alt="${ko ? '신기원 교수' : 'Professor Keewon Shin'}"></figure><div><h3 class="profile-name">${c.people.name} <span class="meta" lang="en">${ko ? 'Keewon Shin' : 'PhD'}</span></h3><p class="profile-role">${c.people.role}</p><p class="meta">${c.people.affiliation}</p><p class="profile-bio">${escape(c.people.bio)}</p><div class="profile-links cluster">${link(scholar, 'Google Scholar')}${link('https://github.com/kevinkwshin', 'GitHub')}${link('https://orcid.org/0000-0002-5028-5716', 'ORCID')}</div><details class="details" open><summary>${c.people.educationLabel} · ${c.people.careerLabel}</summary><h4>${c.people.educationLabel}</h4><ul>${c.people.education.map(e => `<li>${escape(e)}</li>`).join('')}</ul><h4>${c.people.careerLabel}</h4><ul>${c.people.career.map(e => `<li>${escape(e)}</li>`).join('')}</ul>${link(profile, c.people.profileLink)}</details></div></div>
 </div></section>
 <section class="section contact-section" id="contact" data-slide="${ko ? '연락처' : 'Contact'}"><div class="container contact-layout"><div><p class="eyebrow">${c.contact.label}</p><h2>${lines(c.contact.title)}</h2><p>${escape(c.contact.body)}</p></div><dl class="contact-details"><dt>${c.contact.emailLabel}</dt><dd><a href="mailto:kevinkwshin@inha.ac.kr">kevinkwshin@inha.ac.kr ${arrow}</a></dd><dt>${c.contact.locationLabel}</dt><dd>${escape(c.contact.location)}</dd></dl></div></section>
 </main>

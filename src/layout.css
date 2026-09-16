@@ -12,7 +12,7 @@
 .hero h1 { font-size:var(--display); line-height:1.05; font-weight:var(--brand-weight); letter-spacing:-.055em; }
 .hero h1 span { display:block; }
 .hero h1 span:last-child { color:var(--blue); }
-.hero-description { color:var(--muted); font-size:var(--text-lg); margin-block:var(--s8); max-width:44ch; }
+.hero-description { color:var(--muted); font-size:var(--text-lg); margin-block:var(--s8); max-width:44ch; min-block-size:2lh; text-wrap:balance; }
 .hero-actions { gap:var(--s8); }
 .hero-figure { align-self:stretch; display:flex; flex-direction:column; justify-content:center; }
 .scan-frame { background:var(--scan); position:relative; height:560px; overflow:hidden; }
@@ -101,7 +101,7 @@ figcaption { font-size:var(--text-xs); color:var(--muted); line-height:1.6; marg
 @media(max-width:640px) {
   .hero { grid-template-columns:1fr; padding-top:var(--s10); gap:var(--s10); }
   .hero .eyebrow { font-size:var(--text-xs); margin-bottom:var(--s5); }
-  .hero-description { margin-block:var(--s6); }
+  .hero-description { margin-block:var(--s6); min-block-size:3lh; }
   .scan-frame { height:auto; aspect-ratio:1/1.05; }
   .hero-figure { max-width:440px; }
   .affiliation-strip { display:block; } .affiliation-strip span { display:block; margin-top:var(--s2); }

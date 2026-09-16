@@ -37,6 +37,6 @@ The generated website is in `dist/`. Serve that directory with a static HTTP ser
 
 Update both language versions together. Verify DOI metadata before adding papers. Prior research and technology transfers belong to the PI's professional record; they do not imply current institutional partnerships or deployment of every lab project.
 
-The website uses static HTML, CSS, and small deferred scripts. Content, language navigation, links, and career disclosure remain available without JavaScript; search and the compact mobile menu progressively enhance them. There are no trackers, web fonts, or third-party scripts.
+The website uses static HTML, CSS, a small language selector in the document head, and deferred interaction scripts. On the root page, the first supported browser language selects Korean or English; English is the fallback. A manual KO/EN selection is remembered locally and preserves the section anchor. Direct `/en/` links stay English, and explicit language links work even when storage is blocked. Content, language navigation, links, and the default-open career disclosure remain available without JavaScript. There are no trackers, web fonts, or third-party scripts.
 
 Original private documents and extracted source material are excluded from Git. Scientific images retain their original annotations and proportions; only web resizing/compression is applied.

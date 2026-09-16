@@ -58,6 +58,8 @@ Body line-height 1.75. Brand line-height 1.05; section headings 1.1 (Korean 1.3)
 
 Hero: two columns1fr/1.15fr, logo at original aspect ratio. At960px hero/navigation stack; at640px all major content uses one column. Technology feature uses a white surface within sky blue. Publication and patent rows use fine rules. Main navigation preserves natural page scrolling.
 
+The bilingual hero description reserves at least two line heights (three below640px) and balances wrapping. This keeps the action row steady when language-specific copy uses fewer lines, while allowing longer text or enlarged fonts to grow naturally.
+
 Mission: sticky introduction beside three scroll chapters on desktop. Each chapter has minimum `clamp(300px,55svh,560px)` height, stage number, label, title, and description. Below960px the introduction returns to normal flow and chapter minimum heights are removed. Sticky offsets and anchor scroll margins account for the header.
 
 ## 5. Components
@@ -65,14 +67,14 @@ Mission: sticky introduction beside three scroll chapters on desktop. Each chapt
 - **Brand/home:** text TMI-lab and full-name expansion; original character logo in hero.
 - **Section heading:** numbered overline and translated title; optional descriptive paragraph. Publications and transfers omit personal/founding preambles per user instruction.
 - **Action link:** blue primary or underlined text link, decorative arrow, hover/pressed/focus states.
-- **Language links:** KO/EN with visible label included in accessible name; current language via `aria-current=page`. Other language is pre-rendered. Click preserves the section anchor; no storage or forced redirect.
+- **Language links:** KO/EN with visible label included in accessible name; current language via `aria-current=page`. Both languages are pre-rendered. The root entry uses the first supported browser language (Korean or English, English fallback); a manually selected language takes priority and is remembered in local storage. Explicit `/en/` links remain English. Language links preserve the section anchor and carry an explicit language query so switching still works when storage is unavailable. Detection runs in the document head before the page is painted.
 - **Menu disclosure:**44px button, translated open/close label, expanded state, Escape/focus restoration. Navigation is fully available without JS; inactive menu button is hidden.
 - **Technology case:** original product image, clear product/research links, short technical description. Other transfers show year, recipient, and use case.
 - **Mission chapters/index:** real anchor links with current stage `aria-current=step`; matching chapter number highlights on scroll. Each chapter remains independently readable.
 - **Research row/gallery:** numbered title, description, topic labels; linked original scientific figures. No fake hover actions on static rows.
 - **Publication list:** English paper titles, year, authors, journal, DOI. Native search/category buttons, selected states, live result count, empty state, reset/focus restoration.
 - **Patent list:** verified publication numbers and bilingual official titles, grant/publication labels, inventor names. Same-family US/PCT documents attach to the invention; earlier industrial work uses a native disclosure. No lifetime patent totals.
-- **People:** confirmed PI portrait, research bio, professional role, links, expandable education/career. Heading `구성원 소개` / `People`; no invented members.
+- **People:** confirmed PI portrait, research bio, professional role, links, education/career expanded by default with a native collapse control. Academic service appears first in the career list. Heading `구성원 소개` / `People`; no invented members.
 - **Contact:** `연구 협력 및 문의` / `Research collaboration & inquiries`, public work email and office.
 
 ## 6. Motion & Interaction
