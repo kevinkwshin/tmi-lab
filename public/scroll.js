@@ -106,7 +106,7 @@ addEventListener('wheel', event => {
   if (!active || dialog.open || event.ctrlKey || event.metaKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
   event.preventDefault();
   const now = performance.now();
-  if (now - lastWheel > 220) { gestureUsed = false; wheelTotal = 0; }
+  if (!moving && now - lastWheel > 220) { gestureUsed = false; wheelTotal = 0; }
   lastWheel = now;
   if (moving || gestureUsed) return;
   wheelTotal += event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1);
