@@ -1,0 +1,96 @@
+/* One deliberate page transition replaces separate block-entry effects. */
+.eyebrow { text-transform:none; letter-spacing:.025em; }
+.eyebrow::before { display:none; }
+.hero-affiliation { margin-top:var(--s8); font-size:var(--text-xs); }
+.hero .eyebrow { color:var(--muted); }
+.hero-expansion { text-wrap:balance; }
+.neurocad-feature { margin-bottom:0; }
+.clinical-feature { margin-top:0; }
+.clinical-feature .scan-frame { display:block; }
+.mission-story { display:block; }
+.mission-sticky { position:static; max-width:840px; }
+.mission-intro { margin-block:var(--s6) var(--s10); }
+.mission-chapters { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--s8); }
+.mission-chapter { min-height:0; padding:var(--s6) 0; }
+.chapter-number { font-size:var(--text-2xl); margin-bottom:var(--s5); color:var(--blue); }
+.mission-chapter h3 { font-size:var(--text-xl); }
+.mission-chapter .eyebrow { display:none; }
+.research-focus { display:grid; grid-template-columns:1.05fr 1fr; gap:var(--s16); align-items:center; }
+.research-focus h2 { text-wrap:balance; }
+.research-body { margin-top:var(--s8); color:var(--muted); font-size:var(--text-lg); }
+.research-evidence { min-width:0; }
+.research-evidence img { width:100%; max-height:440px; object-fit:contain; }
+.modality-map { padding:var(--s12) var(--s8); background:var(--sky); text-align:center; border-radius:var(--radius); }
+.map-question { font-size:var(--text-2xl); font-weight:600; text-wrap:balance; }
+.map-inputs { display:flex; justify-content:center; flex-wrap:wrap; gap:var(--s3); margin-block:var(--s10); }
+.map-inputs span { border-block:1px solid var(--blue); padding:var(--s4) var(--s3); }
+.map-output { color:var(--blue); }
+.collection-preview { display:none; }
+.preview-row { border-top:1px solid var(--line); padding-block:var(--s4); }
+.preview-row h3 { margin-top:var(--s1); }
+.preview-row .paper-title { display:inline; border:0; }
+.collection-preview>.action { margin-top:var(--s6); }
+.career-columns { display:grid; grid-template-columns:.8fr 1.5fr; gap:var(--s12); }
+.career-columns h3 { margin-block:var(--s3); font-size:var(--text-base); font-weight:600; line-height:1.75; }
+.career-columns ul { margin:0; }
+.career-section .details { margin-top:var(--s8); }
+.career-section .details>.text-link { margin-top:var(--s5); }
+.contact-section .footer { margin-top:var(--s16); border-top:1px solid var(--muted-dark); padding-bottom:0; }
+.contact-section .footer p { color:var(--muted-dark); }
+.slide-controls { box-shadow:none; }
+.slide-controls .reading-toggle { font-size:var(--text-xs); padding-inline:var(--s3); background:var(--white); width:auto; }
+.reading-dialog { padding:0; color:var(--ink); background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); width:min(calc(100% - var(--s12)),var(--max)); max-height:calc(100dvh - var(--s12)); overscroll-behavior:contain; }
+.reading-dialog::backdrop { background:var(--dialog-backdrop); }
+.dialog-header { position:sticky; top:0; z-index:1; display:flex; align-items:center; justify-content:space-between; gap:var(--s6); padding:var(--s6) var(--s8); background:var(--white); border-bottom:1px solid var(--line); }
+.dialog-header h2 { font-size:var(--text-2xl); }
+.dialog-content { padding:var(--s8); }
+.dialog-open { overflow:hidden; }
+.reading-dialog .reading-content { display:block; }
+.presentation { scroll-behavior:auto; scroll-padding-bottom:0; }
+.presentation body { padding-bottom:0; }
+.presentation [data-slide] { height:calc(100dvh - var(--header-height)); min-height:0; padding-block:var(--s8) var(--s24); display:flex; align-items:center; scroll-margin-top:var(--header-height); }
+.presentation [data-slide].hero { display:grid; }
+.presentation [data-slide].mission-story { display:flex; flex-direction:column; justify-content:center; align-items:stretch; }
+.presentation [data-slide].contact-section { flex-direction:column; justify-content:center; align-items:stretch; }
+.presentation .reading-content { display:none; }
+.presentation .reading-dialog .reading-content { display:block; }
+.presentation .collection-preview { display:block; }
+.presentation .section-heading { margin-bottom:var(--s8); }
+.presentation .section-heading .eyebrow { display:none; }
+.presentation .neurocad-feature { padding:var(--s8); gap:var(--s8); }
+.presentation .neurocad-feature h3 { font-size:var(--text-2xl); }
+.presentation .portrait-wrap { max-width:280px; padding:var(--s5); }
+.presentation .profile-layout { grid-template-columns:.7fr 1.5fr; }
+.presentation .profile-bio { font-size:var(--text-base); }
+.presentation .reading-dialog .publication-controls { margin-top:0; }
+@media(min-width:961px) and (max-height:819px) {
+  .presentation h2 { font-size:var(--text-2xl); }
+  .presentation .neurocad-copy>p:not(.eyebrow):not(.neurocad-subtitle) { margin-block:var(--s4); }
+  .presentation .neurocad-feature { padding:var(--s6); }
+  .presentation .mission-intro { margin-block:var(--s4) var(--s6); font-size:var(--text-base); }
+  .presentation .mission-chapter { padding-block:var(--s5); }
+  .presentation .mission-chapter h3 { font-size:var(--text-lg); }
+  .presentation .research-evidence img { max-height:360px; }
+  .presentation .research-body { font-size:var(--text-base); }
+  .presentation .preview-row { padding-block:var(--s3); }
+  .presentation .career-section .details { margin-top:var(--s4); }
+}
+@media(max-width:960px) {
+  .research-focus { gap:var(--s8); }
+  .research-body { font-size:var(--text-base); }
+  .mission-chapters { gap:var(--s6); }
+  .career-columns { gap:var(--s6); }
+}
+@media(max-width:640px) {
+  .mission-chapters,.research-focus,.career-columns { grid-template-columns:1fr; }
+  .research-evidence img { max-height:360px; }
+  .modality-map { padding:var(--s8) var(--s6); }
+  .career-columns { gap:var(--s5); }
+  .hero-affiliation { display:none; }
+  .dialog-content,.dialog-header { padding:var(--s5); }
+}
+@media print {
+  .presentation [data-slide] { height:auto; display:block; padding-block:var(--s8); }
+  .presentation .reading-content { display:block; }
+  .presentation .collection-preview,.reading-dialog { display:none; }
+}

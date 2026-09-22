@@ -7,7 +7,7 @@ if (!siteUrl.pathname.endsWith('/')) siteUrl.pathname += '/';
 await rm('dist', { recursive: true, force: true });
 await mkdir('dist/en', { recursive: true });
 await cp('public', 'dist', { recursive: true });
-const styles = await Promise.all(['src/tokens.css', 'src/layout.css'].map(p => readFile(p, 'utf8')));
+const styles = await Promise.all(['src/tokens.css', 'src/layout.css', 'src/presentation.css'].map(p => readFile(p, 'utf8')));
 await writeFile('dist/styles.css', styles.join('\n'));
 await writeFile('dist/index.html', renderPage('ko', siteUrl.href, languageScript));
 await writeFile('dist/en/index.html', renderPage('en', siteUrl.href, languageScript));
