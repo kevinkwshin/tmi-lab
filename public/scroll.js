@@ -80,7 +80,8 @@ for (const button of document.querySelectorAll('[data-read]')) button.addEventLi
   document.documentElement.classList.add('dialog-open');
   dialog.showModal();
 });
-function configure() {
+function configure(align = true) {
+  const wasActive = active;
   if (dialog.open) dialog.close();
   cancelAnimationFrame(frame);
   moving = false;
@@ -95,7 +96,8 @@ function configure() {
   mode.hidden = !desktop.matches;
   mode.textContent = active ? mode.dataset.readingLabel : mode.dataset.slidesLabel;
   mode.setAttribute('aria-pressed', String(!active));
-  go(current, false);
+  if (align || active || wasActive) go(current, false);
+  else update();
 }
 mode.addEventListener('click', () => { reading = active; configure(); });
 previous.addEventListener('click', () => go(current - 1));
@@ -145,7 +147,7 @@ addEventListener('scroll', () => {
   positionFrame = requestAnimationFrame(() => { positionFrame = 0; update(); });
 }, {passive:true});
 let resizeTimer;
-addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(configure, 150); });
+addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => configure(false), 150); });
 motion.addEventListener('change', () => { if (moving) go(current, false); });
 const initial = document.getElementById(location.hash.slice(1))?.closest('[data-slide]');
 if (initial) current = slides.indexOf(initial);

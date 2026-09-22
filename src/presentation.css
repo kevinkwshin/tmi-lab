@@ -124,3 +124,14 @@
   .presentation .reading-content { display:block; }
   .presentation .collection-preview,.reading-dialog { display:none; }
 }
+
+/* Keep current research beside the academic background. */
+.profile-layout,.presentation .profile-layout { grid-template-columns:.85fr 1.25fr .75fr; gap:var(--s8); }
+.profile-project { padding:var(--s5); border-top:2px solid var(--blue); background:var(--sky); }
+.profile-project h3 { font-size:var(--text-lg); }
+.profile-project p { margin-top:var(--s4); font-size:var(--text-base); }
+.profile-project .project-role { color:var(--blue); font-size:var(--text-sm); font-weight:600; }
+.profile-layout .profile-identity { display:block; }
+.profile-layout .portrait-wrap { width:104px; margin-bottom:var(--s4); }
+@media(max-width:1100px) { .profile-layout,.presentation .profile-layout { grid-template-columns:.85fr 1.25fr; } .profile-project { grid-column:1/-1; } }
+@media(max-width:640px) { .profile-layout,.presentation .profile-layout { grid-template-columns:1fr; } .profile-layout .profile-identity { display:flex; } }

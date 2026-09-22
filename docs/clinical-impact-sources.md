@@ -8,3 +8,5 @@
 - **Research directions:** Clinical workflow, surgical digital twins, and evidence-based precision medicine are lab priorities supplied by the PI. Postoperative prediction is described as a research goal, not a validated clinical service. FlatNet/DCAM images are foundational quantitative-imaging/biosignal examples, not digital-twin results.
 
 Original private CV and presentation files are not included in the public site or repository.
+
+- **Current project:** User-provided title and role on 2026-09-22: 건강진단의 멀티모달 추적관찰 데이터 기반 심혈관 질환 조기 예측 AI 시스템 개발 (핵심연구A, 연구책임자). English is a descriptive translation, not an asserted official award title. No dates, grant identifier, funder, or budget were provided or inferred.
