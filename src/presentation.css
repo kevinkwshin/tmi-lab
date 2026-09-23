@@ -59,7 +59,7 @@
 .career-section .details>.text-link { margin-top:var(--s5); }
 .contact-section .footer { margin-top:var(--s16); border-top:1px solid var(--muted-dark); padding-bottom:0; }
 .contact-section .footer p { color:var(--muted-dark); }
-.slide-controls { box-shadow:none; }
+.slide-controls { box-shadow:none; bottom:calc(var(--s5) + env(safe-area-inset-bottom)); max-width:calc(100% - var(--s8)); }
 .slide-controls .reading-toggle { font-size:var(--text-xs); padding-inline:var(--s3); background:var(--white); width:auto; }
 .reading-dialog { padding:0; color:var(--ink); background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); width:min(calc(100% - var(--s12)),var(--max)); max-height:calc(100dvh - var(--s12)); overscroll-behavior:contain; }
 .reading-dialog::backdrop { background:var(--dialog-backdrop); }
@@ -68,12 +68,16 @@
 .dialog-content { padding:var(--s8); }
 .dialog-open { overflow:hidden; }
 .reading-dialog .reading-content { display:block; }
-.presentation { scroll-behavior:auto; scroll-padding-bottom:0; }
+.presentation { scroll-behavior:auto; scroll-padding-bottom:0; overflow:hidden; }
 .presentation body { padding-bottom:0; }
-.presentation [data-slide] { height:calc(100dvh - var(--header-height)); min-height:0; padding-block:var(--s8) var(--s24); display:flex; align-items:center; scroll-margin-top:var(--header-height); }
+.presentation [data-slide] { height:calc(100dvh - var(--header-height)); min-height:0; padding-block:var(--s8) var(--s24); display:flex; align-items:center; scroll-margin-top:var(--header-height); overflow-y:auto; overscroll-behavior-y:contain; padding-bottom:calc(var(--s24) + env(safe-area-inset-bottom)); }
+.presentation [data-slide] > * { flex-shrink:0; }
 .presentation [data-slide].hero { display:grid; }
+.presentation [data-slide].slide-overflow { display:block; }
+.presentation [data-slide].hero.slide-overflow { display:grid; align-content:start; }
 .presentation [data-slide].mission-story { display:flex; flex-direction:column; justify-content:center; align-items:stretch; }
 .presentation [data-slide].contact-section { flex-direction:column; justify-content:center; align-items:stretch; }
+.presentation [data-slide].mission-story.slide-overflow,.presentation [data-slide].contact-section.slide-overflow { justify-content:flex-start; }
 .presentation .reading-content { display:none; }
 .presentation .reading-dialog .reading-content { display:block; }
 .presentation .collection-preview { display:block; }
@@ -104,12 +108,26 @@
   .presentation .research-question { font-size:var(--text-lg); }
 }
 @media(max-width:960px) {
+  .presentation [data-slide] { display:block; padding-top:var(--s6); }
+  .presentation [data-slide].mission-story,.presentation [data-slide].contact-section { display:block; }
+  .presentation [data-slide].hero { align-content:start; }
+  .presentation .hero h1 { font-size:var(--heading); }
+  .presentation .hero-description { margin-block:var(--s4); }
+  .presentation .hero-expansion { font-size:var(--text-xl); margin-top:var(--s3); }
+  .presentation .hero-figure { max-width:360px; }
+  .presentation .hero-actions { gap:var(--s4); }
+  .slide-title { overflow:hidden; text-overflow:ellipsis; min-width:0; }
   .research-focus { gap:var(--s8); }
   .research-body { font-size:var(--text-base); }
   .mission-chapters { gap:var(--s6); }
   .career-columns { gap:var(--s6); }
 }
 @media(max-width:640px) {
+  .slide-controls { bottom:calc(var(--s3) + env(safe-area-inset-bottom)); gap:var(--s1); }
+  .slide-position { padding-left:var(--s1); }
+  .slide-controls button { flex-shrink:0; }
+  .slide-title { font-size:var(--text-xs); }
+  .reading-dialog { width:calc(100% - var(--s6)); max-height:calc(100dvh - var(--s6) - env(safe-area-inset-bottom)); }
   .profile-layout { grid-template-columns:1fr; }
   .research-foundations img { height:220px; }
   .mission-chapters,.research-focus,.career-columns { grid-template-columns:1fr; }
@@ -120,7 +138,8 @@
   .dialog-content,.dialog-header { padding:var(--s5); }
 }
 @media print {
-  .presentation [data-slide] { height:auto; display:block; padding-block:var(--s8); }
+  .presentation { overflow:visible; }
+  .presentation [data-slide] { height:auto; display:block; overflow:visible; padding-block:var(--s8); }
   .presentation .reading-content { display:block; }
   .presentation .collection-preview,.reading-dialog { display:none; }
 }

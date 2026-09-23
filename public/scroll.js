@@ -1,5 +1,5 @@
 const motion = matchMedia('(prefers-reduced-motion: reduce)');
-const desktop = matchMedia('(min-width: 961px) and (min-height: 700px) and (pointer: fine)');
+const viewport = matchMedia('(min-width: 320px) and (min-height: 480px)');
 const slides = [...document.querySelectorAll('[data-slide]')];
 const header = document.querySelector('.site-header');
 const dock = document.querySelector('.slide-controls');
@@ -19,6 +19,8 @@ let moving = false;
 let lastWheel = 0;
 let wheelTotal = 0;
 let gestureUsed = false;
+let wheelNative = false;
+let touch;
 let contentHome;
 let trigger;
 const duration = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--slide-duration'));
@@ -80,20 +82,26 @@ for (const button of document.querySelectorAll('[data-read]')) button.addEventLi
   document.documentElement.classList.add('dialog-open');
   dialog.showModal();
 });
+function canScroll(slide, direction) {
+  return direction < 0 ? slide.scrollTop > 2 : slide.scrollTop + slide.clientHeight < slide.scrollHeight - 2;
+}
+function blocked(target) {
+  return dialog.open || navigation[0]?.closest('.nav').classList.contains('is-open') ||
+    target.closest('a,button,input,textarea,select,summary,[contenteditable],.site-header,.slide-controls');
+}
 function configure(align = true) {
   const wasActive = active;
-  if (dialog.open) dialog.close();
   cancelAnimationFrame(frame);
   moving = false;
   document.documentElement.style.setProperty('--header-height', `${header.offsetHeight}px`);
-  active = desktop.matches && !reading;
+  active = viewport.matches && !reading;
   document.documentElement.classList.toggle('presentation', active);
-  // Browser zoom and enlarged text must never crop a slide's real content.
-  if (active && slides.some(slide => slide.scrollHeight > slide.clientHeight + 2)) {
-    active = false;
-    document.documentElement.classList.remove('presentation');
+  if (wasActive !== active && dialog.open) dialog.close();
+  for (const slide of slides) {
+    slide.classList.remove('slide-overflow');
+    if (active && slide.scrollHeight > slide.clientHeight + 2) slide.classList.add('slide-overflow');
   }
-  mode.hidden = !desktop.matches;
+  mode.hidden = false;
   mode.textContent = active ? mode.dataset.readingLabel : mode.dataset.slidesLabel;
   mode.setAttribute('aria-pressed', String(!active));
   if (align || active || wasActive) go(current, false);
@@ -103,21 +111,50 @@ mode.addEventListener('click', () => { reading = active; configure(); });
 previous.addEventListener('click', () => go(current - 1));
 next.addEventListener('click', () => go(current + 1));
 addEventListener('wheel', event => {
-  if (!active || dialog.open || event.ctrlKey || event.metaKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
-  event.preventDefault();
+  if (!active || dialog.open || navigation[0]?.closest('.nav').classList.contains('is-open') || event.ctrlKey || event.metaKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
   const now = performance.now();
-  if (!moving && now - lastWheel > 220) { gestureUsed = false; wheelTotal = 0; }
+  if (!moving && now - lastWheel > 220) {
+    gestureUsed = false; wheelTotal = 0;
+    wheelNative = canScroll(slides[current], Math.sign(event.deltaY));
+  }
   lastWheel = now;
+  if (wheelNative && !moving) return;
+  event.preventDefault();
   if (moving || gestureUsed) return;
   wheelTotal += event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1);
   if (Math.abs(wheelTotal) < 32) return;
   gestureUsed = true;
   go(current + Math.sign(wheelTotal));
 }, {passive:false});
+addEventListener('touchstart', event => {
+  touch = undefined;
+  if (!active || event.touches.length !== 1 || blocked(event.target) || (visualViewport?.scale || 1) > 1) return;
+  const slide = event.target.closest('[data-slide]');
+  if (slide !== slides[current]) return;
+  const point = event.touches[0];
+  touch = {x:point.clientX, y:point.clientY, up:!canScroll(slide, 1), down:!canScroll(slide, -1), used:moving};
+}, {passive:true});
+addEventListener('touchmove', event => {
+  if (!touch || event.touches.length !== 1) { touch = undefined; return; }
+  const dx = event.touches[0].clientX - touch.x;
+  const dy = touch.y - event.touches[0].clientY;
+  if (Math.abs(dy) <= Math.abs(dx) * 1.25) return;
+  if (!(dy > 0 ? touch.up : touch.down) && !touch.used) return;
+  if (event.cancelable) event.preventDefault();
+  if (touch.used || moving || Math.abs(dy) < 48) return;
+  touch.used = true;
+  go(current + Math.sign(dy));
+}, {passive:false});
+for (const type of ['touchend','touchcancel']) addEventListener(type, () => { touch = undefined; }, {passive:true});
 addEventListener('keydown', event => {
-  if (!active || dialog.open || event.altKey || event.ctrlKey || event.metaKey || event.target.closest('input,textarea,select,[contenteditable]') || (event.key === ' ' && event.target.closest('button,summary,a'))) return;
+  if (!active || dialog.open || navigation[0]?.closest('.nav').classList.contains('is-open') || event.altKey || event.ctrlKey || event.metaKey || event.target.closest('input,textarea,select,[contenteditable]') || (event.key === ' ' && event.target.closest('button,summary,a'))) return;
   const direction = {ArrowDown:1, PageDown:1, ' ':event.shiftKey ? -1 : 1, ArrowUp:-1, PageUp:-1}[event.key];
   if (!direction && !['Home','End'].includes(event.key)) return;
+  if (direction && canScroll(slides[current], direction)) {
+    event.preventDefault();
+    slides[current].scrollBy({top:direction * slides[current].clientHeight * .8, behavior:motion.matches ? 'instant' : 'smooth'});
+    return;
+  }
   event.preventDefault();
   if (moving || event.repeat) return;
   go(event.key === 'Home' ? 0 : event.key === 'End' ? slides.length - 1 : current + direction);
