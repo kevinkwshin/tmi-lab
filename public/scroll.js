@@ -118,10 +118,14 @@ addEventListener('wheel', event => {
     wheelNative = canScroll(slides[current], Math.sign(event.deltaY));
   }
   lastWheel = now;
-  if (wheelNative && !moving) return;
   event.preventDefault();
+  const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? slides[current].clientHeight : 1);
+  if (wheelNative && !moving) {
+    slides[current].scrollBy({top:delta, behavior:'instant'});
+    return;
+  }
   if (moving || gestureUsed) return;
-  wheelTotal += event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1);
+  wheelTotal += delta;
   if (Math.abs(wheelTotal) < 32) return;
   gestureUsed = true;
   go(current + Math.sign(wheelTotal));
