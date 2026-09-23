@@ -35,3 +35,14 @@ Public patent documents were cross-checked against CV inventors and research aff
 - Earlier Hyundai research: [KR102289952B1](https://patents.google.com/patent/KR102289952B1/ko),2021; [KR101814977B1](https://patents.google.com/patent/KR101814977B1/ko),2018. Inventor identity is supported by Hyundai affiliation/co-inventors; correspondence to the CV's paraphrased titles is an editorial inference. The website uses the public record's exact titles.
 
 Grant/application labels describe the linked document type; they do not certify current enforceability. Same-family documents are grouped rather than counted as separate inventions.
+
+## Additional research figures (2026-09-23)
+
+| Website asset | Original presentation source | Context |
+|---|---|---|
+| `radiology-error-study.webp` | Slide 13, image17.png | Constructed longitudinal radiology-report error-detection evaluation. A research design, not a deployed safety system. |
+| `retinal-vessels.webp` | Slide 7, image12.png | Retinal-vessel segmentation comparison with and without Bayesian modeling. Original per-example scores remain part of the figure, not a general clinical-performance claim. |
+| `growth-prediction-errors.webp` | Slide 16, image22.png | Cephalometric growth-prediction errors by treatment duration, appliance and age. Related anatomy-prediction research; not validation of surgical outcomes. |
+| `ecg-dcam-architecture.webp` | Slide 30, image37.jpeg | DCAM denoising and contrast-attention architecture for ECG analysis, linked as a technical detail. |
+
+These assets preserve the original composition and annotations with lossless WebP encoding. The extracted files were checked against original PPTX media bytes and decoded pixels. Images containing patient faces or case metadata remain private. Surgical outcome prediction remains a research direction, distinct from the illustrated growth-prediction results. Captions name each source slide; original-size figures are accessible from the research section.

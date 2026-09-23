@@ -11,19 +11,19 @@ export const content = {
     hero: {
       eyebrow: 'Inha University · Digital Medicine',
       titleLines: [ 'TMI-lab' ],
-      description: '실제 임상 문제를 풀기 위해 의료진의 판단과 워크플로우 개선을 돕는 AI를 연구하고 구현합니다.',
+      description: '의료 데이터의 복잡성을 임상적 통찰로 바꾸고, 진료의 다음 결정을 돕는 AI를 연구합니다.',
       primary: '기술이전 사례',
       secondary: '연구 살펴보기',
       caption: '의료영상의 해부학적 구조를 이해하고 정량화하는 연구'
     },
-    intro: { label: 'Our mission', title: '정보를 지능으로,\n연구를 임상으로.', body: '촬영과 판독의 지연을 줄이고, 수술 후의 변화를 예측하며, 환자별 치료 선택을 근거로 뒷받침합니다. 임상 워크플로우, 디지털 트윈, 정밀의료를 잇는 중개연구를 지향합니다.' },
+    intro: { label: 'Our mission', title: '정보를 지능으로,\n연구를 임상으로.', body: '좋은 예측은 진료의 변화를 만들어야 합니다. 영상과 생체신호, 임상기록을 연결해 진료 과정의 병목을 줄이고, 치료 후의 변화를 예측하며, 환자별 선택을 뒷받침하는 근거를 만듭니다.' },
     approach: {
       label: 'OUR APPROACH',
       title: '문제 정의부터 적용을 위한 평가까지',
       steps: [
-        { title: '임상 문제를 구체화합니다', body: '의료진과 함께 반복되는 측정, 판독, 정보 정리 과정에서 연구 질문을 찾습니다.' },
-        { title: '데이터와 방법을 연결합니다', body: '영상, 텍스트, 생체신호의 특성을 이해하고 문제에 맞는 AI 방법을 설계합니다.' },
-        { title: '사용 조건을 평가합니다', body: '성능과 오류를 살피고, 새로운 데이터와 임상 업무에서의 유용성을 검증합니다.' }
+        { title: '진료에서 질문을 찾습니다', body: '어디서 판단이 지연되고, 어떤 정보가 부족한가. 의료진과 함께 해결할 문제와 평가 기준을 정의합니다.' },
+        { title: '다른 데이터를 함께 해석합니다', body: '해부학적 구조, 시간에 따른 변화, 임상 맥락을 반영해 문제에 맞는 AI를 설계합니다.' },
+        { title: '성능을 임상적 가치로 연결합니다', body: '정확도와 불확실성, 새로운 데이터에서의 성능을 평가하고 진료 과정에 적용할 방법을 연구합니다.' }
       ]
     },
     research: {
@@ -33,20 +33,20 @@ export const content = {
       items: [
         {
           title: '임상 워크플로우 개선',
-          question: '필요한 판단을, 필요한 순간에.',
-          body: 'AI의 결과가 진료의 다음 행동으로 이어지도록 연구합니다. 뇌출혈 의심 환자의 우선 판독, 촬영 직후의 품질 확인, 반복되는 측정의 자동화를 통해 의료진이 중요한 판단에 집중할 수 있도록 돕습니다.',
+          question: '분석 결과가 다음 진료로 이어지도록.',
+          body: '촬영부터 판독, 기록 검토까지. 의료진이 놓치기 쉬운 신호와 반복 확인하는 정보를 AI로 찾아, 필요한 판단이 제때 이루어지는 워크플로우를 연구합니다.',
           tags: [ 'Triage', 'Image quality', 'Clinical workflow' ]
         },
         {
           title: '디지털 트윈',
-          question: '수술 전에, 수술 후를 예측하다.',
-          body: '수술 전 영상과 임상정보로 환자별 수술 후 상태를 예측하는 서지컬 디지털 트윈을 연구합니다. 치료 시나리오에 따른 변화를 비교해, 수술 계획과 환자 상담에 활용할 수 있는 예측 근거를 만드는 것이 목표입니다.',
+          question: '치료 이후를 예측하는 환자별 모델.',
+          body: '해부학적 구조와 시간에 따른 변화를 모델링합니다. 성장 예측 연구를 기반으로, 수술 전 영상과 임상정보에서 수술 후 상태를 예측하는 서지컬 디지털 트윈으로 연구를 확장합니다.',
           tags: [ 'Preoperative data', 'Outcome prediction', 'Surgical planning' ]
         },
         {
           title: '정밀의료 · 근거기반 치료',
-          question: '이 환자에게 맞는 치료의 근거.',
-          body: '의료영상·생체신호·임상정보를 연결해 환자별 차이와 치료 반응을 분석합니다. 정량적 측정과 예측의 불확실성을 함께 평가하여, 의료진이 치료의 선택과 효과를 판단할 수 있는 근거를 연구합니다.',
+          question: '같은 진단을 넘어, 환자별 치료의 근거로.',
+          body: '영상 속 미세한 구조와 생체신호의 패턴을 정량화하고, 예측이 얼마나 신뢰할 만한지 함께 평가합니다. 환자별 위험과 치료 반응을 해석하는 근거기반 정밀의료를 지향합니다.',
           tags: [ 'Quantitative imaging', 'Treatment response', 'Uncertainty' ]
         }
       ]
@@ -131,7 +131,7 @@ export const content = {
     hero: {
       eyebrow: 'Inha University · Digital Medicine',
       titleLines: [ 'TMI-lab' ],
-      description: 'We develop AI to support clinical decisions and workflows.',
+      description: 'We turn complex medical data into intelligence for clinical decisions.',
       primary: 'Technology transfer',
       secondary: 'Research',
       caption: 'Research in understanding and quantifying anatomical structures in medical images'
@@ -139,15 +139,15 @@ export const content = {
     intro: {
       label: 'Our mission',
       title: 'From information\nto intelligence.',
-      body: 'We aim to reduce delays in imaging and interpretation, anticipate surgical outcomes, and support evidence-based treatment choices through clinical workflows, digital twins, and precision medicine.'
+      body: 'Better predictions should lead to better clinical decisions. We connect imaging, biosignals and clinical records to address workflow bottlenecks, anticipate treatment outcomes and build evidence for individual care.'
     },
     approach: {
       label: 'OUR APPROACH',
       title: 'From defining the problem to evaluating its use',
       steps: [
-        { title: 'Define a clinical question', body: 'Work with clinicians to identify research questions in measurement, interpretation, and information management.' },
-        { title: 'Connect data and methods', body: 'Understand images, text, and biosignals, then design AI methods suited to the problem.' },
-        { title: 'Evaluate for use', body: 'Examine performance and errors, and assess utility on new data and within clinical workflows.' }
+        { title: 'Start with a clinical question', body: 'Where do decisions stall, and what information is missing? We define the question and evaluation criteria with clinicians.' },
+        { title: 'Interpret data in context', body: 'We design methods around anatomy, longitudinal change and the clinical context of each problem.' },
+        { title: 'Connect performance to clinical value', body: 'We evaluate accuracy, uncertainty and performance on new data, then study how the results can inform care.' }
       ]
     },
     research: {
@@ -157,20 +157,20 @@ export const content = {
       items: [
         {
           title: 'Clinical workflow',
-          question: 'The right insight, at the right moment.',
-          body: 'We connect AI outputs to the next clinical action: prioritizing suspected hemorrhage, checking image quality at acquisition, and automating repeated measurements so clinicians can focus on decisions that matter.',
+          question: 'From an AI output to the next clinical action.',
+          body: 'From acquisition and interpretation to record review, we study how AI can surface overlooked signals and repeated checks at the point where clinicians need them.',
           tags: [ 'Triage', 'Image quality', 'Clinical workflow' ]
         },
         {
           title: 'Digital twins',
-          question: 'Anticipate outcomes before surgery.',
-          body: 'We study surgical digital twins that use preoperative images and clinical data to predict a patient’s postoperative state. Our goal is to compare treatment scenarios and build evidence for surgical planning and patient discussions.',
+          question: 'Patient-specific models of what comes next.',
+          body: 'We model anatomy and its change over time. Building on growth-prediction research, we are extending this work toward surgical digital twins that predict postoperative states from preoperative images and clinical data.',
           tags: [ 'Preoperative data', 'Outcome prediction', 'Surgical planning' ]
         },
         {
           title: 'Precision medicine',
-          question: 'Evidence for each patient’s treatment.',
-          body: 'We combine medical images, biosignals, and clinical information to study individual differences and treatment response. Quantitative measurements and uncertainty estimates help build evidence for evaluating treatment choices and outcomes.',
+          question: 'Beyond a shared diagnosis, evidence for the individual.',
+          body: 'We quantify subtle structures in images and patterns in biosignals, while assessing how much confidence to place in each prediction. These foundations support our research toward individual risk assessment and treatment response.',
           tags: [ 'Quantitative imaging', 'Treatment response', 'Uncertainty' ]
         }
       ]

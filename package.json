@@ -6,7 +6,7 @@
   "description": "Bilingual Translational Medical Intelligence Lab website",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "check": "node --check src/render.mjs && node --check src/content.mjs && node --check src/publications.mjs && node --check public/site.js && node --check scripts/build.mjs && node --check src/patents.mjs && node --check public/scroll.js && node --check src/language.js"
+    "check": "node --check src/render.mjs && node --check src/content.mjs && node --check src/publications.mjs && node --check public/site.js && node --check scripts/build.mjs && node --check src/patents.mjs && node --check public/scroll.js && node --check src/language.js && node --check src/research.mjs"
   },
   "engines": {
     "node": ">=22"
