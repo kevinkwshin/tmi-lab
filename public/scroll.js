@@ -77,17 +77,16 @@ function closeReading() {
   trigger?.focus({preventScroll:true});
 }
 dialog.addEventListener('close', closeReading);
-function openReading(button) {
-  const content = document.getElementById(button.dataset.read);
+function openReading(content, title, returnTarget) {
   contentHome = content.parentElement;
-  trigger = button;
-  dialog.querySelector('#reading-title').textContent = button.dataset.title;
+  trigger = returnTarget;
+  dialog.querySelector('#reading-title').textContent = title;
   dialog.querySelector('.dialog-content').append(content);
   document.documentElement.classList.add('dialog-open');
   dialog.showModal();
   dialog.scrollTop = 0;
 }
-for (const button of document.querySelectorAll('[data-read]')) button.addEventListener('click', () => openReading(button));
+for (const button of document.querySelectorAll('[data-read]')) button.addEventListener('click', () => openReading(document.getElementById(button.dataset.read), button.dataset.title, button));
 function configure(align = true) {
   const wasActive = active;
   entrance?.cancel();
@@ -164,7 +163,11 @@ function navigateTo(target, animate = true) {
   if (dialog.open && !dialog.contains(target)) { dialog.close(); closeReading(); }
   go(slides.indexOf(slide), animate);
   if (active && detail) {
-    if (!dialog.open) openReading(slide.querySelector(`[data-read="${detail.id}"]`));
+    if (!dialog.open) {
+      const button = slide.querySelector(`[data-read="${detail.id}"]`);
+      if (!button) slide.setAttribute('tabindex', '-1');
+      openReading(detail, button?.dataset.title || slide.dataset.slide, button || slide);
+    }
     history.replaceState(null, '', `#${target.id}`);
     target.scrollIntoView({block:'start', behavior:'instant'});
   }
