@@ -13,7 +13,7 @@ let rendered = -1;
 let positionFrame = 0;
 let reading = false;
 let active = false;
-let entrance;
+let entrance = [];
 let lastWheel = 0;
 let lastDelta = 0;
 let lastPage = 0;
@@ -23,7 +23,6 @@ let decayingWheel = false;
 let touch;
 let contentHome;
 let trigger;
-const pageDuration = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--page-duration'));
 const topOf = slide => slide.getBoundingClientRect().top + scrollY - header.offsetHeight;
 const overlayOpen = () => dialog.open || navigation[0]?.closest('.nav').classList.contains('is-open');
 
@@ -42,8 +41,12 @@ function update() {
     else link.removeAttribute('aria-current');
   }
 }
+function cancelEntrance() {
+  for (const animation of entrance) animation.cancel();
+  entrance = [];
+}
 function go(index, animate = true) {
-  entrance?.cancel();
+  cancelEntrance();
   const old = current;
   const transferFocus = active && slides[old].contains(document.activeElement);
   current = Math.max(0, Math.min(slides.length - 1, index));
@@ -56,11 +59,19 @@ function go(index, animate = true) {
   if (active) {
     scrollTo({top:0, behavior:'instant'});
     if (animate && !motion.matches && old !== current) {
-      const overview = target.querySelector('.slide-overview') || target;
-      entrance = overview.animate([
-        {opacity:0, transform:`translateY(${Math.sign(current - old) * 28}px)`},
-        {opacity:1, transform:'translateY(0)'}
-      ], {duration:pageDuration, easing:'cubic-bezier(.2,.7,.2,1)'});
+      const overview = target.querySelector('.slide-overview');
+      const tokens = getComputedStyle(document.documentElement);
+      const value = name => parseFloat(tokens.getPropertyValue(`--page-${name}`));
+      const duration = value('duration');
+      const easing = tokens.getPropertyValue('--page-ease').trim();
+      const direction = Math.sign(current - old);
+      const reveal = (element, shift, scale, delay = 0) => element.animate([
+        {opacity:0, transform:`translateY(${direction * shift}px) scale(${scale})`},
+        {opacity:1, transform:'translateY(0) scale(1)'}
+      ], {duration:duration - delay, delay, easing, fill:'backwards'});
+      entrance.push(reveal(overview, value('shift'), value('scale')));
+      const figure = overview.querySelector('.page-figure');
+      if (figure) entrance.push(reveal(figure, value('layer-shift'), value('layer-scale'), value('layer-delay')));
     }
   } else scrollTo({top:topOf(target), behavior:'instant'});
   if (transferFocus && old !== current) {
@@ -78,6 +89,7 @@ function closeReading() {
 }
 dialog.addEventListener('close', closeReading);
 function openReading(content, title, returnTarget) {
+  cancelEntrance();
   contentHome = content.parentElement;
   trigger = returnTarget;
   dialog.querySelector('#reading-title').textContent = title;
@@ -89,7 +101,7 @@ function openReading(content, title, returnTarget) {
 for (const button of document.querySelectorAll('[data-read]')) button.addEventListener('click', () => openReading(document.getElementById(button.dataset.read), button.dataset.title, button));
 function configure(align = true) {
   const wasActive = active;
-  entrance?.cancel();
+  cancelEntrance();
   document.documentElement.style.setProperty('--header-height', `${header.offsetHeight}px`);
   active = !reading;
   if (dialog.open) { dialog.close(); closeReading(); }
@@ -192,7 +204,7 @@ addEventListener('scroll', () => {
 }, {passive:true});
 let resizeTimer;
 addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => configure(false), 150); });
-motion.addEventListener('change', () => entrance?.cancel());
+motion.addEventListener('change', cancelEntrance);
 const initial = document.getElementById(location.hash.slice(1));
 const initialSlide = initial?.closest('[data-slide]');
 if (initialSlide) current = slides.indexOf(initialSlide);
