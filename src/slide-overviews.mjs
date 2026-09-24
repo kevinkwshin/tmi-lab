@@ -22,9 +22,6 @@ export function slideOverviews(lang, asset, escape) {
     `${image('neurocad',text('AVIEW NeuroCAD 뇌 CT 분석 화면','AVIEW NeuroCAD brain CT analysis'), 'Coreline Soft · AVIEW NeuroCAD')}<div class="page-proof"><strong>100+</strong><div>${text('응급실에서 사용','emergency departments')}<small>${text('식약처 혁신의료기기 지정 · 도입 규모: 연구실 제공, 2026.09','MFDS Innovative Medical Device · Adoption: lab-provided, Sep 2026')}</small></div></div>`,null,'page-product');
   pages.transfers = layout('transfers',text('기술이전','Technology transfer'),text('연구가 이어진 기술들','A portfolio of translation'),'',
     `<div class="page-list">${c.translation.items.filter(t=>t.name!=='AVIEW NeuroCAD').map(t=>`<article><p class="meta">${t.year} · ${escape(t.recipient)}</p><h3>${escape(t.name)}</h3><p>${escape(t.impact)}</p></article>`).join('')}</div>`,null,'page-listing');
-  pages.clinical = layout('clinical','GreyNet',text('촬영 직후, 품질 확인.','Quality checks at acquisition.'),
-    text('Grashey X-ray의 자세를 평가해, 필요할 때 방사선사에게 즉시 재촬영을 요청합니다.','Checks Grashey X-ray positioning to request an immediate retake from the radiographer when needed.'),
-    image('shoulder-landmarks',text('어깨 X-ray 랜드마크 연구','Shoulder X-ray landmark study'),text('연구 발표자료 · Grashey X-ray','Research presentation · Grashey X-ray')),null,'page-research');
   pages.mission = layout('mission','Our mission',text('정보를 지능으로, 연구를 임상으로.','From information to intelligence.'),
     text('임상 질문에서 출발해, 진료의 다음 결정을 돕는 근거를 만듭니다.','Start with a clinical question. Build evidence for the next decision.'),
     `<ol class="page-steps">${c.approach.steps.map(s=>`<li>${escape(s.title)}</li>`).join('')}</ol>`,null,'page-mission');

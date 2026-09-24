@@ -6,6 +6,7 @@
 .hero-expansion { text-wrap:balance; }
 .neurocad-feature { margin-bottom:0; }
 .clinical-feature { margin-top:0; }
+.transfer-case-study { margin-top:var(--s12); padding-top:var(--s8); border-top:1px solid var(--line); }
 .clinical-feature .scan-frame { display:block; }
 .mission-story { display:block; }
 .mission-sticky { position:static; max-width:840px; }
