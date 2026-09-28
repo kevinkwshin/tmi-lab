@@ -61,6 +61,7 @@ export const content = {
           name: 'GreyNet',
           recipient: '잇피 · Itphy',
           body: 'Grashey X-ray의 촬영 자세와 품질을 평가해, 재촬영이 필요한 경우 방사선사에게 즉시 요청하는 솔루션입니다. 환자가 촬영실을 떠나기 전 품질을 확인하는 워크플로우를 지향합니다.',
+          summary: 'Grashey X-ray의 자세와 품질을 평가해, 필요한 재촬영을 방사선사에게 즉시 요청합니다.',
           impact: '촬영 직후 품질을 확인'
         },
         { year: 2024, name: 'AVIEW NeuroCAD', recipient: '코어라인소프트 · Coreline Soft', body: '비조영 뇌 CT에서 뇌출혈 의심 영역을 탐지하고 우선 판독을 지원하는 기술.' },
@@ -69,6 +70,7 @@ export const content = {
           name: 'FlatNet',
           recipient: '프로메디우스 · Promedius',
           body: '체중 부하 족부 측면 X-ray의 랜드마크를 검출합니다. 전문의와 비교한 연구에서 더 낮은 검출 오차를 보여, 평가자에 따른 측정 편차를 줄이고 일관된 평발 평가를 돕습니다.',
+          summary: '체중 부하 족부 X-ray의 랜드마크를 검출해, 측정 편차를 줄이고 일관된 평발 평가를 돕습니다.',
           impact: '평발 평가를 더 객관적으로',
           source: 'https://pubmed.ncbi.nlm.nih.gov/35961089/'
         },
@@ -77,6 +79,7 @@ export const content = {
           name: 'ProRetina',
           recipient: '프로메디우스 · Promedius',
           body: 'Bayesian U-Net의 불확실성(Uncertainty)을 활용해 망막 혈관 분할 성능을 높이면서 영상 품질을 함께 평가합니다. 분석 결과와 신뢰도를 함께 살피는 모델입니다.',
+          summary: 'Bayesian U-Net의 불확실성으로 망막 혈관 분할을 개선하고, 영상 품질을 함께 평가합니다.',
           impact: '혈관 분할과 품질 평가를 함께'
         }
       ]
@@ -182,7 +185,7 @@ export const content = {
       items: [
         {
           year: 2025,
-          name: 'GreyNet',
+          name: 'GreyNet', summary: 'Assesses Grashey X-ray positioning and quality to prompt immediate retakes by radiographers.',
           recipient: 'Itphy',
           body: 'Evaluates Grashey X-ray positioning and quality to request an immediate retake from the radiographer when needed, enabling quality checks before the patient leaves the imaging room.',
           impact: 'Quality checks at acquisition'
@@ -190,7 +193,7 @@ export const content = {
         { year: 2024, name: 'AVIEW NeuroCAD', recipient: 'Coreline Soft', body: 'Detection of suspected cerebral hemorrhage in non-contrast brain CT to support triage.' },
         {
           year: 2023,
-          name: 'FlatNet',
+          name: 'FlatNet', summary: 'Detects landmarks in weight-bearing foot X-rays for consistent, quantitative flatfoot assessment.',
           recipient: 'Promedius',
           body: 'Detects landmarks on weight-bearing lateral foot X-rays. A comparative study found lower landmark errors than an orthopedic surgeon, supporting more consistent measurements for flatfoot assessment.',
           impact: 'More objective flatfoot assessment',
@@ -198,7 +201,7 @@ export const content = {
         },
         {
           year: 2022,
-          name: 'ProRetina',
+          name: 'ProRetina', summary: 'Uses Bayesian U-Net uncertainty to improve retinal vessel segmentation and assess image quality.',
           recipient: 'Promedius',
           body: 'Uses Bayesian U-Net uncertainty to improve retinal vessel segmentation while assessing image quality, bringing the analysis and its reliability into the same model.',
           impact: 'Segmentation with quality assessment'
