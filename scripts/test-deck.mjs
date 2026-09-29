@@ -15,6 +15,25 @@ try {
       return [...document.querySelectorAll(`.slide-detail :is(${fields})`)].map(e => e.textContent.replace(/\s+/g, ' ').trim()).filter(value => !text.includes(value));
     });
     assert.deepEqual(coverage, [], 'The deck must retain the reading content');
+    const assertCentered = async () => {
+      const geometry = await page.evaluate(() => {
+        const frame = document.querySelector('.is-current .deck-page');
+        if (!frame) return null;
+        const bounds = frame.getBoundingClientRect();
+        const top = frame.firstElementChild.getBoundingClientRect().top;
+        const bottom = frame.lastElementChild.getBoundingClientRect().bottom;
+        return {offset:Math.abs((top + bottom) / 2 - (bounds.top + bounds.bottom) / 2), overflow:top < bounds.top - 2 || bottom > bounds.bottom + 2};
+      });
+      if (geometry) {
+        assert(geometry.offset < 2, 'Slide content must be vertically centered');
+        assert.equal(geometry.overflow, false, 'Centered content must fit the available height');
+      }
+    };
+    const desktopIds = await page.locator('main > [data-slide]').evaluateAll(es => es.map(e => e.id));
+    for (const id of desktopIds) {
+      await page.evaluate(id => navigateTo(document.getElementById(id), false), id);
+      await assertCentered();
+    }
     assert.deepEqual(await page.locator('.slide-detail .citation-bars li').evaluateAll(es => es.map(e => e.getAttribute('aria-label').match(/\d+/g).map(Number))), [[2020,34],[2021,86],[2022,128],[2023,171],[2024,201],[2025,274],[2026,175]]);
     await page.evaluate(() => navigateTo(document.getElementById('publications--2'), false));
     await page.locator('[data-reading]').click();
@@ -33,6 +52,7 @@ try {
       await page.evaluate(id => navigateTo(document.getElementById(id), false), id);
       assert.equal(await page.evaluate(() => scrollY), 0);
       assert.equal(await page.locator('main > [data-slide]:visible').count(), 1);
+      await assertCentered();
     }
     assert.deepEqual(errors, []);
     await page.close();

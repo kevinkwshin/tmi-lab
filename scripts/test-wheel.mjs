@@ -48,6 +48,23 @@ test('soft deliberate reversal returns immediately', () => {
   w.send(-12, 140);
   assert.deepEqual(w.calls, [6, 5]);
 });
+test('unequal physical wheel notches do not require identical deltas', () => {
+  const w = wheel();
+  for (const delta of [120, 96, 112, 80]) w.send(delta, 120);
+  assert.deepEqual(w.calls, [6, 7, 8, 9]);
+});
+test('reversing during momentum responds without a pause', () => {
+  const w = wheel();
+  for (const delta of [80, 40, 16]) w.send(delta, 20);
+  w.send(-12, 20);
+  assert.deepEqual(w.calls, [6, 5]);
+});
+test('a new push after a weak momentum tail needs no idle gap', () => {
+  const w = wheel();
+  for (const delta of [80, 40, 16, 4]) w.send(delta, 20);
+  w.send(12, 20);
+  assert.deepEqual(w.calls, [6, 7]);
+});
 test('continuous momentum including sparse tail advances once', () => {
   const w = wheel();
   for (const delta of [100, 85, 70]) w.send(delta, 25);

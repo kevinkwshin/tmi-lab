@@ -136,10 +136,10 @@ addEventListener('wheel', event => {
   const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? slides[current].clientHeight : 1);
   const gap = now - lastWheel;
   const threshold = 8;
-  const reversed = Math.sign(delta) !== Math.sign(lastDelta) && Math.abs(delta) >= threshold && gap > 60;
-  // Spaced, equal wheel impulses are distinct notches; a decaying trackpad tail stays consumed.
-  const notch = !decayingWheel && gap >= 75 && (event.deltaMode !== 0 || (Math.abs(delta) >= threshold && Math.abs(delta - lastDelta) < 1));
-  const renewed = gap > 80 && Math.abs(delta) >= threshold && Math.abs(delta) > Math.abs(lastDelta) * 1.5;
+  const reversed = Math.sign(delta) !== Math.sign(lastDelta) && Math.abs(delta) >= threshold;
+  // Separate wheel notches can vary in size; a decaying trackpad tail stays consumed.
+  const notch = !decayingWheel && gap >= 75 && Math.abs(delta) >= threshold;
+  const renewed = (gap > 80 || (decayingWheel && Math.abs(lastDelta) < threshold)) && Math.abs(delta) >= threshold && Math.abs(delta) > Math.abs(lastDelta) * 1.5;
   if (gap > (decayingWheel ? 650 : 220) || reversed || renewed || notch) {
     decayingWheel = false;
     gestureUsed = false;

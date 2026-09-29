@@ -19,11 +19,13 @@
 .deck-block .scholar-metrics { gap:var(--s4); }
 .deck-block .scholar-metrics dd { font-size:var(--text-xl); }
 .presentation [data-slide].deck-measuring { display:block; visibility:hidden; pointer-events:none; }
-.deck-page { height:100%; display:grid; grid-template-rows:auto minmax(0,1fr) auto; gap:var(--s5); }
+.deck-page { height:100%; display:grid; grid-template-rows:auto auto auto; align-content:center; gap:var(--s5); }
+.deck-measuring .deck-page { grid-template-rows:auto minmax(0,1fr) auto; align-content:normal; }
 .deck-heading h2 { font-size:clamp(24px,2.8vw,40px); line-height:1.2; }
 .deck-heading .research-question { margin-top:var(--s3); font-size:var(--text-lg); }
 .deck-heading .meta { display:inline; margin-left:var(--s4); font-size:var(--text-xs); white-space:nowrap; }
 .deck-body { min-height:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); align-content:start; gap:var(--s6); }
+.deck-translation .deck-body,.deck-research .deck-body,.deck-research-imaging .deck-body,.deck-research-signals .deck-body { align-items:center; }
 .deck-transfers .deck-body,.deck-people .deck-body { grid-template-columns:repeat(3,minmax(0,1fr)); }
 .deck-mission .deck-body { grid-template-columns:repeat(3,minmax(0,1fr)); }
 .deck-mission .deck-block:first-child { grid-column:1/-1; }
