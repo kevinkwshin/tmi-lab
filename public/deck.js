@@ -1,0 +1,137 @@
+const deckSources = [...document.querySelectorAll('main > [data-slide]')];
+const deckSummaries = new Map(deckSources.map(section => [section.id, section.querySelector('.slide-overview').cloneNode(true)]));
+const deckKo = document.documentElement.lang === 'ko';
+
+function deckClone(element) {
+  const copy = element.cloneNode(true);
+  for (const node of [copy, ...copy.querySelectorAll('*')]) {
+    node.removeAttribute('id');
+    node.removeAttribute('aria-labelledby');
+    node.removeAttribute('data-paper');
+    node.removeAttribute('hidden');
+    if (node.matches('a[href^="http"],a.image-link')) {
+      node.target = '_blank';
+      node.rel = 'noopener noreferrer';
+    }
+  }
+  return copy;
+}
+
+function deckBlock(...elements) {
+  const block = document.createElement('article');
+  block.className = 'deck-block';
+  for (const element of elements) if (element) block.append(deckClone(element));
+  return block;
+}
+
+function deckContent(section) {
+  const narrow = innerWidth <= 760;
+  const source = section.querySelector('.slide-detail');
+  const select = selector => source.querySelector(selector);
+  const all = selector => [...source.querySelectorAll(selector)];
+  switch (section.id) {
+    case 'translation':
+      return [deckBlock(...all('.neurocad-copy > :not(h3):not(.eyebrow)')), deckBlock(select('.neurocad-feature figure'))];
+    case 'transfers':
+      return all('.transfer').map(element => deckBlock(element));
+    case 'mission':
+      return [deckBlock(select('.mission-intro')), ...all('.mission-chapter').map(element => deckBlock(element))];
+    case 'research':
+    case 'research-imaging':
+    case 'research-signals': {
+      if (narrow) return [deckBlock(select('.research-body')), deckBlock(select('.research-brief')), deckBlock(...all('.study-intro > *')), ...all('.research-plate').map(element => deckBlock(element))];
+      const study = deckBlock(...all('.study-intro > *'), select('.research-plates'));
+      study.classList.add('deck-study');
+      return [deckBlock(select('.research-body'), select('.research-brief')), study];
+    }
+    case 'publications':
+      return all('[data-paper]').map(element => deckBlock(element));
+    case 'patents':
+      return all('.patent').map(element => deckBlock(element));
+    case 'people': {
+      const research = [deckBlock(select('.profile-scholar')), deckBlock(select('.scholar-trend')), ...all('.profile-study').map(element => deckBlock(element))];
+      const education = select('.career-columns > div:first-child');
+      const career = select('.career-columns > div:last-child');
+      if (narrow) {
+        const entries = [...career.querySelectorAll('li')];
+        const groups = [];
+        for (let i = 0; i < entries.length; i += 3) {
+          const list = document.createElement('ul');
+          list.append(...entries.slice(i, i + 3).map(deckClone));
+          groups.push(deckBlock(career.querySelector('h4'), list));
+        }
+        return [deckBlock(select('.profile-summary')), deckBlock(education), deckBlock(select('.profile-project')), ...groups, deckBlock(select('.profile-history > .text-link')), ...research];
+      }
+      return [deckBlock(select('.profile-summary')), deckBlock(education, select('.profile-project')), deckBlock(career, select('.profile-history > .text-link')), ...research];
+    }
+    default:
+      return [];
+  }
+}
+
+function buildDeck() {
+  for (const page of document.querySelectorAll('[data-deck-continuation]')) page.remove();
+  const compact = innerHeight < 560 || (innerWidth < 360 && innerHeight < 640);
+  for (const source of deckSources) {
+    source.querySelector('.slide-overview').replaceWith(deckSummaries.get(source.id).cloneNode(true));
+    if (compact || ['welcome', 'contact'].includes(source.id)) continue;
+    const summary = deckSummaries.get(source.id);
+    const pending = deckContent(source);
+    let section = source;
+    let pageIndex = 0;
+    let body;
+    const newPage = () => {
+      pageIndex++;
+      if (pageIndex > 1) {
+        const continuation = document.createElement('section');
+        continuation.className = source.className;
+        continuation.id = `${source.id}--${pageIndex}`;
+        continuation.dataset.slide = source.dataset.slide;
+        continuation.dataset.nav = source.dataset.nav || source.id;
+        continuation.dataset.deckContinuation = source.id;
+        section.after(continuation);
+        section = continuation;
+      }
+      section.dataset.deckSource = source.id;
+      const overview = document.createElement('div');
+      overview.className = 'slide-overview';
+      const frame = document.createElement('div');
+      frame.className = `deck-page deck-${source.id}`;
+      const heading = document.createElement('header');
+      heading.className = 'deck-heading';
+      const title = summary.querySelector('h1,h2').cloneNode(true);
+      if (source.id === 'people') title.textContent = deckKo ? '구성원' : 'People';
+      heading.append(title);
+      const question = source.querySelector('.research-question');
+      if (question) heading.append(deckClone(question));
+      if (pageIndex > 1) {
+        const continued = document.createElement('span');
+        continued.className = 'meta';
+        continued.textContent = `${deckKo ? '계속' : 'Continued'} · ${pageIndex}`;
+        title.append(continued);
+      }
+      body = document.createElement('div');
+      body.className = 'deck-body';
+      const actions = summary.querySelector('.page-actions').cloneNode(true);
+      actions.className = 'deck-actions';
+      frame.append(heading, body, actions);
+      overview.append(frame);
+      if (pageIndex === 1) source.querySelector('.slide-overview').replaceWith(overview);
+      else section.append(overview);
+      section.classList.add('deck-measuring');
+    };
+    newPage();
+    pending.forEach((block, index) => {
+      block.dataset.deckBlock = String(index);
+      body.append(block);
+      if (body.scrollHeight > body.clientHeight + 1 && body.children.length > 1) {
+        block.remove();
+        section.classList.remove('deck-measuring');
+        newPage();
+        body.append(block);
+      }
+    });
+    section.classList.remove('deck-measuring');
+  }
+  return [...document.querySelectorAll('main > [data-slide]')];
+}

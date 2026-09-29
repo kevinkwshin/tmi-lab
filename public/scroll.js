@@ -1,5 +1,5 @@
 const motion = matchMedia('(prefers-reduced-motion: reduce)');
-const slides = [...document.querySelectorAll('[data-slide]')];
+let slides = [...deckSources];
 const header = document.querySelector('.site-header');
 const dock = document.querySelector('.slide-controls');
 const previous = dock.querySelector('[data-slide-prev]');
@@ -16,7 +16,6 @@ let active = false;
 let entrance = [];
 let lastWheel = 0;
 let lastDelta = 0;
-let lastPage = 0;
 let wheelTotal = 0;
 let gestureUsed = false;
 let decayingWheel = false;
@@ -98,14 +97,27 @@ function openReading(content, title, returnTarget) {
   dialog.showModal();
   dialog.scrollTop = 0;
 }
-for (const button of document.querySelectorAll('[data-read]')) button.addEventListener('click', () => openReading(document.getElementById(button.dataset.read), button.dataset.title, button));
+document.addEventListener('click', event => {
+  const button = event.target.closest('[data-read]');
+  if (button) openReading(document.getElementById(button.dataset.read), button.dataset.title, button);
+});
 function configure(align = true) {
   const wasActive = active;
+  const sourceId = slides[current].dataset.deckSource || slides[current].id;
+  const blockId = slides[current].querySelector('[data-deck-block]')?.dataset.deckBlock;
   cancelEntrance();
   document.documentElement.style.setProperty('--header-height', `${header.offsetHeight}px`);
   active = !reading;
   if (dialog.open) { dialog.close(); closeReading(); }
   document.documentElement.classList.toggle('presentation', active);
+  slides = active ? buildDeck() : [...deckSources];
+  current = slides.findIndex(slide => slide.id === sourceId);
+  if (active && blockId) {
+    const match = slides.findIndex(slide => slide.dataset.deckSource === sourceId && slide.querySelector(`[data-deck-block="${blockId}"]`));
+    if (match >= 0) current = match;
+  }
+  current = Math.max(0, current);
+  rendered = -1;
   lastWheel = lastDelta = wheelTotal = 0;
   gestureUsed = decayingWheel = false;
   mode.hidden = false;
@@ -123,11 +135,12 @@ addEventListener('wheel', event => {
   const now = performance.now();
   const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? slides[current].clientHeight : 1);
   const gap = now - lastWheel;
-  const reversed = Math.sign(delta) !== Math.sign(lastDelta) && Math.abs(delta) >= 32 && gap > 60;
+  const threshold = 8;
+  const reversed = Math.sign(delta) !== Math.sign(lastDelta) && Math.abs(delta) >= threshold && gap > 60;
   // Spaced, equal wheel impulses are distinct notches; a decaying trackpad tail stays consumed.
-  const notch = event.deltaMode !== 0 || (gap >= 75 && Math.abs(delta) >= 40 && Math.abs(delta - lastDelta) < 1);
-  const renewed = gap > 80 && Math.abs(delta) >= 32 && Math.abs(delta) > Math.abs(lastDelta) * 1.5;
-  if (gap > (decayingWheel ? 650 : 220) || reversed || renewed || (notch && now - lastPage > 280)) {
+  const notch = !decayingWheel && gap >= 75 && (event.deltaMode !== 0 || (Math.abs(delta) >= threshold && Math.abs(delta - lastDelta) < 1));
+  const renewed = gap > 80 && Math.abs(delta) >= threshold && Math.abs(delta) > Math.abs(lastDelta) * 1.5;
+  if (gap > (decayingWheel ? 650 : 220) || reversed || renewed || notch) {
     decayingWheel = false;
     gestureUsed = false;
     wheelTotal = 0;
@@ -137,9 +150,8 @@ addEventListener('wheel', event => {
   lastDelta = delta;
   if (gestureUsed) return;
   wheelTotal += delta;
-  if (Math.abs(wheelTotal) < 32) return;
+  if (Math.abs(wheelTotal) < threshold) return;
   gestureUsed = true;
-  lastPage = now;
   go(current + Math.sign(wheelTotal));
 }, {passive:false});
 addEventListener('touchstart', event => {
@@ -205,9 +217,11 @@ addEventListener('scroll', () => {
 let resizeTimer;
 addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => configure(false), 150); });
 motion.addEventListener('change', cancelEntrance);
-const initial = document.getElementById(location.hash.slice(1));
+const initialHash = location.hash.slice(1);
+const initial = document.getElementById(initialHash) || document.getElementById(initialHash.split('--')[0]);
 const initialSlide = initial?.closest('[data-slide]');
 if (initialSlide) current = slides.indexOf(initialSlide);
 dock.hidden = false;
 configure();
+if (document.getElementById(initialHash)?.dataset.deckContinuation) navigateTo(document.getElementById(initialHash), false);
 if (initial && initial !== initialSlide) navigateTo(initial, false);
