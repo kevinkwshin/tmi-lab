@@ -68,9 +68,16 @@ function go(index, animate = true) {
         {opacity:0, transform:`translateY(${direction * shift}px) scale(${scale})`},
         {opacity:1, transform:'translateY(0) scale(1)'}
       ], {duration:duration - delay, delay, easing, fill:'backwards'});
-      entrance.push(reveal(overview, value('shift'), value('scale')));
-      const figure = overview.querySelector('.page-figure');
-      if (figure) entrance.push(reveal(figure, value('layer-shift'), value('layer-scale'), value('layer-delay')));
+      const frame = overview.querySelector('.deck-page,.page-composition');
+      [...frame.children].forEach((element, index) => {
+        entrance.push(reveal(element, value('shift') * .45, 1, Math.min(index * 45, 90)));
+      });
+      for (const image of overview.querySelectorAll('figure img')) {
+        entrance.push(image.animate([
+          {transform:'scale(.97)', opacity:.5},
+          {transform:'scale(1)', opacity:1}
+        ], {duration, easing}));
+      }
     }
   } else scrollTo({top:topOf(target), behavior:'instant'});
   if (transferFocus && old !== current) {

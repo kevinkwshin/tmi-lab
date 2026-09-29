@@ -44,8 +44,6 @@ function deckContent(section) {
       study.classList.add('deck-study');
       return [deckBlock(select('.research-body'), select('.research-brief')), study];
     }
-    case 'publications':
-      return all('[data-paper]').map(element => deckBlock(element));
     case 'patents':
       return all('.patent').map(element => deckBlock(element));
     case 'people': {
@@ -74,7 +72,8 @@ function buildDeck() {
   const compact = innerHeight < 560 || (innerWidth < 360 && innerHeight < 640);
   for (const source of deckSources) {
     source.querySelector('.slide-overview').replaceWith(deckSummaries.get(source.id).cloneNode(true));
-    if (compact || ['welcome', 'contact'].includes(source.id)) continue;
+    source.dataset.deckSource = source.id;
+    if (compact || ['welcome', 'contact', 'publications'].includes(source.id)) continue;
     const summary = deckSummaries.get(source.id);
     const pending = deckContent(source);
     let section = source;

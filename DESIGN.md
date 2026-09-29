@@ -153,6 +153,10 @@ At normal mobile sizes, retain concise method and clinical significance, three p
 
 ## Full-content presentation — September 29
 
+### September 30 refinement
+
+Publications becomes one curated page with three research topics, journal/year and DOI links; its searchable complete bibliography remains in the detail dialog and continuous document. NeuroCAD's primary action opens Coreline Soft's official product page directly, replacing a redundant detail action. Preserve the white, navy and blue palette, system typography and vertically centered compositions. Motion follows navigation intent: a short coordinated heading/content/action entrance and a restrained image settle, with cancellation on every navigation and no input lock. Reduced-motion users receive immediate changes. No new animation dependency or ornamental effects.
+
 The user prefers the amount of information in continuous reading. Presentation now takes its content directly from that same document: full research description, methods, significance, study notes and all scientific figures; full transfer descriptions; full publication records and medical patents; education, career and current project. Intro and contact retain their established compositions. The duplicate GreyNet case remains an optional enlarged case study rather than repeating its explanation in the deck.
 
 Use a reusable deck page with heading, a grid of semantic content blocks, and source/detail links. Pack those blocks into the available viewport; overflowing collections continue on subsequent pages. Section navigation and reading-mode switching preserve the parent section, while the dock counts actual pages. Desktop research uses two columns for clinical context and study evidence; transfers and people use three columns; bibliographic records use two columns. Below 761px use one column. Keep body at existing 14–16px tokens, preserve image proportions, and never create an inner scrollbar or scale the entire page down. Very short screens keep the existing compact fallback. No new dependency or typeface. Rebuild pagination on viewport change and preserve the current content block where possible.
