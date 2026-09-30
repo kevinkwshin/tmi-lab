@@ -1,5 +1,19 @@
 # TMI-lab design system
 
+## September 30: editorial identity and clinical journey
+
+The latest page-specific brief governs this revision. Keep the shared frame, complete research copy, real figures and responsive page navigation. The closing Contact page is now intentionally blue, superseding the earlier all-white requirement. Preserve the accepted transfer portfolio.
+
+Palette: paper #ffffff, ink #102d50, clinical blue #1269b5, sky #edf7ff, contact blue #0c386b, muted #52657a. Existing system sans stays: the opening uses large stacked Translational / Medical / Intelligence typography; body text stays 14–18px. Headings and actions retain common anchors; narrative bodies remain vertically centered.
+
+Composition: opening [large acronym expansion | original mascot logo]; NeuroCAD [clinical purpose + adoption | generated CT → queue → priority-review concept]; mission [purpose | three numbered process rows]; research [numbered goal heading / narrative | original evidence]; publications [Scholar metrics / annual chart]; people [portrait | identity, education, service, project]; contact [collaboration purpose | large email] on blue. These encode the lab's actual translational work rather than adding decorative panels. The mission numbers belong beside their stage titles, with the purpose in its own column. Research goal numbers are an explicit user-requested sequence.
+
+The generated triage illustration explains a workflow, not measured treatment benefit, a patient scan or a product screenshot. Label it as a concept and retain the actual NeuroCAD product screen in the evidence dialog. Its source and generation brief live in docs/triage-illustration.md. The Scholar chart uses verified dated counts, marks the current year partial and links directly to the profile. People pairs the real portrait with education, academic service and the current project; short screens retain explicit full-record access.
+
+Motion is a single bounded typography reveal on entering the opening, including first load. Three word lines settle in order within 800ms; the supplied logo has a restrained scale settle. Existing page pushes, evidence reveals and image zoom remain interruptible. No continuous animation or input delay. Native Web Animations and existing tokens suffice. Reduced motion shows final content immediately. Verify all revised first pages, nested bounds, complete content, KO/EN, image zoom, wheel/touch, and reduced motion before deployment.
+
+Review: rejected generic particle networks and artificial medical heatmaps because neither explains the lab's work. The distinctive visual moment is the clinical queue illustration and typographic acronym expansion; the research portfolio remains grounded in original images.
+
 ## 0. Research Log
 
 - Initial composition research: Notion, IBM, and Wired shortlist; minimalist + Notion references informed readable typography, fine rules, compact controls, and generous section spacing.

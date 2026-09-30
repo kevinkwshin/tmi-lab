@@ -4,6 +4,7 @@
   const korean = root.lang === 'ko';
   const entryAnimations = new Set();
   const masks = new Set();
+  let openingShown = false;
   const token = (name, fallback) => getComputedStyle(root).getPropertyValue(name).trim() || fallback;
   const duration = name => parseFloat(token(name, '0'));
   const easing = () => token('--image-motion-ease', 'ease-out');
@@ -17,7 +18,28 @@
 
   function enter(slide, animate, direction) {
     settleEntry();
-    if (!animate || reduced.matches || !slide) return;
+    if (!slide) return;
+    const opening = slide.querySelector('.identity-opening');
+    const firstOpening = opening && !openingShown;
+    if (opening) openingShown = true;
+    if ((!animate && !firstOpening) || reduced.matches) return;
+    if (opening) {
+      const words = [...opening.querySelectorAll('.identity-title>span>span')];
+      words.forEach((word, index) => {
+        const animation = word.animate([
+          {transform:`translateY(${direction < 0 ? '-105%' : '105%'})`},
+          {transform:'translateY(0)'}
+        ], {duration:duration('--identity-duration') - index * 90, delay:index * 90, easing:easing(), fill:'backwards'});
+        entryAnimations.add(animation);
+        animation.finished.then(() => entryAnimations.delete(animation), () => {});
+      });
+      const logo = opening.querySelector('.identity-visual');
+      if (logo?.getBoundingClientRect().height) {
+        const animation = logo.animate([{opacity:.3,transform:'scale(.94)'},{opacity:1,transform:'scale(1)'}], {duration:duration('--identity-duration'), easing:easing()});
+        entryAnimations.add(animation);
+        animation.finished.then(() => entryAnimations.delete(animation), () => {});
+      }
+    }
     for (const anchor of slide.querySelectorAll('.evidence-media')) {
       const image = anchor.querySelector('img');
       if (!image || !anchor.getBoundingClientRect().height) continue;

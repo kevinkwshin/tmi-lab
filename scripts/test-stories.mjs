@@ -20,24 +20,30 @@ try {
    for(const id of ids) {
     await page.evaluate(id=>navigateTo(document.getElementById(id),false),id);
     const result=await page.evaluate(()=>{
-     const frame=document.querySelector('.is-current .deck-page');
+     const frame=document.querySelector('.is-current .deck-page,.is-current .identity-opening');
      if(!frame)return null;
-     const body=frame.querySelector('.deck-body');
+     const body=frame.querySelector('.deck-body') || frame;
      const b=body.getBoundingClientRect();
      const overflow=[...body.querySelectorAll('*')].filter(e=>{
       const r=e.getBoundingClientRect();
       return r.width&&r.height&&(r.top<b.top-2||r.bottom>b.bottom+2||r.left<b.left-2||r.right>b.right+2);
      }).map(e=>({class:e.className,text:e.textContent.slice(0,60),bounds:e.getBoundingClientRect().toJSON()}));
-     return {id:frame.closest('[data-slide]').id,body:b.toJSON(),overflow,text:body.innerText,images:[...body.querySelectorAll('.evidence-media img')].map(e=>({loaded:e.complete&&e.naturalWidth>0,height:e.clientHeight}))};
+     const overlap=[];
+     for(const stack of body.querySelectorAll('.story-mobile-opening,.story-mobile-context,.story-visual,.evidence-figure')) {
+      const children=[...stack.children].map(e=>({class:e.className,rect:e.getBoundingClientRect()})).filter(e=>e.rect.width&&e.rect.height);
+      for(let i=1;i<children.length;i++)if(children[i-1].rect.bottom>children[i].rect.top+2)overlap.push(`${stack.className}: ${children[i-1].class} / ${children[i].class}`);
+     }
+     return {id:frame.closest('[data-slide]').id,body:b.toJSON(),overflow,overlap,text:body.innerText,images:[...body.querySelectorAll('.evidence-media img')].map(e=>({loaded:e.complete&&e.naturalWidth>0,height:e.clientHeight}))};
     });
     if(!result)continue;
     results.push({lang,width,height,...result});
     if(result.overflow.length)failures.push(`${lang} ${width}x${height} ${id}: ${result.overflow.map(e=>e.class).join(', ')}`);
+    if(result.overlap.length)failures.push(`${lang} ${width}x${height} ${id}: overlapping ${result.overlap.join(', ')}`);
     if(['translation','transfers','research','research-imaging','research-signals'].includes(id)&&height>=640) {
      if(!result.images.length)failures.push(`${lang} ${width}x${height} ${id}: missing first-page evidence`);
      if(result.images.some(e=>!e.loaded))failures.push(`${lang} ${width}x${height} ${id}: image not loaded`);
     }
-    if(!id.includes('--')||result.overflow.length)await page.screenshot({path:`${out}/${lang}-${width}x${height}-${id}.png`});
+    await page.screenshot({path:`${out}/${lang}-${width}x${height}-${id}.png`});
    }
    if(height>=640) {
     const texts=results.filter(r=>r.lang===lang&&r.width===width&&r.height===height).map(r=>r.text).join(' ').replace(/\s+/g,' ');

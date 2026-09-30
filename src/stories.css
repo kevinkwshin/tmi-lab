@@ -102,7 +102,9 @@
  .story-sheet { max-width:640px; margin-inline:auto; }
  .story-mobile-opening { display:flex; flex-direction:column; justify-content:center; gap:var(--s4); }
  .story-mobile-opening .story-statement { font-size:var(--text-xl); line-height:1.35; }
- .story-mobile-opening>.evidence-figure { flex:0 1 auto; }
+ .story-mobile-opening>.evidence-figure { flex:0 0 auto; }
+ .story-mobile-opening .evidence-media img { height:clamp(120px,21vh,180px); }
+ .story-mobile-opening>p { font-size:var(--text-sm); line-height:1.5; }
  .evidence-media { padding:var(--s2); }
  .evidence-media img { height:clamp(120px,24vh,190px); }
  .evidence-figure figcaption { margin-top:var(--s2); font-size:var(--text-xs); }

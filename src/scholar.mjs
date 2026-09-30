@@ -1,6 +1,6 @@
 export const scholarProfile = {
   url: 'https://scholar.google.com/citations?hl=en&user=prJCNYoAAAAJ',
-  checked: '2026-09-29',
+  checked: '2026-09-30',
   citations: 1090,
   hIndex: 15,
   i10Index: 18,

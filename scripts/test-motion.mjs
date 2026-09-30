@@ -38,6 +38,9 @@ try {
     const pauseAt = time => page.evaluate(time => {
       for (const animation of document.getAnimations()) { animation.pause(); animation.currentTime = time; }
     }, time);
+    const openingMotion = await page.evaluate(() => document.getAnimations().filter(animation => animation.effect?.target.closest('.identity-opening')).length);
+    assert(openingMotion >= 3, 'Opening typography has a bounded, coordinated entrance');
+    await page.waitForTimeout(850);
     const before = await clean();
     const chrome = await page.locator('.site-header,.slide-controls').evaluateAll(elements => elements.map(element => ({rect:element.getBoundingClientRect().toJSON(), transform:getComputedStyle(element).transform})));
     await capture('forward-start');

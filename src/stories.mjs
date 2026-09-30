@@ -13,14 +13,14 @@ export function researchStories(lang, asset, escape) {
   const variants = (wide, narrow, short = wide) => `<div class="story-templates" hidden><div data-story-pages="wide">${wide}</div><div data-story-pages="narrow">${narrow}</div><div data-story-pages="wide-short">${short}</div></div>`;
   const stories = {};
 
-  const neuroRoute = route(ko ? [['검사','비조영 뇌 CT'],['분석','출혈 의심 영역'],['진료','우선 판독 지원']] : [['Acquisition','Non-contrast CT'],['Analysis','Suspected hemorrhage'],['Care','Prioritized review']]);
-  const neuroImage = figure('neurocad',text('AVIEW NeuroCAD 뇌 CT 분석 화면','AVIEW NeuroCAD brain CT analysis'),'Coreline Soft · AVIEW NeuroCAD');
-  const neuroGoal = text('뇌출혈 환자의 골든타임을 위한 영상 기반 Triage.','Image-based triage for time-critical hemorrhage care.');
-  const neuroBody = text('뇌 CT의 출혈 의심 부위와 출혈량을 분석해 의료진의 우선 판독을 지원합니다. 영상 분석을 응급 진료의 판단 흐름에 연결하는 기술입니다.','Analyzes suspected hemorrhage and its volume in brain CT to prioritize review. Image-based triage supports faster clinical decisions when timely treatment matters.');
+  const neuroRoute = route(ko ? [['검사','뇌 CT 촬영'],['AI Triage','출혈 의심 영상 알림'],['의료진','우선 검토 · 치료 판단']] : [['Acquisition','Brain CT'],['AI triage','Flag suspected bleeding'],['Clinician','Review & treatment decision']]);
+  const neuroImage = figure('neurocad-triage-journey',text('CT 검사 후 대기 중인 출혈 의심 영상을 AI가 표시하여 의료진의 우선 검토를 돕는 개념도','Concept: AI flags a CT study with suspected bleeding in the queue for earlier clinical review'),text('응급 판독 우선순위 지원 개념도 · AI 생성 일러스트','Priority review in emergency care · AI-generated concept illustration'),'triage-illustration');
+  const neuroGoal = text('긴급한 영상을 먼저. 골든타임에 더 가까이.','Urgent scans first. Time for the next decision.');
+  const neuroBody = text('응급실의 판독 대기는 치료 판단을 늦출 수 있습니다. 뇌 CT의 출혈 의심 부위와 출혈량을 분석하고 우선 검토를 지원해, 뇌출혈 환자의 골든타임을 놓치는 상황을 줄이는 것이 목표입니다.','Waiting for a CT report can delay treatment decisions. By analyzing suspected hemorrhage and its volume, NeuroCAD supports priority review, aiming to reduce delays during the critical treatment window.');
   const neuroProof = `<div class="translation-proof"><strong>100<span>+</span></strong><div>${text('응급실에서 사용','emergency departments')}<p>${text('식약처 혁신의료기기 지정','MFDS Innovative Medical Device')}</p></div></div>`;
   const neuroCopy = `<div class="story-narrative">${p(text('2024 · 코어라인소프트 기술이전','2024 · Technology transfer to Coreline Soft'),'story-status')}<h3 class="story-statement">${neuroGoal}</h3>${p(neuroBody)}${neuroProof}<a class="text-link" href="https://doi.org/10.1016/j.media.2022.102489" target="_blank" rel="noopener noreferrer">Medical Image Analysis · 2022 ↗</a></div>`;
   stories.translation = variants(
-    sheet(`${neuroCopy}<div class="story-visual">${neuroImage}${neuroRoute}</div>`,'story-feature'),
+    sheet(`${neuroCopy}<div class="story-visual">${neuroImage}${neuroRoute}</div>`,'story-feature story-triage'),
     sheet(`<h3 class="story-statement">${neuroGoal}</h3>${neuroImage}${neuroProof}`,'story-mobile-opening')+
     sheet(`<div class="story-narrative">${p(text('2024 · 코어라인소프트 기술이전','2024 · Technology transfer to Coreline Soft'),'story-status')}${p(neuroBody,'story-goal')}</div>${neuroRoute}<a class="text-link" href="https://doi.org/10.1016/j.media.2022.102489" target="_blank" rel="noopener noreferrer">Medical Image Analysis · 2022 ↗</a>`,'story-mobile-context')
   );
@@ -33,6 +33,10 @@ export function researchStories(lang, asset, escape) {
   const transfers = c.translation.items.filter(t=>t.name!=='AVIEW NeuroCAD');
   const transfer = t => `<div class="illustrated-transfer">${figure(...transferImages[t.name],text('연구 발표자료 · 원본 그림','Research presentation · original figure'))}<div class="transfer-story-copy"><p class="story-status">${t.year} · ${escape(t.recipient)}</p><h3>${t.name}</h3><p class="transfer-purpose">${escape(t.impact)}</p>${p(t.body)}${t.source ? `<a class="text-link" href="${t.source}" target="_blank" rel="noopener noreferrer">${text('비교 연구 읽기','Read the comparative study')} ↗</a>` : ''}</div></div>`;
   stories.transfers = variants(sheet(transfers.map(transfer).join(''),'story-transfer-grid'),transfers.map(t=>sheet(transfer(t),'story-transfer-single')).join(''),transfers.map(t=>sheet(transfer(t),'story-transfer-feature')).join(''));
+
+  const missionStages = `<ol class="mission-process">${c.approach.steps.map((step,i)=>`<li><span class="mission-index" aria-hidden="true">${i+1}</span><div><h3>${escape(step.title)}</h3>${p(step.body)}</div></li>`).join('')}</ol>`;
+  const missionPurpose = `<div class="mission-purpose"><p class="mission-premise">${text('좋은 예측을 넘어, 진료의 변화로.','From a useful prediction to a change in care.')}</p>${p(c.intro.body)}</div>`;
+  stories.mission = variants(sheet(`${missionPurpose}${missionStages}`,'story-mission'),sheet(missionPurpose,'story-mobile-context')+sheet(missionStages,'story-mobile-context'));
 
   const routes = ko ? [
     [['데이터','영상·판독문'],['분석','품질·오류 평가'],['목표','적시에 임상 검토']],
@@ -50,12 +54,12 @@ export function researchStories(lang, asset, escape) {
     const facts = `<dl class="story-facts">${fact(text('연구 방법','Approach'),e.method)}${fact(text('임상적 의의','Clinical significance'),e.value)}</dl>`;
     const narrative = `<div class="story-narrative">${p(text('연구 목표','Research goal'),'story-label')}${p(r.body,'story-goal')}${facts}<div class="story-evidence-note"><h3>${escape(e.study)}</h3>${p(e.note)}</div></div>`;
     const visual = `<div class="story-visual"><div class="story-figures ${images.length>1?'story-figures-pair':''}">${images.join('')}</div>${route(routes[i])}</div>`;
-    const opening = `<div class="story-mobile-intent">${p(e.value)}</div>${images[0]}${route(routes[i])}`;
+    const opening = `<div class="story-mobile-intent">${p(e.value)}</div>${images[0]}`;
     const note = `<div class="story-evidence-note"><h3>${escape(e.study)}</h3>${p(e.note)}</div>`;
     const context = `<div class="story-narrative">${p(r.body,'story-goal')}<dl class="story-facts">${fact(text('연구 방법','Approach'),e.method)}</dl>${images.length===1?note:''}</div>`;
     const compactNarrative = `<div class="story-narrative">${p(text('연구 목표','Research goal'),'story-label')}${p(r.body,'story-goal')}${facts}</div>`;
     const foundation = sheet(`<div class="story-narrative">${p(text('기반 연구 · 다음 단계','Foundational work · Next steps'),'story-label')}${note}</div><div class="story-visual"><div class="story-figures ${images.length>1?'story-figures-pair':''}">${images.join('')}</div></div>`,'story-feature');
-    stories[id] = variants(sheet(narrative+visual,'story-feature'),sheet(opening,'story-mobile-opening')+sheet(context,'story-mobile-context')+(images.length>1?sheet(`<h3>${text('생체신호에서 해석의 근거를 찾습니다','Interpreting the evidence in biosignals')}</h3>${images[1]}${p(e.note)}`,'story-mobile-opening'):''),sheet(compactNarrative+visual,'story-feature')+foundation);
+    stories[id] = variants(sheet(narrative+visual,'story-feature'),sheet(opening,'story-mobile-opening')+sheet(context,'story-mobile-context')+(images.length>1?sheet(`${images[1]}${p(e.note)}`,'story-mobile-opening'):''),sheet(compactNarrative+visual,'story-feature')+foundation);
   });
   return stories;
 }

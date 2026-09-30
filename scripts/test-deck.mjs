@@ -59,8 +59,8 @@ try {
         assert(geometry.bodyCenterOffset < 2, `${label}: body must be centered between heading and actions`);
         assert.equal(geometry.bodyOverflow, false, `${label}: body must fit the available height and width`);
         assert.equal(geometry.frameOverflow, false, `${label}: frame zones must not overlap`);
-        assert.equal(geometry.background, 'rgb(255, 255, 255)', `${label}: every slide has a white canvas`);
-        assert.equal(geometry.headingColor, 'rgb(16, 45, 80)', `${label}: every heading has the same navy contrast`);
+        assert.equal(geometry.background, geometry.id === 'contact' ? 'rgb(12, 56, 107)' : 'rgb(255, 255, 255)', `${label}: white canvas with the requested blue contact closing`);
+        assert.equal(geometry.headingColor, geometry.id === 'contact' ? 'rgb(255, 255, 255)' : 'rgb(16, 45, 80)', `${label}: heading contrast follows its canvas`);
       }
     };
     const desktopIds = await page.locator('main > [data-slide]').evaluateAll(es => es.map(e => e.id));
@@ -70,7 +70,9 @@ try {
     }
     assert.deepEqual(await page.locator('.slide-detail .citation-bars li').evaluateAll(es => es.map(e => e.getAttribute('aria-label').match(/\d+/g).map(Number))), [[2020,34],[2021,86],[2022,128],[2023,171],[2024,201],[2025,274],[2026,175]]);
     assert.equal(await page.locator('[data-deck-continuation="publications"]').count(), 0);
-    assert.equal(await page.locator('#publications .page-papers article').count(), 3);
+    assert.deepEqual(await page.locator('#publications .scholar-year').evaluateAll(es => es.map(e => e.getAttribute('aria-label').match(/\d+/g).slice(0,2).map(Number))), scholarProfile.trend.map(({year,count}) => [year,count]));
+    assert.equal(await page.locator('#publications .scholar-year-partial').count(), 1);
+    assert.equal(await page.locator('#publications .deck-actions a[href*="scholar.google"]').getAttribute('target'), '_blank');
     assert.deepEqual(await page.locator('[data-paper] h3').allTextContents(), publications.map(p => p.title));
     const product = page.locator('#translation .deck-actions a.action');
     assert.equal(await product.getAttribute('href'), 'https://corelinesoft.com/en-gb/aview/brain/neurocad/');
