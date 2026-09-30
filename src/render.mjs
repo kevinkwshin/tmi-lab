@@ -14,7 +14,7 @@ const lines = (value) => escape(value).replaceAll('\n', '<br>');
 const link = (url, label, cls = 'text-link') => `<a class="${cls}" href="${escape(url)}">${escape(label)} ${arrow}</a>`;
 const heading = (section) => `<div class="section-heading"><div><p class="eyebrow">${escape(section.label)}</p><h2>${lines(section.title)}</h2>${section.intro ? `<p>${escape(section.intro)}</p>` : ''}</div></div>`;
 
-export function renderPage(lang, siteUrl, languageScript) {
+export function renderPage(lang, siteUrl, languageScript, stylesheet = 'styles.css') {
   const c = content[lang];
   const ko = lang === 'ko';
   const root = ko ? './' : '../';
@@ -43,7 +43,7 @@ export function renderPage(lang, siteUrl, languageScript) {
 <link rel="icon" href="${root}favicon.svg" type="image/svg+xml">
 <script>document.documentElement.classList.add('js');</script>
 <script>${languageScript}</script>
-<link rel="stylesheet" href="${root}styles.css"><script src="${root}site.js" defer></script><script src="${root}deck.js" defer></script><script src="${root}visuals.js" defer></script><script src="${root}scroll.js" defer></script>
+<link rel="stylesheet" href="${escape(root + stylesheet)}"><script src="${root}site.js" defer></script><script src="${root}deck.js" defer></script><script src="${root}visuals.js" defer></script><script src="${root}scroll.js" defer></script>
 <script type="application/ld+json">${JSON.stringify(schema).replaceAll('<', '\\u003c')}</script>
 </head>
 <body>
