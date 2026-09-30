@@ -1,5 +1,9 @@
 # TMI-lab design system
 
+## September 30: complete opening phrases
+
+The current identity statement reads “From Too Much Information” above “to Translational Medical Intelligence.” Keep each phrase on one line on desktop, using a wider text column and a smaller original logo rather than compressed typography. Both phrases use the same size and weight; only the six T/M/I initials are clinical blue, and the remaining letters stay navy. Separate the phrases by 8px. Portrait tablets place the full-width title above the centered logo. Mobile wraps naturally at word boundaries without forced internal breaks. Preserve the two phrase-reveal wrappers, reduced-motion behavior, complete content and wheel navigation.
+
 ## September 30: balanced identity and illustrated research goals
 
 Give both halves of the opening statement the same type size and weight: “From too much information” and “to Translational Medical Intelligence.” Use navy for the starting point and blue for the destination, with deliberate phrase-level line breaks and an 800ms reveal. The original logo remains the visual anchor. Replace the product-name headline with “연구에서 임상으로, 생명을 위한 기술”; keep AVIEW NeuroCAD and the 2024 Coreline Soft transfer visible in the narrative.

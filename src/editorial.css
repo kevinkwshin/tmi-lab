@@ -1,9 +1,9 @@
 :root { --identity-duration:800ms; }
-.identity-opening { grid-template-columns:1.1fr 1fr; gap:var(--s6) var(--s10); }
+.identity-opening { grid-template-columns:minmax(0,1.65fr) minmax(0,1fr); gap:var(--s6) var(--s10); }
 .identity-opening .page-copy { align-self:center; }
 .identity-opening .identity-title { font-size:clamp(32px,3.3vw,48px); font-weight:600; line-height:1.12; letter-spacing:-.03em; word-spacing:.06em; color:var(--ink); text-wrap:initial; }
 .identity-title>span { display:block; overflow:hidden; padding-bottom:.075em; }
-.identity-title>span+span { margin-top:var(--s5); }
+.identity-title>span+span { margin-top:var(--s2); }
 .hero .identity-title>span>span { display:block; color:var(--ink); }
 .hero .identity-title .identity-initial { display:inline; color:var(--blue); }
 .hero .identity-title span::after { content:none; }
@@ -56,8 +56,11 @@
  .mission-process h3 { font-size:var(--text-base); }
 }
 @media(min-width:761px) and (max-width:1000px) and (min-height:901px) {
- .identity-opening { grid-template-columns:1fr 1fr; gap:var(--s6); }
- .identity-opening .identity-title { font-size:29px; }
+ .identity-opening { grid-template-columns:minmax(0,1fr); grid-template-rows:auto minmax(0,1fr) auto auto; gap:var(--s6); }
+ .identity-opening .identity-title { font-size:clamp(30px,4.2vw,40px); }
+ .identity-visual { grid-column:1; grid-row:2; width:min(100%,440px); justify-self:center; }
+ .identity-directions { grid-row:3; }
+ .identity-opening .page-actions { grid-row:4; }
  .story-triage { grid-template-columns:1fr; gap:var(--s4); }
  .triage-illustration .evidence-media img { height:280px; }
  .story-mission { grid-template-columns:1fr; gap:var(--s8); align-content:center; }
@@ -68,7 +71,6 @@
  .identity-opening .page-copy { align-self:start; }
  .identity-opening .page-eyebrow { font-size:11px; margin-bottom:var(--s2); }
  .identity-opening .identity-title { font-size:clamp(26px,7.2vw,38px); }
- .identity-title>span+span { margin-top:var(--s3); }
  .identity-opening .page-lead { font-size:var(--text-sm); line-height:1.5; margin-top:var(--s3); }
  .identity-visual { grid-column:1; grid-row:2; width:100%; height:100%; align-self:stretch; }
  .identity-visual .page-logo { height:100%; }
