@@ -8,7 +8,7 @@ export function researchStories(lang, asset, escape) {
   const p = (copy, cls = '') => `<p class="${cls}">${escape(copy)}</p>`;
   const fact = (label, copy) => `<div><dt>${label}</dt><dd>${escape(copy)}</dd></div>`;
   const route = steps => `<ol class="clinical-route" aria-label="${text('연구가 연결하는 임상 흐름','Clinical pathway addressed by the research')}">${steps.map(([label,body])=>`<li><span>${label}</span><strong>${body}</strong></li>`).join('')}</ol>`;
-  const figure = (name, alt, caption, cls = '') => `<figure class="evidence-figure ${cls}"><a class="evidence-media" data-zoom href="${asset(name)}" aria-label="${text('그림 확대','Enlarge figure')}: ${escape(alt)}"><img src="${asset(name)}" alt="${escape(alt)}" loading="lazy"><span class="evidence-zoom" aria-hidden="true">${text('그림 확대','Enlarge')} ＋</span></a><figcaption>${escape(caption)}</figcaption></figure>`;
+  const figure = (name, alt, caption, cls = '') => `<figure class="evidence-figure ${cls}"><a class="evidence-media" data-zoom href="${asset(name)}" aria-label="${text('그림 확대','Enlarge figure')}: ${escape(alt)}"><img src="${asset(name)}" alt="${escape(alt)}" loading="lazy"><span class="evidence-zoom" aria-hidden="true"><span class="evidence-zoom-label">${text('그림 확대','Enlarge')}</span><svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3H3v4m10-4h4v4M3 13v4h4m10-4v4h-4"/></svg></span></a><figcaption>${escape(caption)}</figcaption></figure>`;
   const sheet = (markup, cls = '') => `<article class="story-sheet ${cls}">${markup}</article>`;
   const variants = (wide, narrow, short = wide) => `<div class="story-templates" hidden><div data-story-pages="wide">${wide}</div><div data-story-pages="narrow">${narrow}</div><div data-story-pages="wide-short">${short}</div></div>`;
   const stories = {};
@@ -27,12 +27,12 @@ export function researchStories(lang, asset, escape) {
   );
 
   const transferImages = {
-    GreyNet:['shoulder-landmarks',text('Grashey X-ray의 해부학적 랜드마크','Anatomical landmarks in a Grashey X-ray')],
-    FlatNet:['foot-landmarks',text('체중 부하 족부 X-ray 랜드마크','Landmarks in weight-bearing foot X-rays')],
-    ProRetina:['retinal-vessels',text('망막 혈관 분할 비교','Retinal vessel segmentation comparison')]
+    GreyNet:['shoulder-landmarks',text('Grashey X-ray의 해부학적 랜드마크','Anatomical landmarks in a Grashey X-ray'),text('GreyNet · 촬영 품질 평가를 위한 어깨 X-ray 랜드마크','GreyNet · Shoulder landmarks for image quality assessment')],
+    FlatNet:['foot-landmarks',text('체중 부하 족부 X-ray 랜드마크','Landmarks in weight-bearing foot X-rays'),text('FlatNet · 평발 평가를 위한 체중 부하 족부 X-ray 랜드마크','FlatNet · Weight-bearing foot landmarks for flatfoot assessment')],
+    ProRetina:['retinal-vessels',text('망막 혈관 분할 비교','Retinal vessel segmentation comparison'),researchEvidence[lang][2].images[0].caption]
   };
   const transfers = c.translation.items.filter(t=>t.name!=='AVIEW NeuroCAD');
-  const transfer = t => `<div class="illustrated-transfer">${figure(...transferImages[t.name],text('연구 발표자료 · 원본 그림','Research presentation · original figure'))}<div class="transfer-story-copy"><p class="story-status">${t.year} · ${escape(t.recipient)}</p><h3>${t.name}</h3><p class="transfer-purpose">${escape(t.impact)}</p>${p(t.body)}${t.source ? `<a class="text-link" href="${t.source}" target="_blank" rel="noopener noreferrer">${text('비교 연구 읽기','Read the comparative study')} ↗</a>` : ''}</div></div>`;
+  const transfer = t => `<div class="illustrated-transfer">${figure(...transferImages[t.name])}<div class="transfer-story-copy"><p class="story-status">${t.year} · ${escape(t.recipient)}</p><h3>${t.name}</h3><p class="transfer-purpose">${escape(t.impact)}</p>${p(t.body)}${t.source ? `<a class="text-link" href="${t.source}" target="_blank" rel="noopener noreferrer">${text('비교 연구 읽기','Read the comparative study')} ↗</a>` : ''}</div></div>`;
   stories.transfers = variants(sheet(transfers.map(transfer).join(''),'story-transfer-grid'),transfers.map(t=>sheet(transfer(t),'story-transfer-single')).join(''),transfers.map(t=>sheet(transfer(t),'story-transfer-feature')).join(''));
 
   const missionStages = `<ol class="mission-process">${c.approach.steps.map((step,i)=>`<li><span class="mission-index" aria-hidden="true">${i+1}</span><div><h3>${escape(step.title)}</h3>${p(step.body)}</div></li>`).join('')}</ol>`;

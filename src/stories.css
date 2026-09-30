@@ -21,8 +21,10 @@
 .evidence-figure { margin:0; min-width:0; min-height:0; }
 .evidence-media { display:block; padding:var(--s4); border:1px solid var(--line); border-radius:var(--radius); background:var(--sky); box-shadow:var(--evidence-shadow); }
 .evidence-media img { display:block; width:100%; height:clamp(190px,31vh,340px); object-fit:contain; }
-.evidence-figure figcaption { margin-top:var(--s3); color:var(--muted); font-size:var(--text-xs); line-height:1.45; }
-.evidence-zoom { position:absolute; right:var(--s3); bottom:var(--s3); background:var(--paper); border:1px solid var(--line); padding:var(--s1) var(--s2); font-size:var(--text-xs); color:var(--ink); border-radius:var(--radius); }
+.evidence-figure figcaption { margin-top:var(--s3); color:var(--muted); font-size:var(--text-xs); line-height:1.45; text-wrap:pretty; }
+.evidence-zoom { position:absolute; right:var(--s3); bottom:var(--s3); display:flex; align-items:center; gap:var(--s2); background:var(--paper); border:1px solid var(--line); padding:var(--s2); font-size:var(--text-xs); line-height:1; color:var(--ink); border-radius:var(--radius); }
+.evidence-zoom svg { flex:none; }
+.evidence-media:is(:hover,:focus-visible) .evidence-zoom { color:var(--blue); border-color:var(--blue); }
 .story-figures-pair { grid-template-columns:1fr 1fr; }
 .story-figures-pair .evidence-media { padding:var(--s2); }
 .story-figures-pair .evidence-media img { height:clamp(170px,28vh,300px); }

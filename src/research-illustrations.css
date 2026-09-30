@@ -7,7 +7,8 @@
 .research-evidence-strip .evidence-media { padding:var(--s2); box-shadow:none; }
 .research-evidence-strip .evidence-media img { height:70px; }
 .research-evidence-strip figcaption { margin-top:var(--s2); }
-.research-evidence-strip .evidence-zoom { font-size:10px; bottom:var(--s1); right:var(--s1); }
+.research-evidence-strip .evidence-zoom { bottom:var(--s1); right:var(--s1); padding:var(--s1); }
+.research-evidence-strip .evidence-zoom-label { display:none; }
 @media(min-width:761px) and (max-height:740px), (min-width:761px) and (max-width:1200px) and (max-height:850px) {
  .story-research .research-illustration .evidence-media img { height:clamp(180px,calc(100vh - 460px),240px); }
 }
