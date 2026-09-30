@@ -5,6 +5,7 @@ import { researchEvidence } from './research.mjs';
 import { slideOverviews } from './slide-overviews.mjs';
 import { scholarProfile } from './scholar.mjs';
 import { scholarView } from './scholar-view.mjs';
+import { clinicalScene } from './clinical-scenes.mjs';
 
 const scholar = 'https://scholar.google.com/citations?user=prJCNYoAAAAJ&hl=en';
 const profile = 'https://medicine.inha.ac.kr/medicine/9606/subview.do';
@@ -43,7 +44,7 @@ export function renderPage(lang, siteUrl, languageScript, stylesheet = 'styles.c
 <link rel="icon" href="${root}favicon.svg" type="image/svg+xml">
 <script>document.documentElement.classList.add('js');</script>
 <script>${languageScript}</script>
-<link rel="stylesheet" href="${escape(root + stylesheet)}"><script src="${root}site.js" defer></script><script src="${root}deck.js" defer></script><script src="${root}visuals.js" defer></script><script src="${root}scroll.js" defer></script>
+<link rel="stylesheet" href="${escape(root + stylesheet)}"><script src="${root}site.js" defer></script><script src="${root}deck.js" defer></script><script src="${root}visuals.js" defer></script><script src="${root}clinical-scenes.js" defer></script><script src="${root}scroll.js" defer></script>
 <script type="application/ld+json">${JSON.stringify(schema).replaceAll('<', '\\u003c')}</script>
 </head>
 <body>
@@ -60,6 +61,7 @@ export function renderPage(lang, siteUrl, languageScript, stylesheet = 'styles.c
 </div></section>
 <section class="section translation-section" id="translation" data-slide="${ko ? '기술이전' : 'Translation'}">${overview('translation')}<div class="slide-detail reading-content" id="detail-translation" data-detail="translation"><div class="container">
 ${heading(c.translation)}
+<div class="clinical-scene-reading">${clinicalScene('triage',lang,asset,escape)}</div>
 <div class="neurocad-feature"><div class="neurocad-copy"><p class="eyebrow">Coreline Soft · 2024</p><h3 lang="en">AVIEW NeuroCAD</h3><p class="neurocad-subtitle">${ko ? '뇌출혈 의심 환자를 더 빠르게 확인하도록.' : 'Earlier review for suspected brain hemorrhage.'}</p><p>${ko ? '뇌 CT의 출혈 의심 부위와 출혈량을 분석해 의료진의 우선 판독을 지원합니다. 영상 분석을 응급 진료의 판단 흐름에 연결하는 기술입니다.' : 'Analyzes suspected hemorrhage and its volume in brain CT to prioritize review. Image-based triage supports faster clinical decisions when timely treatment matters.'}</p><ul class="clinical-impact"><li>${ko ? '100여 개 이상 응급실에서 사용' : 'Used in over 100 emergency departments'}</li><li>${link('https://corelinesoft.com/company/about-us/',ko ? '식약처 혁신의료기기 지정' : 'MFDS Innovative Medical Device designation')}</li></ul><div class="cluster">${link('https://doi.org/10.1016/j.media.2022.102489', ko ? '관련 연구 논문' : 'Related research')}</div></div><figure><img src="${asset('neurocad')}" width="1200" height="650" alt="${ko ? '코어라인소프트 AVIEW NeuroCAD의 뇌 CT 분석 화면' : 'Brain CT analysis interface of Coreline Soft AVIEW NeuroCAD'}" loading="lazy"><figcaption>${ko ? '제품 이미지: Coreline Soft · 공식 제품 소개' : 'Product image: Coreline Soft · official product page'}</figcaption></figure></div>
 <div class="reading-content translation-evidence" id="translation-sources"><h3>${ko ? '도입 실적과 근거' : 'Adoption and evidence'}</h3><p>${ko ? '100여 개 이상 응급실 도입: 연구실 제공 자료, 2026년 9월 기준.' : 'Use in over 100 emergency departments: lab-provided information, September 2026.'}</p><p>${link('https://corelinesoft.com/en-gb/aview/brain/neurocad/', ko ? '제품 기능 및 인허가: 코어라인소프트 공식 소개' : 'Product features and regulatory information: Coreline Soft')}</p><p>${link('https://doi.org/10.1016/j.media.2022.102489', 'Medical Image Analysis · 2022')}</p><figure><img src="${asset('neurocad')}" width="1200" height="650" loading="lazy" alt="${ko ? 'AVIEW NeuroCAD 뇌 CT 분석 화면' : 'AVIEW NeuroCAD brain CT analysis'}"><figcaption>Coreline Soft · AVIEW NeuroCAD</figcaption></figure><p class="meta">${ko ? '첫 화면의 일러스트는 우선 판독 지원을 설명하는 AI 생성 개념도입니다. 위 이미지는 실제 제품 화면입니다.' : 'The opening illustration is an AI-generated concept of priority review. The image above shows the actual product.'}</p></div>
 </div></div></section>
@@ -75,6 +77,7 @@ ${heading(c.translation)}
 </div></section>
 ${c.research.items.map((r,i)=>{ const evidence = researchEvidence[lang][i]; return `<section class="section research-section" id="${['research','research-imaging','research-signals'][i]}" data-slide="${ko ? ['임상 워크플로우','디지털 트윈','정밀의료'][i] : ['Clinical workflow','Digital twins','Precision medicine'][i]}" data-nav="research">${overview(['research','research-imaging','research-signals'][i])}<div class="slide-detail reading-content" id="detail-${['research','research-imaging','research-signals'][i]}" data-detail="${['research','research-imaging','research-signals'][i]}"><div class="container research-portfolio">
 <div class="research-overview"><div><p class="eyebrow">${ko ? '연구 분야' : 'Research'}</p><h2>${ko ? '연구 목표' : 'Research goal'} ${i+1}. ${escape(r.title)}</h2><p class="research-question">${escape(r.question)}</p></div><div><p class="research-body">${escape(r.body)}</p><dl class="research-brief"><div><dt>${ko ? '연구 방법' : 'Methods'}</dt><dd>${escape(evidence.method)}</dd></div><div><dt>${ko ? '임상적 의의' : 'Clinical relevance'}</dt><dd>${escape(evidence.value)}</dd></div></dl></div></div>
+${i === 0 ? `<div class="clinical-scene-reading">${clinicalScene('workflow',lang,asset,escape)}</div>` : ''}
 <div class="research-study"><div class="study-intro"><h3>${escape(evidence.study)}</h3><p>${escape(evidence.note)}</p></div><div class="research-plates ${evidence.images.length > 1 ? 'paired' : ''}">${evidence.images.map(f=>`<figure class="research-plate"><a class="image-link" href="${asset(f.name)}" target="_blank" rel="noopener noreferrer" aria-label="${imageLabel}: ${escape(f.caption)} (${ko ? '새 탭' : 'opens in a new tab'})"><img src="${asset(f.name)}" width="${f.width}" height="${f.height}" alt="${escape(f.alt)}" loading="lazy"></a><figcaption>${escape(f.caption)}</figcaption></figure>`).join('')}</div>${i===2 ? link(asset('ecg-dcam-architecture'), ko ? 'DCAM 모델 구조 보기' : 'Explore the DCAM architecture') : ''}</div>
 ${i !== 1 ? `<div class="related-studies"><h3>${ko ? '관련 임상 연구' : 'Related clinical research'}</h3>${clinicalStudies(i === 0 ? [0,1] : [2])}</div>` : ''}</div></div></section>`;}).join('')}
 <section class="section" id="publications" data-slide="${ko ? '논문' : 'Publications'}">${overview('publications')}<div class="slide-detail reading-content" id="detail-publications" data-detail="publications"><div class="container">

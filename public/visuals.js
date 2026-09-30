@@ -41,6 +41,7 @@
       }
     }
     for (const anchor of slide.querySelectorAll('.evidence-media')) {
+      if (anchor.closest('[data-clinical-scene]')) continue;
       const image = anchor.querySelector('img');
       if (!image || !anchor.getBoundingClientRect().height) continue;
       const mask = document.createElement('span');

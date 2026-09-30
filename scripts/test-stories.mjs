@@ -33,7 +33,7 @@ try {
       const children=[...stack.children].map(e=>({class:e.className,rect:e.getBoundingClientRect()})).filter(e=>e.rect.width&&e.rect.height);
       for(let i=1;i<children.length;i++)if(children[i-1].rect.bottom>children[i].rect.top+2)overlap.push(`${stack.className}: ${children[i-1].class} / ${children[i].class}`);
      }
-     return {id:frame.closest('[data-slide]').id,body:b.toJSON(),overflow,overlap,text:body.innerText,images:[...body.querySelectorAll('.evidence-media img')].map(e=>({src:e.getAttribute('src'),loaded:e.complete&&e.naturalWidth>0,height:e.clientHeight})),identity:[...body.querySelectorAll('.identity-title>span>span')].map(e=>({size:getComputedStyle(e).fontSize,weight:getComputedStyle(e).fontWeight}))};
+     return {id:frame.closest('[data-slide]').id,body:b.toJSON(),overflow,overlap,text:body.innerText,scenes:[...body.querySelectorAll('[data-clinical-scene]')].filter(e=>e.getBoundingClientRect().height).map(e=>e.dataset.clinicalScene),images:[...body.querySelectorAll('.evidence-media img')].map(e=>({src:e.getAttribute('src'),loaded:e.complete&&e.naturalWidth>0,height:e.clientHeight})),identity:[...body.querySelectorAll('.identity-title>span>span')].map(e=>({size:getComputedStyle(e).fontSize,weight:getComputedStyle(e).fontWeight}))};
     });
     if(!result)continue;
     assert.equal(result.id,id,'Capture must follow the completed responsive rebuild');
@@ -45,7 +45,7 @@ try {
     if(result.overflow.length)failures.push(`${lang} ${width}x${height} ${id}: ${result.overflow.map(e=>e.class).join(', ')}`);
     if(result.overlap.length)failures.push(`${lang} ${width}x${height} ${id}: overlapping ${result.overlap.join(', ')}`);
     if(['translation','transfers','research','research-imaging','research-signals'].includes(id)&&height>=640) {
-     if(!result.images.length)failures.push(`${lang} ${width}x${height} ${id}: missing first-page evidence`);
+     if(!result.images.length&&!result.scenes.includes('workflow'))failures.push(`${lang} ${width}x${height} ${id}: missing first-page evidence`);
      if(result.images.some(e=>!e.loaded))failures.push(`${lang} ${width}x${height} ${id}: image not loaded`);
     }
     await page.screenshot({path:`${out}/${lang}-${width}x${height}-${id}.png`});
@@ -54,7 +54,8 @@ try {
     const frames=results.filter(r=>r.lang===lang&&r.width===width&&r.height===height);
     const texts=frames.map(r=>r.text).join(' ').replace(/\s+/g,' ');
     const visibleImages=frames.flatMap(r=>r.images).filter(image=>image.loaded&&image.height>0).map(image=>image.src).join(' ');
-    for(const name of ['research-workflow-concept','research-twin-concept','research-precision-concept',...researchEvidence[lang].flatMap(e=>e.images.map(image=>image.name))]) {
+    if(!frames.some(frame=>frame.scenes.includes('workflow')))failures.push(`${lang} ${width}x${height}: missing workflow comparison scene`);
+    for(const name of ['research-twin-concept','research-precision-concept',...researchEvidence[lang].flatMap(e=>e.images.map(image=>image.name))]) {
      if(!visibleImages.includes(name))failures.push(`${lang} ${width}x${height}: missing illustrated concept or original figure: ${name}`);
     }
     const copy=[...content[lang].research.items.map(r=>r.body),...researchEvidence[lang].flatMap(e=>[e.method,e.value,e.note]),...content[lang].translation.items.filter(t=>t.name!=='AVIEW NeuroCAD').flatMap(t=>[t.impact,t.body])];

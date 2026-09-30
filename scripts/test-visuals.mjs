@@ -19,7 +19,7 @@ try {
     const ids = () => page.locator('[id]').evaluateAll(elements => elements.map(element => element.id));
     const initialIds = await ids();
     assert.equal(new Set(initialIds).size, initialIds.length, 'IDs must be unique before interaction');
-    const target = await page.evaluate(() => slides.findIndex(slide => slide.querySelector('.evidence-media')));
+    const target = await page.evaluate(() => slides.findIndex(slide => [...slide.querySelectorAll('.evidence-media')].some(anchor => !anchor.closest('[data-clinical-scene]'))));
     assert(target >= 0, 'Deck must contain an actual image anchor');
     await page.evaluate(index => go(index, true), target);
     await page.waitForTimeout(110);
@@ -117,7 +117,7 @@ try {
       assert.equal(await anchor.evaluate(node => node === document.activeElement), true, 'Tap-open viewer closes back to image');
       await touch.detach();
     }
-    for (const source of ['research','research-imaging','research-signals']) {
+    for (const source of ['research-imaging','research-signals']) {
       await page.evaluate(id => navigateTo(document.getElementById(id), false), source);
       const concept = page.locator('.is-current .research-illustration .evidence-media');
       await concept.locator('img').evaluate(image => image.decode());

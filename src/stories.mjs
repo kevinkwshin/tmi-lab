@@ -1,5 +1,6 @@
 import {content} from './content.mjs';
 import {researchEvidence} from './research.mjs';
+import {clinicalScene} from './clinical-scenes.mjs';
 
 export function researchStories(lang, asset, escape) {
   const ko = lang === 'ko';
@@ -14,7 +15,7 @@ export function researchStories(lang, asset, escape) {
   const stories = {};
 
   const neuroRoute = route(ko ? [['검사','뇌 CT 촬영'],['AI Triage','출혈 의심 영상 알림'],['의료진','우선 검토 · 치료 판단']] : [['Acquisition','Brain CT'],['AI triage','Flag suspected bleeding'],['Clinician','Review & treatment decision']]);
-  const neuroImage = figure('neurocad-triage-journey',text('CT 검사 후 대기 중인 출혈 의심 영상을 AI가 표시하여 의료진의 우선 검토를 돕는 개념도','Concept: AI flags a CT study with suspected bleeding in the queue for earlier clinical review'),text('응급 판독 우선순위 지원 개념도 · AI 생성 일러스트','Priority review in emergency care · AI-generated concept illustration'),'triage-illustration');
+  const neuroImage = clinicalScene('triage', lang, asset, escape);
   const neuroGoal = text('긴급한 영상을 먼저. 골든타임에 더 가까이.','Urgent scans first. Time for the next decision.');
   const neuroBody = text('응급실의 판독 대기는 치료 판단을 늦출 수 있습니다. 뇌 CT의 출혈 의심 부위와 출혈량을 분석하고 우선 검토를 지원해, 뇌출혈 환자의 골든타임을 놓치는 상황을 줄이는 것이 목표입니다.','Waiting for a CT report can delay treatment decisions. By analyzing suspected hemorrhage and its volume, NeuroCAD supports priority review, aiming to reduce delays during the critical treatment window.');
   const neuroProof = `<div class="translation-proof"><strong>100<span>+</span></strong><div>${text('응급실에서 사용','emergency departments')}<p>${text('식약처 혁신의료기기 지정','MFDS Innovative Medical Device')}</p></div></div>`;
@@ -59,7 +60,7 @@ export function researchStories(lang, asset, escape) {
     const e = researchEvidence[lang][i];
     const images = e.images.map(f=>figure(f.name,f.alt,f.caption));
     const [conceptName,conceptAlt,conceptCaption] = concepts[i];
-    const concept = figure(conceptName,conceptAlt,`${conceptCaption} · ${text('AI 생성 개념도','AI-generated concept')}`,'research-illustration');
+    const concept = i === 0 ? clinicalScene('workflow', lang, asset, escape) : figure(conceptName,conceptAlt,`${conceptCaption} · ${text('AI 생성 개념도','AI-generated concept')}`,'research-illustration');
     const facts = `<dl class="story-facts">${fact(text('연구 방법','Approach'),e.method)}${fact(text('임상적 의의','Clinical significance'),e.value)}</dl>`;
     const narrative = `<div class="story-narrative">${p(text('연구 목표','Research goal'),'story-label')}${p(r.body,'story-goal')}${facts}<div class="story-evidence-note"><h3>${escape(e.study)}</h3>${p(e.note)}</div></div>`;
     const visual = `<div class="story-visual research-visual"><div class="research-images">${concept}<div class="research-evidence-strip ${images.length>1?'story-figures-pair':''}">${images.join('')}</div></div>${route(routes[i])}</div>`;

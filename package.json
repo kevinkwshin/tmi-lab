@@ -9,7 +9,8 @@
     "test:deck": "node scripts/test-deck.mjs",
     "test:stories": "node scripts/test-stories.mjs",
     "test:visuals": "node scripts/test-visuals.mjs",
-    "precheck": "node --check public/deck.js && node --check src/scholar.mjs && node --check src/stories.mjs && node --check public/visuals.js",
+    "test:scenes": "node scripts/test-clinical-scenes.mjs",
+    "precheck": "node --check public/deck.js && node --check src/scholar.mjs && node --check src/stories.mjs && node --check public/visuals.js && node --check src/clinical-scenes.mjs && node --check public/clinical-scenes.js",
     "build": "node scripts/build.mjs",
     "check": "node --check src/render.mjs && node --check src/content.mjs && node --check src/publications.mjs && node --check public/site.js && node --check scripts/build.mjs && node --check src/patents.mjs && node --check public/scroll.js && node --check src/language.js && node --check src/research.mjs && node --check src/slide-overviews.mjs"
   },
