@@ -5,7 +5,7 @@
 .identity-title>span { display:block; overflow:hidden; padding-bottom:.075em; }
 .identity-title>span+span { margin-top:var(--s5); }
 .hero .identity-title>span>span { display:block; color:var(--ink); }
-.hero .identity-title>span:last-child>span { color:var(--blue); }
+.hero .identity-title .identity-initial { display:inline; color:var(--blue); }
 .hero .identity-title span::after { content:none; }
 .identity-opening .page-lead { max-width:34em; font-size:var(--text-base); margin-top:var(--s5); }
 .identity-visual { grid-column:2; grid-row:1; min-height:0; align-self:center; }
