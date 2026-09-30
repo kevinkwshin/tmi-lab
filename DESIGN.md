@@ -1,5 +1,11 @@
 # TMI-lab design system
 
+## October 1: automatic illustration playback
+
+The latest user request replaces the earlier one-shot/replay-control direction. Repeat the existing clinical explanations and welcome identity sequence automatically, with a quiet rest between cycles: 1.8 seconds for clinical scenes and 2.8 seconds for the logo. Remove all replay buttons and their reserved space. Preserve the complete static figures between cycles, existing animation paths, bilingual text, zoom links and wheel navigation.
+
+Only the current presentation scene or a visible reading-view illustration may run. Cancel animations and pending repeats on navigation, hidden tabs, dialogs, resize, printing and reduced motion. Resume when the scene becomes visible again or the interruption ends. Reduced-motion and no-JavaScript views retain complete static artwork. Verify a second automatic cycle, interruption during playback and rest, return/resume, desktop/mobile layout, both languages and absence of replay controls.
+
 ## October 1: make longitudinal review visible
 
 Page five pairs prior and follow-up abdominal CT illustrations with readable sample report excerpts. The supplied study concerns longitudinal report-text error detection; the scans explain clinical context, not an image-analysis capability or actual patient outcome. Mark the board “CT 비교 예시 / Illustrative CT comparison”; accessible image descriptions and the source ledger identify synthetic imagery and invented example measurements. Preserve the original study-design figure and its caption.

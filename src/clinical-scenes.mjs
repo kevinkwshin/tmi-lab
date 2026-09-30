@@ -1,6 +1,5 @@
 export function clinicalScene(kind, lang, asset, escape) {
   const text = (ko, en) => escape(lang === 'ko' ? ko : en);
-  const replay = `<button type="button" class="scene-replay" data-scene-replay aria-label="${text('설명 애니메이션 다시 보기','Replay the explanatory animation')}"><svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 7a6 6 0 1 1-1 5M4 3v4h4"/></svg><span>${text('다시 보기','Replay')}</span></button>`;
   if (kind === 'triage') {
     const alt = text('대기 중인 뇌 CT에서 출혈 의심 영상을 표시하고 의료진의 우선 검토로 연결하는 개념도','Concept: a CT study with suspected bleeding is flagged in the queue and routed for priority clinical review');
     return `<figure class="evidence-figure clinical-scene triage-illustration" data-clinical-scene="triage">
@@ -13,7 +12,6 @@ export function clinicalScene(kind, lang, asset, escape) {
         </svg>
         <span class="evidence-zoom" aria-hidden="true">${text('그림 확대','Enlarge')} ↗</span>
       </a>
-      <div class="scene-caption">${replay}</div>
     </figure>`;
   }
   const scanAlt = text('합성 복부 CT 비교 예시. 왼쪽 이전 검사보다 오른쪽 추적 검사에서 같은 간 병변이 크게 보입니다. 실제 환자 영상이나 측정 결과가 아닙니다.','Synthetic abdominal CT comparison: the same liver focus appears larger in the right follow-up than in the left prior exam. These are not patient scans or measured results.');
@@ -27,7 +25,7 @@ export function clinicalScene(kind, lang, asset, escape) {
     <div class="report-row${current ? ' report-difference' : ''}" ${current ? 'data-scene-part="workflow-difference"' : ''}><span>${text('판독문','Report')}</span><span>${current ? text('“변화 없음”','“No change”') : text('기준 검사','Baseline')}</span></div>
   </div>`;
   return `<figure class="evidence-figure clinical-scene research-illustration" data-clinical-scene="workflow">
-    <div class="scene-caption scene-comparison-header"><p class="scene-example-label">${text('CT 비교 예시','Illustrative CT comparison')}</p>${replay}</div>
+    <div class="scene-comparison-header"><p class="scene-example-label">${text('CT 비교 예시','Illustrative CT comparison')}</p></div>
     <div class="scene-comparison" role="group" aria-label="${text('설명용 CT와 가상의 판독문 예시: 10 mm에서 16 mm로 달라진 기록과 변화 없음이라는 서술의 불일치를 비교합니다. LLM의 분석 대상은 판독문입니다.','Illustrative CT and fictional report example: compare the recorded change from 10 mm to 16 mm with the contradictory no-change statement. The LLM analyzes report text.')}">
       <div class="scene-reports">${report(text('이전 검사','Prior exam'),'workflow-prior',false)}${report(text('추적 검사','Follow-up'),'workflow-current',true)}</div>
       <div class="scene-review-note" data-scene-part="workflow-review"><svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="8" cy="8" r="5"/><path d="m12 12 5 5"/></svg><span>${text('LLM 판독문 비교 → 불일치 확인 → 의료진 검토','LLM report comparison → Discrepancy → Clinical review')}</span></div>

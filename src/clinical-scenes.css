@@ -1,4 +1,4 @@
-:root { --scene-duration:3200ms; --scene-lead:500ms; --scene-ease:cubic-bezier(.22,1,.36,1); }
+:root { --scene-duration:3200ms; --scene-lead:500ms; --scene-rest:1800ms; --scene-ease:cubic-bezier(.22,1,.36,1); }
 .clinical-scene { min-width:0; }
 .clinical-scene-reading { max-width:640px; margin:var(--s8) auto; }
 .scene-triage-overlay { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:visible; }
@@ -8,15 +8,9 @@
 .scene-traveller path { fill:none; stroke:var(--paper); stroke-width:2; stroke-linejoin:round; }
 .scene-review { fill:none; stroke:var(--blue); stroke-width:5; opacity:.7; }
 .scene-review circle { fill:var(--paper); }
-.evidence-figure .scene-caption { display:flex; align-items:center; justify-content:flex-end; gap:var(--s3); margin-top:var(--s1); min-height:var(--touch); }
-.scene-caption>span { min-width:0; }
-.scene-replay { display:none; align-items:center; gap:var(--s1); min-height:var(--touch); flex:none; border:0; padding:0 var(--s2); background:transparent; color:var(--blue); font-size:var(--text-xs); line-height:1.3; border-radius:var(--radius); }
-.scene-motion-ready .scene-replay { display:inline-flex; }
-.scene-replay:hover { background:var(--sky); }
-.scene-replay svg { flex:none; }
 .scene-comparison { --scene-scan-size:144px; display:grid; gap:var(--s2); }
 .scene-example-label { color:var(--muted); font-size:var(--text-xs); line-height:1.4; }
-.evidence-figure .scene-comparison-header { margin-top:0; justify-content:space-between; }
+.scene-comparison-header { padding-bottom:var(--s2); }
 .scene-reports { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:var(--s4); align-items:start; }
 .scene-report { min-width:0; background:var(--paper); }
 .report-heading { display:flex; align-items:center; justify-content:space-between; gap:var(--s2); color:var(--blue); padding-bottom:var(--s2); }
@@ -70,18 +64,13 @@
  .report-heading { gap:var(--s1); padding-bottom:var(--s2); }
  .report-row { gap:var(--s1); padding:var(--s1); }
  .scene-review-note { font-size:var(--text-xs); }
- .scene-caption>span { font-size:var(--text-xs); }
 }
-@media(prefers-reduced-motion:reduce) { .scene-motion-ready .scene-replay { display:none; } }
 @media(max-width:359px) {
  .scene-comparison { --scene-scan-size:72px; }
  .report-row { gap:var(--s1); min-height:var(--s6); padding-inline:0; }
  .scene-comparison { gap:var(--s2); }
  .story-mobile-opening:has([data-clinical-scene="workflow"]) { gap:var(--s2); }
- .story-mobile-opening [data-clinical-scene="workflow"] .scene-comparison-header { position:relative; min-height:var(--s5); }
- .story-mobile-opening [data-clinical-scene="workflow"] .scene-example-label { padding-right:var(--touch); }
- .story-mobile-opening [data-clinical-scene="workflow"] .scene-replay { position:absolute; right:0; top:calc(-1 * var(--s2)); min-width:var(--touch); justify-content:center; }
- .story-mobile-opening [data-clinical-scene="workflow"] .scene-replay span,.story-mobile-opening [data-clinical-scene="workflow"] .scene-review-note { display:none; }
+ .story-mobile-opening [data-clinical-scene="workflow"] .scene-review-note { display:none; }
  .deck-translation .deck-actions { gap:var(--s2); }
  .deck-translation .deck-actions .action { padding-inline:var(--s3); gap:var(--s3); }
  .deck-translation .deck-actions .evidence-button { font-size:var(--text-sm); }
@@ -89,7 +78,4 @@
  .story-triage-opening .story-statement { font-size:var(--text-lg); }
  .story-triage-opening .clinical-scene .evidence-media img { height:110px; }
  .story-triage-opening .translation-proof p { margin-top:var(--s1); line-height:1.5; }
- .story-triage-opening .scene-caption { position:relative; min-height:0; }
- .story-triage-opening .scene-replay { position:absolute; bottom:100%; left:var(--s2); background:var(--paper); }
 }
-@media print { .scene-replay { display:none!important; } }

@@ -12,6 +12,7 @@
     "test:visuals": "node scripts/test-visuals.mjs",
     "test:scenes": "node scripts/test-clinical-scenes.mjs",
     "test:identity": "node scripts/test-identity.mjs",
+    "test:loops": "node scripts/test-animation-loops.mjs",
     "precheck": "node --check public/deck.js && node --check src/scholar.mjs && node --check src/stories.mjs && node --check public/visuals.js && node --check src/clinical-scenes.mjs && node --check public/clinical-scenes.js && node --check src/identity.mjs && node --check public/identity.js",
     "build": "node scripts/build.mjs",
     "check": "node --check src/render.mjs && node --check src/content.mjs && node --check src/publications.mjs && node --check public/site.js && node --check scripts/build.mjs && node --check src/patents.mjs && node --check public/scroll.js && node --check src/language.js && node --check src/research.mjs && node --check src/slide-overviews.mjs"

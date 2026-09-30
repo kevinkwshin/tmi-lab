@@ -3,13 +3,25 @@
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const running = new Set();
   let activeMark;
+  let activeSlide;
+  let repeatTimer;
+  let resumeFrame;
+  let printing = false;
   const duration = name => parseFloat(getComputedStyle(root).getPropertyValue(name));
 
+  function visibleSlide() {
+    if (reduced.matches || document.hidden || printing || document.querySelector('dialog[open]') || !root.classList.contains('presentation')) return;
+    return document.querySelector('.is-current:has(.identity-opening)');
+  }
+
   function settle() {
+    clearTimeout(repeatTimer);
+    cancelAnimationFrame(resumeFrame);
     for (const animation of running) animation.cancel();
     running.clear();
     activeMark?.removeAttribute('data-mascot-active');
     activeMark = undefined;
+    activeSlide = undefined;
   }
 
   function animate(element, frames, time, delay = 0) {
@@ -18,8 +30,15 @@
     running.add(animation);
     animation.finished.then(() => {
       animation.cancel();
-      running.delete(animation);
-      if (!running.size) settle();
+      if (!running.delete(animation)) return;
+      if (!running.size) {
+        activeMark?.removeAttribute('data-mascot-active');
+        repeatTimer = setTimeout(() => {
+          const slide = visibleSlide();
+          if (slide && slide === activeSlide) enter(slide, false);
+          else settle();
+        }, duration('--mascot-rest'));
+      }
     }, () => {});
   }
 
@@ -45,16 +64,14 @@
     }
   }
 
-  function enter(slide) {
+  function enter(slide, entering = true) {
     settle();
     const opening = slide?.querySelector('.identity-opening');
-    if (!opening || document.hidden) return;
+    if (!opening || !visibleSlide()) return;
+    activeSlide = slide;
     const mark = opening.querySelector('[data-brand-mark]');
-    const replay = mark?.querySelector('[data-brand-replay]');
-    if (replay) replay.hidden = reduced.matches;
-    if (reduced.matches) return;
     const time = duration('--identity-flow-duration');
-    const lead = duration('--mascot-lead');
+    const lead = entering ? duration('--mascot-lead') : 0;
     animate(opening.querySelector('[data-identity-output]'),[
       {opacity:.25,transform:'scaleX(.03)'},
       {opacity:1,transform:'scaleX(1)'}
@@ -69,18 +86,20 @@
     greet(mark,lead);
   }
 
-  document.addEventListener('deck:change',event => enter(event.detail.slide));
-  document.addEventListener('click',event => {
-    const button = event.target.closest?.('[data-brand-replay]');
-    if (!button || reduced.matches || document.hidden) return;
-    settle();
-    greet(button.closest('[data-brand-mark]'));
-  });
+  function resume() {
+    cancelAnimationFrame(resumeFrame);
+    resumeFrame = requestAnimationFrame(() => {
+      const slide = visibleSlide();
+      if (slide !== activeSlide) enter(slide);
+    });
+  }
+
+  document.addEventListener('deck:change',() => { settle(); resume(); });
   for (const event of ['deck:cancel','image:open']) document.addEventListener(event,settle);
-  document.addEventListener('visibilitychange',() => { if (document.hidden) settle(); });
-  for (const event of ['resize','beforeprint']) addEventListener(event,settle);
-  reduced.addEventListener('change',() => {
-    settle();
-    for (const button of document.querySelectorAll('[data-brand-replay]')) button.hidden = reduced.matches;
-  });
+  document.addEventListener('close',() => resume(),true);
+  document.addEventListener('visibilitychange',() => { if (document.hidden) settle(); else resume(); });
+  addEventListener('resize',settle);
+  addEventListener('beforeprint',() => { printing = true; settle(); });
+  addEventListener('afterprint',() => { printing = false; resume(); });
+  reduced.addEventListener('change',() => { settle(); if (!reduced.matches) setTimeout(() => resume(),0); });
 })();

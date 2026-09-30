@@ -20,22 +20,21 @@ try {
   await page.screenshot({path:`${out}/${lang}-entry-mid.png`});
   await page.waitForFunction(()=>!document.querySelector('[data-mascot-active]'));
   await page.screenshot({path:`${out}/${lang}-entry-end.png`});
+  await page.waitForFunction(()=>document.querySelector('[data-mascot-active]'));
+  await page.screenshot({path:`${out}/${lang}-automatic-repeat.png`});
+  assert.equal(await page.locator('[data-brand-replay], [data-scene-replay]').count(),0,'All replay controls are removed');
   assert.equal(await page.locator('.identity-initial').count(),6);
   for(const [width,height] of [[1440,900],[1280,640],[768,1024],[375,667],[320,640]]) {
    await page.setViewportSize({width,height});
    await page.waitForTimeout(350);
    const mark=page.locator('.identity-opening [data-brand-mark]');
-   const replay=mark.locator('[data-brand-replay]');
-   await replay.focus();
-   await page.keyboard.press('Enter');
-   assert(await mark.getAttribute('data-mascot-active')!==null,'Keyboard replay starts a greeting');
-   assert(await replay.evaluate(node=>node===document.activeElement),'Replay retains focus');
-   await mark.evaluate(node=>node.getAnimations({subtree:true}).forEach(animation=>{animation.pause();animation.currentTime=1040;}));
+   await page.waitForFunction(()=>document.querySelector('[data-mascot-active]'));
+   await mark.evaluate(node=>node.getAnimations({subtree:true}).forEach(animation=>{animation.pause();animation.currentTime=animation.effect.getTiming().delay+1040;}));
    const blink=await mark.locator('[data-mascot-blink="dragon"]').evaluate(node=>Number(getComputedStyle(node).opacity));
    assert(blink>.9,'Dragon eyelids visibly close during the greeting');
    await page.screenshot({path:`${out}/${lang}-${width}x${height}-blink.png`});
    await mark.screenshot({path:`${out}/${lang}-${width}x${height}-logo-blink.png`});
-   await mark.evaluate(node=>node.getAnimations({subtree:true}).forEach(animation=>{animation.currentTime=1450;}));
+   await mark.evaluate(node=>node.getAnimations({subtree:true}).forEach(animation=>{animation.currentTime=animation.effect.getTiming().delay+1450;}));
    await page.screenshot({path:`${out}/${lang}-${width}x${height}-bow.png`});
    const pose=await mark.locator('[data-mascot-goose]').evaluate(node=>getComputedStyle(node).transform);
    assert.notEqual(pose,'none','Goose genuinely changes pose');
@@ -48,7 +47,6 @@ try {
    await page.emulateMedia({reducedMotion:'reduce'});
    await page.waitForTimeout(100);
    assert.equal(await page.locator('[data-mascot-active]').count(),0,'Reduced motion restores original logo');
-   assert.equal(await replay.isVisible(),false,'Reduced motion hides unavailable replay');
    assert.equal(await mark.locator('.brand-poster').evaluate(node=>getComputedStyle(node).opacity),'1');
    await page.screenshot({path:`${out}/${lang}-${width}x${height}-static.png`});
    const fit=await page.locator('.identity-opening').evaluate(frame=>{
@@ -62,7 +60,8 @@ try {
    const logo=await mark.locator('.brand-poster').boundingBox();
    assert(logo.height>=80,'The logo keeps meaningful visual size on narrow screens');
    await page.emulateMedia({reducedMotion:'no-preference'});
-   results.push({lang,width,height,replay:true,blink:true,bow:true,wheel:true,reduced:true,bounded:true});
+   await page.waitForFunction(()=>document.querySelector('[data-mascot-active]'));
+   results.push({lang,width,height,automaticRepeat:true,blink:true,bow:true,wheel:true,reduced:true,bounded:true});
   }
   for(const id of ['translation','mission','research-imaging','research-signals']) {
    await page.evaluate(id=>navigateTo(document.getElementById(id),false),id);
@@ -72,7 +71,7 @@ try {
   const nojs=await browser.newPage({javaScriptEnabled:false,viewport:{width:1440,height:900}});
   await nojs.goto(`${base}${lang==='en'?'en/':''}?lang=${lang}`);
   assert(await nojs.locator('#detail-welcome .logo-figure img').isVisible(),'Original logo remains without JavaScript');
-  assert.equal(await nojs.locator('[data-brand-replay]').isVisible(),false);
+  assert.equal(await nojs.locator('[data-brand-replay]').count(),0);
   await nojs.close();
  }
 } finally {
@@ -80,4 +79,4 @@ try {
  await writeFile(`${out}/results.json`,JSON.stringify({results,errors},null,2));
 }
 assert.deepEqual(errors,[]);
-console.log(`PASS: ${results.length} bilingual identity layouts and motion/replay/keyboard/wheel/reduced-motion cases.`);
+console.log(`PASS: ${results.length} bilingual identity layouts and automatic repeat, wheel and reduced-motion cases.`);

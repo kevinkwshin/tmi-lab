@@ -3,9 +3,22 @@
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const running = new Set();
   let activeScene;
-  root.classList.add('scene-motion-ready');
+  let repeatTimer;
+  let resumeFrame;
+  let printing = false;
+
+  function visibleScene() {
+    if (reduced.matches || document.hidden || printing || document.querySelector('dialog[open]')) return;
+    if (root.classList.contains('presentation')) return document.querySelector('.is-current .deck-body [data-clinical-scene]');
+    return [...document.querySelectorAll('.reading-content [data-clinical-scene]')].find(scene => {
+      const rect = scene.getBoundingClientRect();
+      return rect.height && rect.bottom > innerHeight * .25 && rect.top < innerHeight * .75;
+    });
+  }
 
   function settle() {
+    clearTimeout(repeatTimer);
+    cancelAnimationFrame(resumeFrame);
     for (const animation of running) animation.cancel();
     running.clear();
     if (activeScene) activeScene.dataset.sceneState = 'settled';
@@ -29,10 +42,13 @@
         running.add(animation);
         animation.finished.then(() => {
           animation.cancel();
-          running.delete(animation);
+          if (!running.delete(animation)) return;
           if (!running.size && activeScene === scene) {
             scene.dataset.sceneState = 'settled';
-            activeScene = undefined;
+            repeatTimer = setTimeout(() => {
+              if (visibleScene() === scene) play(scene);
+              else settle();
+            }, parseFloat(tokens.getPropertyValue('--scene-rest')));
           }
         }, () => {});
       }
@@ -85,17 +101,25 @@
     }
   }
 
-  document.addEventListener('deck:change', event => {
-    if (root.classList.contains('presentation')) play(event.detail.slide?.querySelector('[data-clinical-scene]'), true);
+  function resume(entering = false) {
+    cancelAnimationFrame(resumeFrame);
+    resumeFrame = requestAnimationFrame(() => {
+      const scene = visibleScene();
+      if (scene !== activeScene) play(scene, entering);
+    });
+  }
+
+  document.addEventListener('deck:change', () => { settle(); resume(true); });
+  document.addEventListener('deck:cancel', () => {
+    settle();
+    if (!root.classList.contains('presentation')) resume();
   });
-  document.addEventListener('click', event => {
-    const replay = event.target.closest?.('[data-scene-replay]');
-    if (replay) play(replay.closest('[data-clinical-scene]'));
-  });
-  document.addEventListener('deck:cancel', settle);
   document.addEventListener('image:open', settle);
-  document.addEventListener('visibilitychange', () => { if (document.hidden) settle(); });
+  document.addEventListener('close', () => resume(), true);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) settle(); else resume(); });
+  document.addEventListener('scroll', () => { if (!root.classList.contains('presentation')) resume(); }, {passive:true});
   addEventListener('resize', settle);
-  addEventListener('beforeprint', settle);
-  reduced.addEventListener('change', settle);
+  addEventListener('beforeprint', () => { printing = true; settle(); });
+  addEventListener('afterprint', () => { printing = false; resume(); });
+  reduced.addEventListener('change', () => { settle(); if (!reduced.matches) setTimeout(() => resume(), 0); });
 })();
