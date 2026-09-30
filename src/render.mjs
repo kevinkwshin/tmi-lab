@@ -19,7 +19,8 @@ export function renderPage(lang, siteUrl, languageScript) {
   const ko = lang === 'ko';
   const root = ko ? './' : '../';
   const pageUrl = new URL(ko ? './' : 'en/', siteUrl).href;
-  const asset = (name) => `${root}assets/${name}.${name === 'neurocad-triage-journey' ? 'png' : 'webp'}`;
+  const illustrations = new Set(['neurocad-triage-journey','research-workflow-concept','research-twin-concept','research-precision-concept']);
+  const asset = (name) => `${root}assets/${name}.${illustrations.has(name) ? 'png' : 'webp'}`;
   const overviews = slideOverviews(lang, asset, escape);
   const overview = id => `<div class="slide-overview">${overviews[id]}</div>`;
   const patentRow = (p) => `<article class="patent rule-row"><time class="meta" datetime="${p.year}">${p.year}</time><div><p class="patent-number" lang="en">${p.number}<span class="patent-status" lang="${lang}">${ko ? (p.granted ? '등록공보' : '출원공개') : (p.granted ? 'Granted patent' : 'Published application')}</span></p><h3>${link(`https://patents.google.com/patent/${p.number}/${lang}`, p.title[lang], 'paper-title')}</h3><p class="meta" lang="ko">${escape(p.inventors)}</p>${p.related.length ? `<div class="cluster">${p.related.map(f=>link(`https://patents.google.com/patent/${f.number}/en`, `${f.number} · ${f.year} · ${ko ? (f.granted ? '미국 등록' : '국제출원 공개') : (f.granted ? 'US grant' : 'PCT publication')}`)).join('')}</div>` : ''}</div></article>`;

@@ -117,6 +117,21 @@ try {
       assert.equal(await anchor.evaluate(node => node === document.activeElement), true, 'Tap-open viewer closes back to image');
       await touch.detach();
     }
+    for (const source of ['research','research-imaging','research-signals']) {
+      await page.evaluate(id => navigateTo(document.getElementById(id), false), source);
+      const concept = page.locator('.is-current .research-illustration .evidence-media');
+      await concept.locator('img').evaluate(image => image.decode());
+      await concept.click();
+      await page.waitForFunction(() => document.querySelector('.image-dialog').open);
+      assert.equal(await dialog.locator('img').getAttribute('src'), await concept.getAttribute('href').then(href => new URL(href,page.url()).href));
+      assert.match(await dialog.locator('.image-dialog-caption').innerText(), /AI 생성|AI-generated/);
+      await page.waitForTimeout(480);
+      await capture(`${source}-concept`);
+      await page.keyboard.press('Escape');
+      await page.waitForFunction(() => !document.querySelector('.image-dialog').open);
+      assert.equal(await concept.evaluate(node => node === document.activeElement), true);
+    }
+    await page.evaluate(index => go(index, false), target);
     await anchor.click();
     await page.waitForTimeout(80);
     await page.setViewportSize({width:viewport.width, height:viewport.height - 20});

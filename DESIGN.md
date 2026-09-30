@@ -1,5 +1,11 @@
 # TMI-lab design system
 
+## September 30: balanced identity and illustrated research goals
+
+Give both halves of the opening statement the same type size and weight: “From too much information” and “to Translational Medical Intelligence.” Use navy for the starting point and blue for the destination, with deliberate phrase-level line breaks and an 800ms reveal. The original logo remains the visual anchor. Replace the product-name headline with “연구에서 임상으로, 생명을 위한 기술”; keep AVIEW NeuroCAD and the 2024 Coreline Soft transfer visible in the narrative.
+
+Extend the accepted isometric white-and-blue clinical illustration style to three research directions: longitudinal report review, patient-specific outcome planning, and multimodal evidence for individual care. These are explicitly labelled AI-generated concepts, never scientific results. On roomy screens place the purpose illustration above a compact strip of linked original study figures; on shorter screens the original figures and full study context occupy the existing evidence continuation. Mobile gives the illustration, clinical method and original evidence their own readable pages. Preserve all descriptions, methods, significance and study notes, not just summaries. Keep real figures unmodified and expandable. The shared page heading, vertically centered body, action zone and wheel input stay stable.
+
 ## September 30: editorial identity and clinical journey
 
 The latest page-specific brief governs this revision. Keep the shared frame, complete research copy, real figures and responsive page navigation. The closing Contact page is now intentionally blue, superseding the earlier all-white requirement. Preserve the accepted transfer portfolio.
