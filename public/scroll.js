@@ -71,11 +71,11 @@ function go(index, animate = true) {
       const value = name => parseFloat(tokens.getPropertyValue(`--page-${name}`));
       const duration = value('duration');
       const easing = tokens.getPropertyValue('--page-ease').trim();
-      const shift = Math.sign(current - old) * value('shift');
+      const shift = Math.sign(current - old) * target.clientHeight;
       outgoing.classList.add('is-leaving');
       const animations = [
-        outgoing.animate([outgoingState, {opacity:0, transform:`translateY(${-shift}px)`}], {duration:duration * .45, easing, fill:'both'}),
-        target.animate([incomingState || {opacity:0, transform:`translateY(${shift}px)`}, {opacity:1, transform:'translateY(0)'}], {duration, easing, fill:'both'})
+        outgoing.animate([outgoingState, {opacity:1, transform:`translateY(${-shift}px)`}], {duration, easing, fill:'both'}),
+        target.animate([incomingState || {opacity:1, transform:`translateY(${shift}px)`}, {opacity:1, transform:'translateY(0)'}], {duration, easing, fill:'both'})
       ];
       transitionAnimations = animations;
       Promise.all(animations.map(animation => animation.finished)).then(() => {

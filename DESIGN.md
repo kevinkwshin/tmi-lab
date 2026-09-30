@@ -151,6 +151,12 @@ Reuse the split composition, fine-rule lists and existing tokens. Add a research
 
 At normal mobile sizes, retain concise method and clinical significance, three portfolio summaries and three publication topics. Longer desktop context is supplementary, never the only explanation. Very short landscape/enlarged-text layouts retain the existing compact overview and explicit detail access. Core copy must not be clipped or reduced below existing body tokens. Verify all eleven pages in both languages at 375/768/1280 and short-screen layouts. Accepted limitation: full CV, full paper titles and source tables require Details in presentation mode; reading/no-JS/print remain complete.
 
+## September 30: shared frame and directional page motion
+
+Remove the standalone Research activity slide. Preserve the dated Scholar metrics and annual citation chart in People details, including the legacy #activity anchor. All non-welcome slides use one white frame, a common heading position/type scale and bottom action zone. Center the body within the remaining space; retain rich source content and responsive pagination. Welcome remains the identity composition.
+
+Replace the small fading offset with an opaque full-height directional page push lasting 620ms. Forward and backward navigation travel in opposite directions. Keep header and dock fixed, clip motion to the stage, preserve in-flight geometry on reversal, and cancel on navigation, resize, dialogs or reduced-motion changes. No animation input lock, new dependency, blur or decorative looping effects. Verify mobile/desktop bounds, interruption, reduced motion and existing wheel behavior.
+
 ## Full-content presentation — September 29
 
 ### September 30 refinement

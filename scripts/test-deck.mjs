@@ -1,10 +1,15 @@
 import assert from 'node:assert/strict';
+import {mkdir, writeFile} from 'node:fs/promises';
+import path from 'node:path';
 import {publications} from '../src/publications.mjs';
 import {content} from '../src/content.mjs';
 import {scholarProfile} from '../src/scholar.mjs';
 const {chromium} = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const browser = await chromium.launch({headless:true, executablePath:process.env.BROWSER_PATH, args:['--no-proxy-server']});
 const base = process.env.TEST_URL || 'http://127.0.0.1:4173/dist/';
+const evidence = process.env.EVIDENCE_DIR || '.omo/evidence/shared-slide-frame';
+await mkdir(evidence, {recursive:true});
+const frames = [];
 try {
   for (const language of ['ko', 'en']) {
     const page = await browser.newPage({viewport:{width:1280,height:800}, reducedMotion:'reduce'});
@@ -14,33 +19,54 @@ try {
     await page.waitForFunction(() => document.querySelector('.deck-page'));
     const coverage = await page.evaluate(() => {
       const text = [...document.querySelectorAll('.slide-overview')].map(e => e.textContent.replace(/\s+/g, ' ').trim()).join(' ');
-      const fields = '.research-body,.research-brief dd,.study-intro p,.transfer > p,.patent h3,.profile-scholar p,.scholar-trend figcaption';
+      const fields = '.research-body,.research-brief dd,.study-intro p,.transfer > p,.patent h3';
       return [...document.querySelectorAll(`.slide-detail :is(${fields})`)].map(e => e.textContent.replace(/\s+/g, ' ').trim()).filter(value => !text.includes(value));
     });
     assert.deepEqual(coverage, [], 'The deck must retain the reading content');
-    assert.equal(await page.locator('[data-deck-continuation="people"],[data-deck-continuation="activity"]').count(), 0);
+    assert.equal(await page.locator('[data-deck-continuation="people"],main > #activity').count(), 0);
     assert.deepEqual(await page.locator('#people .slide-detail .career-columns li').allTextContents(), [...content[language].people.education,...content[language].people.career]);
     assert.equal(await page.locator('#people .profile-study').count(), 0);
     assert.deepEqual(await page.locator('.related-studies .profile-study h3').allTextContents(), scholarProfile.studies.map(s => s[language].title));
-    assert.equal(await page.locator('#activity .slide-overview .citation-bars li').count(), 7);
-    const assertCentered = async () => {
+    assert.equal(await page.locator('#people .slide-detail .citation-bars li').count(), 7);
+    const assertFrame = async () => {
       const geometry = await page.evaluate(() => {
         const frame = document.querySelector('.is-current .deck-page');
         if (!frame) return null;
         const bounds = frame.getBoundingClientRect();
-        const top = frame.firstElementChild.getBoundingClientRect().top;
-        const bottom = frame.lastElementChild.getBoundingClientRect().bottom;
-        return {offset:Math.abs((top + bottom) / 2 - (bounds.top + bounds.bottom) / 2), overflow:top < bounds.top - 2 || bottom > bounds.bottom + 2};
+        const heading = frame.querySelector('.deck-heading').getBoundingClientRect();
+        const actions = frame.querySelector('.deck-actions').getBoundingClientRect();
+        const body = frame.querySelector('.deck-body');
+        const bodyBounds = body.getBoundingClientRect();
+        const content = [...body.children].map(element => element.getBoundingClientRect());
+        const top = Math.min(...content.map(rect => rect.top));
+        const bottom = Math.max(...content.map(rect => rect.bottom));
+        return {id:frame.closest('[data-slide]').id, width:innerWidth, height:innerHeight,
+          headingOffset:heading.top - bounds.top, actionOffset:bounds.bottom - actions.bottom,
+          headingSize:getComputedStyle(frame.querySelector('h2')).fontSize,
+          headingColor:getComputedStyle(frame.querySelector('h2')).color,
+          bodyCenterOffset:Math.abs((top + bottom) / 2 - (bodyBounds.top + bodyBounds.bottom) / 2),
+          bodyOverflow:top < bodyBounds.top - 2 || bottom > bodyBounds.bottom + 2 || body.scrollWidth > body.clientWidth + 2,
+          frameOverflow:actions.bottom > bounds.bottom + 2 || heading.bottom > bodyBounds.top + 2,
+          background:getComputedStyle(frame.closest('[data-slide]')).backgroundColor};
       });
       if (geometry) {
-        assert(geometry.offset < 2, 'Slide content must be vertically centered');
-        assert.equal(geometry.overflow, false, 'Centered content must fit the available height');
+        frames.push({language,...geometry});
+        await writeFile(path.join(evidence,'frames.json'), JSON.stringify(frames,null,2));
+        await page.screenshot({path:path.join(evidence,`${language}-${geometry.width}x${geometry.height}-${geometry.id}.png`)});
+        const label = `${language} ${geometry.width}x${geometry.height} ${geometry.id}`;
+        assert(Math.abs(geometry.headingOffset) < 2, `${label}: heading must start at the common top anchor`);
+        assert(Math.abs(geometry.actionOffset) < 2, `${label}: actions must end at the common bottom anchor`);
+        assert(geometry.bodyCenterOffset < 2, `${label}: body must be centered between heading and actions`);
+        assert.equal(geometry.bodyOverflow, false, `${label}: body must fit the available height and width`);
+        assert.equal(geometry.frameOverflow, false, `${label}: frame zones must not overlap`);
+        assert.equal(geometry.background, 'rgb(255, 255, 255)', `${label}: every slide has a white canvas`);
+        assert.equal(geometry.headingColor, 'rgb(16, 45, 80)', `${label}: every heading has the same navy contrast`);
       }
     };
     const desktopIds = await page.locator('main > [data-slide]').evaluateAll(es => es.map(e => e.id));
     for (const id of desktopIds) {
       await page.evaluate(id => navigateTo(document.getElementById(id), false), id);
-      await assertCentered();
+      await assertFrame();
     }
     assert.deepEqual(await page.locator('.slide-detail .citation-bars li').evaluateAll(es => es.map(e => e.getAttribute('aria-label').match(/\d+/g).map(Number))), [[2020,34],[2021,86],[2022,128],[2023,171],[2024,201],[2025,274],[2026,175]]);
     assert.equal(await page.locator('[data-deck-continuation="publications"]').count(), 0);
@@ -75,12 +101,21 @@ try {
     const ids = await page.locator('main > [data-slide]').evaluateAll(es => es.map(e => e.id));
     assert.equal(ids.filter(id => id.startsWith('publications')).length, 1);
     assert.equal(ids.filter(id => id.startsWith('people')).length, 1);
-    assert.equal(ids.filter(id => id.startsWith('activity')).length, 1);
+    assert.equal(ids.filter(id => id.startsWith('activity')).length, 0);
     for (const id of ids) {
       await page.evaluate(id => navigateTo(document.getElementById(id), false), id);
       assert.equal(await page.evaluate(() => scrollY), 0);
       assert.equal(await page.locator('main > [data-slide]:visible').count(), 1);
-      await assertCentered();
+      await assertFrame();
+    }
+    for (const viewport of [{width:1440,height:900},{width:768,height:1024},{width:1280,height:640},{width:320,height:568},{width:375,height:480}]) {
+      await page.setViewportSize(viewport);
+      await page.waitForTimeout(250);
+      const resizedIds = await page.locator('main > [data-slide]').evaluateAll(es => es.map(e => e.id));
+      for (const id of resizedIds) {
+        await page.evaluate(id => navigateTo(document.getElementById(id), false), id);
+        await assertFrame();
+      }
     }
     assert.deepEqual(errors, []);
     await page.close();

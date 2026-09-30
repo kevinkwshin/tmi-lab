@@ -51,14 +51,55 @@ function deckContent(section) {
   }
 }
 
+function deckFrame(source, summary, pageIndex = 1) {
+  const frame = document.createElement('div');
+  frame.className = `deck-page deck-${source.id}`;
+  const heading = document.createElement('header');
+  heading.className = 'deck-heading';
+  const title = summary.querySelector('h1,h2').cloneNode(true);
+  heading.append(title);
+  const question = source.querySelector('.research-question');
+  if (question) heading.append(deckClone(question));
+  if (pageIndex > 1) {
+    const continued = document.createElement('span');
+    continued.className = 'meta';
+    continued.textContent = `${deckKo ? '계속' : 'Continued'} · ${pageIndex}`;
+    title.append(continued);
+  }
+  const body = document.createElement('div');
+  body.className = 'deck-body';
+  const actions = summary.querySelector('.page-actions').cloneNode(true);
+  actions.className = 'deck-actions';
+  frame.append(heading, body, actions);
+  return frame;
+}
+
+function deckSummary(source, summary, compact) {
+  const frame = deckFrame(source, summary);
+  frame.classList.add('deck-curated');
+  if (compact) frame.classList.add('deck-compact');
+  const composition = summary.querySelector('.page-composition').cloneNode(true);
+  composition.className = 'deck-summary';
+  const copy = composition.querySelector('.page-copy');
+  copy.querySelector('h1,h2').remove();
+  copy.querySelector('.page-eyebrow')?.remove();
+  composition.querySelector('.page-actions').remove();
+  frame.querySelector('.deck-body').append(composition);
+  source.querySelector('.slide-overview').replaceChildren(frame);
+}
+
 function buildDeck() {
   for (const page of document.querySelectorAll('[data-deck-continuation]')) page.remove();
   const compact = innerHeight < 560 || (innerWidth < 360 && innerHeight < 640);
   for (const source of deckSources) {
     source.querySelector('.slide-overview').replaceWith(deckSummaries.get(source.id).cloneNode(true));
     source.dataset.deckSource = source.id;
-    if (compact || ['welcome', 'contact', 'publications', 'people', 'activity'].includes(source.id)) continue;
+    if (source.id === 'welcome') continue;
     const summary = deckSummaries.get(source.id);
+    if (compact || ['contact', 'publications', 'people'].includes(source.id)) {
+      deckSummary(source, summary, compact);
+      continue;
+    }
     const pending = deckContent(source);
     let section = source;
     let pageIndex = 0;
@@ -78,26 +119,8 @@ function buildDeck() {
       section.dataset.deckSource = source.id;
       const overview = document.createElement('div');
       overview.className = 'slide-overview';
-      const frame = document.createElement('div');
-      frame.className = `deck-page deck-${source.id}`;
-      const heading = document.createElement('header');
-      heading.className = 'deck-heading';
-      const title = summary.querySelector('h1,h2').cloneNode(true);
-      if (source.id === 'people') title.textContent = deckKo ? '구성원' : 'People';
-      heading.append(title);
-      const question = source.querySelector('.research-question');
-      if (question) heading.append(deckClone(question));
-      if (pageIndex > 1) {
-        const continued = document.createElement('span');
-        continued.className = 'meta';
-        continued.textContent = `${deckKo ? '계속' : 'Continued'} · ${pageIndex}`;
-        title.append(continued);
-      }
-      body = document.createElement('div');
-      body.className = 'deck-body';
-      const actions = summary.querySelector('.page-actions').cloneNode(true);
-      actions.className = 'deck-actions';
-      frame.append(heading, body, actions);
+      const frame = deckFrame(source, summary, pageIndex);
+      body = frame.querySelector('.deck-body');
       overview.append(frame);
       if (pageIndex === 1) source.querySelector('.slide-overview').replaceWith(overview);
       else section.append(overview);

@@ -47,10 +47,10 @@ try {
     assert.equal(forward.leaving[0].id, before.current);
     assert.equal(forward.leaving[0].inert, true);
     assert.equal(forward.leaving[0].display, 'block');
-    assert(forward.leaving[0].opacity > 0 && forward.leaving[0].opacity < 1);
+    assert.equal(forward.leaving[0].opacity, 1, 'Opaque panels avoid overlapping faded text');
     assert(forward.leaving[0].y < 0);
-    assert(forward.incoming.opacity > 0 && forward.incoming.opacity < 1);
-    assert(forward.incoming.y > 0);
+    assert.equal(forward.incoming.opacity, 1);
+    assert(forward.incoming.y > viewport.height * .2, 'Page travel must remain clearly visible at 110ms');
     assert.equal(forward.incoming.inert, false);
     assert.equal(forward.visible, 2);
     assert.equal(forward.animations, 2);
@@ -71,11 +71,11 @@ try {
     await pauseAt(110);
     await capture('reversal-mid');
     await page.evaluate(() => document.getAnimations().forEach(animation => animation.play()));
-    await page.waitForTimeout(550);
+    await page.waitForTimeout(700);
     await clean();
     await capture('reversal-settled');
     await page.keyboard.press('PageDown');
-    await page.waitForTimeout(550);
+    await page.waitForTimeout(700);
     await clean();
     await capture('forward-settled');
     await page.keyboard.press('PageUp');
@@ -89,7 +89,7 @@ try {
     assert.equal(interrupted.leaving.length, 1, 'Rapid navigation retains only the latest outgoing slide');
     assert.equal(interrupted.visible, 2);
     assert.equal(interrupted.animations, 2);
-    await page.waitForTimeout(550);
+    await page.waitForTimeout(700);
     await clean();
     const wheel = await page.evaluate(() => {
       const previous = current;
