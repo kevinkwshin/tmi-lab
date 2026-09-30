@@ -13,7 +13,7 @@ let rendered = -1;
 let positionFrame = 0;
 let reading = false;
 let active = false;
-let entrance = [];
+let transitionAnimations = [];
 let lastWheel = 0;
 let lastDelta = 0;
 let wheelTotal = 0;
@@ -40,16 +40,25 @@ function update() {
     else link.removeAttribute('aria-current');
   }
 }
-function cancelEntrance() {
-  for (const animation of entrance) animation.cancel();
-  entrance = [];
+function cancelTransition() {
+  for (const animation of transitionAnimations) animation.cancel();
+  transitionAnimations = [];
+  for (const slide of slides) slide.classList.remove('is-leaving');
 }
 function go(index, animate = true) {
-  cancelEntrance();
   const old = current;
   const transferFocus = active && slides[old].contains(document.activeElement);
   current = Math.max(0, Math.min(slides.length - 1, index));
   const target = slides[current];
+  const outgoing = slides[old];
+  const transitioning = active && animate && !motion.matches && old !== current;
+  const snapshot = slide => {
+    const style = getComputedStyle(slide);
+    return {opacity:style.opacity, transform:style.transform};
+  };
+  const outgoingState = transitioning ? snapshot(outgoing) : null;
+  const incomingState = transitioning && target.classList.contains('is-leaving') ? snapshot(target) : null;
+  cancelTransition();
   for (const slide of slides) {
     slide.classList.toggle('is-current', slide === target);
     slide.inert = active && slide !== target;
@@ -57,27 +66,21 @@ function go(index, animate = true) {
   history.replaceState(null, '', `#${target.id}`);
   if (active) {
     scrollTo({top:0, behavior:'instant'});
-    if (animate && !motion.matches && old !== current) {
-      const overview = target.querySelector('.slide-overview');
+    if (transitioning) {
       const tokens = getComputedStyle(document.documentElement);
       const value = name => parseFloat(tokens.getPropertyValue(`--page-${name}`));
       const duration = value('duration');
       const easing = tokens.getPropertyValue('--page-ease').trim();
-      const direction = Math.sign(current - old);
-      const reveal = (element, shift, scale, delay = 0) => element.animate([
-        {opacity:0, transform:`translateY(${direction * shift}px) scale(${scale})`},
-        {opacity:1, transform:'translateY(0) scale(1)'}
-      ], {duration:duration - delay, delay, easing, fill:'backwards'});
-      const frame = overview.querySelector('.deck-page,.page-composition');
-      [...frame.children].forEach((element, index) => {
-        entrance.push(reveal(element, value('shift') * .45, 1, Math.min(index * 45, 90)));
-      });
-      for (const image of overview.querySelectorAll('figure img')) {
-        entrance.push(image.animate([
-          {transform:'scale(.97)', opacity:.5},
-          {transform:'scale(1)', opacity:1}
-        ], {duration, easing}));
-      }
+      const shift = Math.sign(current - old) * value('shift');
+      outgoing.classList.add('is-leaving');
+      const animations = [
+        outgoing.animate([outgoingState, {opacity:0, transform:`translateY(${-shift}px)`}], {duration:duration * .45, easing, fill:'both'}),
+        target.animate([incomingState || {opacity:0, transform:`translateY(${shift}px)`}, {opacity:1, transform:'translateY(0)'}], {duration, easing, fill:'both'})
+      ];
+      transitionAnimations = animations;
+      Promise.all(animations.map(animation => animation.finished)).then(() => {
+        if (transitionAnimations === animations) cancelTransition();
+      }, () => {});
     }
   } else scrollTo({top:topOf(target), behavior:'instant'});
   if (transferFocus && old !== current) {
@@ -95,7 +98,7 @@ function closeReading() {
 }
 dialog.addEventListener('close', closeReading);
 function openReading(content, title, returnTarget) {
-  cancelEntrance();
+  cancelTransition();
   contentHome = content.parentElement;
   trigger = returnTarget;
   dialog.querySelector('#reading-title').textContent = title;
@@ -112,7 +115,7 @@ function configure(align = true) {
   const wasActive = active;
   const sourceId = slides[current].dataset.deckSource || slides[current].id;
   const blockId = slides[current].querySelector('[data-deck-block]')?.dataset.deckBlock;
-  cancelEntrance();
+  cancelTransition();
   document.documentElement.style.setProperty('--header-height', `${header.offsetHeight}px`);
   active = !reading;
   if (dialog.open) { dialog.close(); closeReading(); }
@@ -222,8 +225,8 @@ addEventListener('scroll', () => {
   positionFrame = requestAnimationFrame(() => { positionFrame = 0; update(); });
 }, {passive:true});
 let resizeTimer;
-addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => configure(false), 150); });
-motion.addEventListener('change', cancelEntrance);
+addEventListener('resize', () => { cancelTransition(); clearTimeout(resizeTimer); resizeTimer = setTimeout(() => configure(false), 150); });
+motion.addEventListener('change', cancelTransition);
 const initialHash = location.hash.slice(1);
 const initial = document.getElementById(initialHash) || document.getElementById(initialHash.split('--')[0]);
 const initialSlide = initial?.closest('[data-slide]');

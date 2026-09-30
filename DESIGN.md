@@ -155,6 +155,16 @@ At normal mobile sizes, retain concise method and clinical significance, three p
 
 ### September 30 refinement
 
+### Review implementation: purposeful pages and connected transitions
+
+People is one curated overview with identity, education, academic service and current project; the complete CV remains in its explicitly labelled detail dialog. A separate Research activity page contains the dated Scholar metrics and annual chart together, never mixed with an arbitrary paper card. Clinical examples belong to the corresponding research detail, not member continuation pages. Both overview pages have stable semantic identities at every viewport; they do not participate in automatic pagination. At constrained heights, concise summaries link to full source content without inner scrolling.
+
+NeuroCAD leads with clinical purpose, product evidence and a single official product CTA. Source/date attribution lives in an explicitly opened evidence panel, keeping the 100+ adoption claim traceable without an internal-note paragraph in the main composition. Related research remains a secondary link. Maintain white/navy/blue, existing system type and vertically centered content.
+
+Page navigation keeps the header and controls still while outgoing and incoming content overlap in one directional transition. Outgoing content is inert and noninteractive; cancellation removes it immediately on a new input, resize, dialog, reading mode or reduced-motion change. Animate only transforms and opacity, for roughly half a second, without delaying input. Verify source completeness, semantic page counts, mobile fit, focus and interruption on the actual browser.
+
+Motion uses 500ms, cubic-bezier(.22,1,.36,1), 56px desktop / 36px mobile travel. The outgoing fade completes in 45% of the incoming duration to avoid two readable text layers lingering together. Reversals start from computed in-flight geometry. Existing header, dock, palette and typography remain stable anchors.
+
 Publications becomes one curated page with three research topics, journal/year and DOI links; its searchable complete bibliography remains in the detail dialog and continuous document. NeuroCAD's primary action opens Coreline Soft's official product page directly, replacing a redundant detail action. Preserve the white, navy and blue palette, system typography and vertically centered compositions. Motion follows navigation intent: a short coordinated heading/content/action entrance and a restrained image settle, with cancellation on every navigation and no input lock. Reduced-motion users receive immediate changes. No new animation dependency or ornamental effects.
 
 The user prefers the amount of information in continuous reading. Presentation now takes its content directly from that same document: full research description, methods, significance, study notes and all scientific figures; full transfer descriptions; full publication records and medical patents; education, career and current project. Intro and contact retain their established compositions. The duplicate GreyNet case remains an optional enlarged case study rather than repeating its explanation in the deck.

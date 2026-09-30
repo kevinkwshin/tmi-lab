@@ -46,22 +46,6 @@ function deckContent(section) {
     }
     case 'patents':
       return all('.patent').map(element => deckBlock(element));
-    case 'people': {
-      const research = [deckBlock(select('.profile-scholar')), deckBlock(select('.scholar-trend')), ...all('.profile-study').map(element => deckBlock(element))];
-      const education = select('.career-columns > div:first-child');
-      const career = select('.career-columns > div:last-child');
-      if (narrow) {
-        const entries = [...career.querySelectorAll('li')];
-        const groups = [];
-        for (let i = 0; i < entries.length; i += 3) {
-          const list = document.createElement('ul');
-          list.append(...entries.slice(i, i + 3).map(deckClone));
-          groups.push(deckBlock(career.querySelector('h4'), list));
-        }
-        return [deckBlock(select('.profile-summary')), deckBlock(education), deckBlock(select('.profile-project')), ...groups, deckBlock(select('.profile-history > .text-link')), ...research];
-      }
-      return [deckBlock(select('.profile-summary')), deckBlock(education, select('.profile-project')), deckBlock(career, select('.profile-history > .text-link')), ...research];
-    }
     default:
       return [];
   }
@@ -73,7 +57,7 @@ function buildDeck() {
   for (const source of deckSources) {
     source.querySelector('.slide-overview').replaceWith(deckSummaries.get(source.id).cloneNode(true));
     source.dataset.deckSource = source.id;
-    if (compact || ['welcome', 'contact', 'publications'].includes(source.id)) continue;
+    if (compact || ['welcome', 'contact', 'publications', 'people', 'activity'].includes(source.id)) continue;
     const summary = deckSummaries.get(source.id);
     const pending = deckContent(source);
     let section = source;

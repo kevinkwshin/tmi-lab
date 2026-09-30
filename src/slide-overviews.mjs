@@ -2,6 +2,7 @@ import { content } from './content.mjs';
 import { researchEvidence } from './research.mjs';
 import { publications } from './publications.mjs';
 import { patents } from './patents.mjs';
+import { scholarView } from './scholar-view.mjs';
 
 // Full source material stays in the adjacent detail view and reading document.
 export function slideOverviews(lang, asset, escape) {
@@ -20,8 +21,8 @@ export function slideOverviews(lang, asset, escape) {
     `<a class="action" href="#translation">${c.hero.primary} <span aria-hidden="true">↓</span></a><a class="text-link" href="#research">${c.hero.secondary}</a>`, 'page-welcome', paragraph(text('임상 워크플로우 개선 · 디지털 트윈 · 정밀의료', 'Clinical workflow · Digital twins · Precision medicine')));
   pages.translation = layout('translation','Coreline Soft · 2024','AVIEW NeuroCAD',
     text('뇌출혈 환자의 골든타임을 위한 영상 기반 Triage.', 'Image-based triage for time-critical hemorrhage care.'),
-    `${image('neurocad',text('AVIEW NeuroCAD 뇌 CT 분석 화면','AVIEW NeuroCAD brain CT analysis'), 'Coreline Soft · AVIEW NeuroCAD')}<div class="page-proof"><strong>100+</strong><div>${text('응급실에서 사용','emergency departments')}<small>${text('식약처 혁신의료기기 지정 · 도입 규모: 연구실 제공, 2026.09','MFDS Innovative Medical Device · Adoption: lab-provided, Sep 2026')}</small></div></div>`,
-    `<a class="action" href="https://corelinesoft.com/en-gb/aview/brain/neurocad/" target="_blank" rel="noopener noreferrer">${text('NeuroCAD 공식 제품 소개','Explore NeuroCAD at Coreline Soft')} <span aria-hidden="true">↗</span></a>`,
+    `${image('neurocad',text('AVIEW NeuroCAD 뇌 CT 분석 화면','AVIEW NeuroCAD brain CT analysis'), 'Coreline Soft · AVIEW NeuroCAD')}<div class="page-proof"><strong>100+</strong><div>${text('응급실에서 사용','emergency departments')}<small>${text('식약처 혁신의료기기 지정','MFDS Innovative Medical Device')}</small></div></div>`,
+    `<a class="action" href="https://corelinesoft.com/en-gb/aview/brain/neurocad/" target="_blank" rel="noopener noreferrer">${text('NeuroCAD 공식 제품 소개','Explore NeuroCAD at Coreline Soft')} <span aria-hidden="true">↗</span></a><button class="text-link evidence-button" data-read="translation-sources" data-title="${text('근거 및 출처','Evidence & sources')}">${text('근거 및 출처','Evidence & sources')}</button>`,
     'page-product', paragraph(c.translation.items.find(t=>t.name==='AVIEW NeuroCAD').body));
   pages.transfers = layout('transfers',text('기술이전','Technology transfer'),text('연구가 이어진 기술들','A portfolio of translation'),text('촬영 품질부터 정량적 평가까지, 진료 과정의 구체적인 문제를 해결합니다.','From image quality to quantitative assessment: AI for specific steps in care.'),
     `<div class="page-list">${c.translation.items.filter(t=>t.name!=='AVIEW NeuroCAD').map(t=>`<article><p class="meta">${t.year} · ${escape(t.recipient)}</p><h3>${escape(t.name)}</h3><p>${escape(t.summary)}</p></article>`).join('')}</div>`,null,'page-listing');
@@ -54,5 +55,6 @@ export function slideOverviews(lang, asset, escape) {
   pages.contact=layout('contact','Contact',text('연구 협력 및 문의','Research collaboration'),text('임상 질문을 함께 정의하고, 데이터 분석에서 검증까지 연구를 연결합니다.','Define a clinical question together, then connect data analysis with validation.'),
     `<div class="page-contact"><p class="page-contact-topics">${text('의료영상 · 생체신호 · 멀티모달 AI 공동연구','Research in medical imaging, biosignals and multimodal AI')}</p><a href="mailto:kevinkwshin@inha.ac.kr">kevinkwshin@inha.ac.kr</a><p>${escape(c.contact.location)}</p><p class="meta">${escape(c.footer.affiliation)}</p></div>`,
     `<p class="page-copyright">© 2026 Translational Medical Intelligence Lab</p>`,'page-contact-layout');
+  pages.activity = `<div class="deck-page activity-page"><header class="deck-heading"><h2>${text('연구 활동','Research activity')}</h2><p class="meta">${escape(c.people.name)} · Google Scholar</p></header><div class="activity-grid">${scholarView(lang,escape)}</div><div class="deck-actions"><a class="text-link" href="https://scholar.google.com/citations?user=prJCNYoAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">${text('Google Scholar에서 연구 보기','Explore research on Google Scholar')} <span aria-hidden="true">↗</span></a></div></div>`;
   return pages;
 }

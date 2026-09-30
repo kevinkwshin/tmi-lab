@@ -1,0 +1,7 @@
+import {scholarProfile} from './scholar.mjs';
+
+export function scholarView(lang, escape) {
+  const ko = lang === 'ko';
+  return `<section class="profile-scholar"><h3>${ko ? '연구 프로필' : 'Research profile'}</h3><p lang="en">${scholarProfile.interests.map(escape).join(' · ')}</p><dl class="scholar-metrics"><div><dt>${ko ? '총 인용' : 'Citations'}</dt><dd>${scholarProfile.citations.toLocaleString('en-US')}</dd></div><div><dt>h-index</dt><dd>${scholarProfile.hIndex}</dd></div><div><dt>i10-index</dt><dd>${scholarProfile.i10Index}</dd></div></dl><p class="meta"><a href="${escape(scholarProfile.url)}" target="_blank" rel="noopener noreferrer">Google Scholar</a> · ${ko ? '전체 기간 · 확인일' : 'All time · Checked'} <time datetime="${scholarProfile.checked}">${scholarProfile.checked}</time></p></section>
+<figure class="scholar-trend"><h3>${ko ? '연도별 인용 추세' : 'Citations by year'}</h3><ol class="citation-bars">${scholarProfile.trend.map(point => `<li aria-label="${point.year}: ${point.count} ${ko ? '회 인용' : 'citations'}"><span class="citation-column"><span>${point.count}</span><span class="citation-bar" style="--bar-size:${point.count / 300 * 85}%" aria-hidden="true"></span></span><time datetime="${point.year}">${point.year}</time></li>`).join('')}</ol><figcaption><a href="${escape(scholarProfile.url)}" target="_blank" rel="noopener noreferrer">Google Scholar</a> · ${ko ? '2026년: 9월 29일까지 집계' : '2026: through September 29'}</figcaption></figure>`;
+}
