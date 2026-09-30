@@ -36,8 +36,9 @@ export function researchStories(lang, asset, escape) {
   stories.transfers = variants(sheet(transfers.map(transfer).join(''),'story-transfer-grid'),transfers.map(t=>sheet(transfer(t),'story-transfer-single')).join(''),transfers.map(t=>sheet(transfer(t),'story-transfer-feature')).join(''));
 
   const missionStages = `<ol class="mission-process">${c.approach.steps.map((step,i)=>`<li><span class="mission-index" aria-hidden="true">${i+1}</span><div><h3>${escape(step.title)}</h3>${p(step.body)}</div></li>`).join('')}</ol>`;
-  const missionPurpose = `<div class="mission-purpose"><p class="mission-premise">${text('좋은 예측을 넘어, 진료의 변화로.','From a useful prediction to a change in care.')}</p>${p(c.intro.body)}</div>`;
-  stories.mission = variants(sheet(`${missionPurpose}${missionStages}`,'story-mission'),sheet(missionPurpose,'story-mobile-context')+sheet(missionStages,'story-mobile-context'));
+  const missionImage = figure('mission-clinical-research',text('환자의 임상 질문에서 출발해 의료진과 연구자가 데이터를 함께 해석하고 진료 적용을 평가하는 연구 순환 개념도','Concept: a clinical question leads to collaboration between clinicians and researchers, followed by evaluation in care'),text('임상 질문에서 연구와 검증으로 · AI 생성 개념도','Clinical questions, research and evaluation · AI-generated concept'),'mission-illustration');
+  const missionPurpose = `<div class="mission-purpose"><p class="mission-premise">${text('좋은 예측을 넘어, 진료의 변화로.','From a useful prediction to a change in care.')}</p>${missionImage}${p(c.intro.body)}</div>`;
+  stories.mission = variants(sheet(`${missionPurpose}${missionStages}`,'story-mission'),sheet(missionPurpose,'story-mobile-context story-mission-opening')+sheet(missionStages,'story-mobile-context'));
 
   const routes = ko ? [
     [['데이터','영상·판독문'],['분석','품질·오류 평가'],['목표','적시에 임상 검토']],

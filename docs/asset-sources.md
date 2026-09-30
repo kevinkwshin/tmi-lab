@@ -46,3 +46,7 @@ Grant/application labels describe the linked document type; they do not certify 
 | `ecg-dcam-architecture.webp` | Slide 30, image37.jpeg | DCAM denoising and contrast-attention architecture for ECG analysis, linked as a technical detail. |
 
 These assets preserve the original composition and annotations with lossless WebP encoding. The extracted files were checked against original PPTX media bytes and decoded pixels. Images containing patient faces or case metadata remain private. Surgical outcome prediction remains a research direction, distinct from the illustrated growth-prediction results. Public captions describe the research and figure content; presentation slide references are retained in this source ledger. Original-size figures are accessible from the research section.
+
+## Mission concept illustration (2026-09-30)
+
+`mission-clinical-research.png` was generated with the built-in image generation tool for the fourth-page illustration request. It depicts clinical questions, research collaboration and evaluation in care, and is labelled as an AI-generated concept in both languages. See [the full generation prompt and usage record](mission-illustration.md). It is separate from the original scientific figures and contains no patient data or measured performance claims.

@@ -19,7 +19,7 @@ export function renderPage(lang, siteUrl, languageScript, stylesheet = 'styles.c
   const ko = lang === 'ko';
   const root = ko ? './' : '../';
   const pageUrl = new URL(ko ? './' : 'en/', siteUrl).href;
-  const illustrations = new Set(['neurocad-triage-journey','research-workflow-concept','research-twin-concept','research-precision-concept']);
+  const illustrations = new Set(['neurocad-triage-journey','research-workflow-concept','research-twin-concept','research-precision-concept','mission-clinical-research']);
   const asset = (name) => `${root}assets/${name}.${illustrations.has(name) ? 'png' : 'webp'}`;
   const overviews = slideOverviews(lang, asset, escape);
   const overview = id => `<div class="slide-overview">${overviews[id]}</div>`;
@@ -70,7 +70,7 @@ ${heading(c.translation)}
 </div></div></section>
 
 <section class="section container mission-story" id="mission" data-slide="${ko ? '연구 철학' : 'Our mission'}">${overview('mission')}<div class="slide-detail reading-content" id="detail-mission" data-detail="mission">
-<div class="mission-sticky"><p class="eyebrow">${c.intro.label}</p><h2>${lines(c.intro.title)}</h2><p class="mission-intro">${escape(c.intro.body)}</p></div>
+<div class="mission-sticky"><p class="eyebrow">${c.intro.label}</p><h2>${lines(c.intro.title)}</h2><p class="mission-intro">${escape(c.intro.body)}</p><figure class="evidence-figure mission-illustration mission-reading-illustration"><a class="evidence-media" data-zoom href="${asset('mission-clinical-research')}" aria-label="${ko ? '연구 순환 개념도 확대' : 'Enlarge the clinical research concept'}"><img src="${asset('mission-clinical-research')}" width="1536" height="1024" alt="${ko ? '임상 질문, 의료진과 연구자의 협업, 진료 적용 평가를 연결하는 개념도' : 'Concept connecting clinical questions, research collaboration and evaluation in care'}" loading="lazy"></a><figcaption>${ko ? '임상 질문에서 연구와 검증으로 · AI 생성 개념도' : 'Clinical questions, research and evaluation · AI-generated concept'}</figcaption></figure></div>
 <div class="mission-chapters">${c.approach.steps.map((s,i)=>`<article class="mission-chapter" id="stage-${i+1}" data-chapter><span class="chapter-number" aria-hidden="true">0${i+1}</span><p class="eyebrow" lang="en">${['Clinical questions','Data & methods','Clinical evaluation'][i]}</p><h3>${escape(s.title)}</h3><p>${escape(s.body)}</p></article>`).join('')}</div>
 </div></section>
 ${c.research.items.map((r,i)=>{ const evidence = researchEvidence[lang][i]; return `<section class="section research-section" id="${['research','research-imaging','research-signals'][i]}" data-slide="${ko ? ['임상 워크플로우','디지털 트윈','정밀의료'][i] : ['Clinical workflow','Digital twins','Precision medicine'][i]}" data-nav="research">${overview(['research','research-imaging','research-signals'][i])}<div class="slide-detail reading-content" id="detail-${['research','research-imaging','research-signals'][i]}" data-detail="${['research','research-imaging','research-signals'][i]}"><div class="container research-portfolio">

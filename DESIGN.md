@@ -1,5 +1,9 @@
 # TMI-lab design system
 
+## September 30: illustrate the mission
+
+Add an original white-and-blue isometric illustration to the fourth desktop page, Our mission. It connects a patient's clinical question, collaboration between researchers and clinicians, and evaluation in care, with a restrained return path for clinical feedback. Pair the illustration with the existing premise and full introductory text, beside the three numbered research stages. Preserve all stage descriptions. Portrait tablets pair the image with its explanatory text above the stages; narrow screens keep the illustrated opening and the complete stages on the existing two pages. Reuse the image-reveal, enlargement and reduced-motion behavior. Include the same image in the reading/detail view and label it as an AI-generated concept in both languages. Use existing paper, sky, navy and blue tokens; no new input logic, fonts or dependencies.
+
 ## September 30: complete opening phrases
 
 The current identity statement reads “From Too Much Information” above “to Translational Medical Intelligence.” Keep each phrase on one line on desktop, using a wider text column and a smaller original logo rather than compressed typography. Both phrases use the same size and weight; only the six T/M/I initials are clinical blue, and the remaining letters stay navy. Separate the phrases by 8px. Portrait tablets place the full-width title above the centered logo. Mobile wraps naturally at word boundaries without forced internal breaks. Preserve the two phrase-reveal wrappers, reduced-motion behavior, complete content and wheel navigation.
