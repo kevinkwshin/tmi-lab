@@ -22,6 +22,17 @@ try {
         const scene = page.locator(`.is-current .deck-body [data-clinical-scene="${kind}"]`);
         assert.equal(await scene.count(),1,`${lang} ${width}x${height} ${kind} visible scene`);
         await scene.locator('img').evaluateAll(images => Promise.all(images.map(image => image.decode())));
+        if (kind === 'workflow') {
+          const scans = await scene.locator('.report-scan-frame').evaluateAll(frames => frames.map(frame => {
+            const image = frame.querySelector('img');
+            const bounds = frame.getBoundingClientRect();
+            return {loaded:image.complete && image.naturalWidth === 1774, square:Math.abs(bounds.width-bounds.height)<1, position:getComputedStyle(image).objectPosition};
+          }));
+          assert.deepEqual(scans,[{loaded:true,square:true,position:'0% 50%'},{loaded:true,square:true,position:'100% 50%'}],'Both exams show their own complete square CT view');
+          assert.match(await scene.innerText(),/10 mm/);
+          assert.match(await scene.innerText(),/16 mm/);
+          assert.match(await scene.locator('[role="group"]').getAttribute('aria-label'),/LLM/,'Explanation identifies report-text analysis');
+        }
         const bounds = await page.locator('.is-current .deck-body').evaluate(body => {
           const box = body.getBoundingClientRect();
           return {scrollX,scrollY,overflow:[...body.querySelectorAll('*')].filter(node => {
@@ -68,13 +79,17 @@ try {
         assert.equal(await animationCount(page),0,'Changing preference cancels an in-flight scene');
         await page.emulateMedia({reducedMotion:'no-preference'});
         await replay.click();
-        if(kind==='triage') {
-          await scene.locator('a[data-zoom]').click();
+        {
+          await scene.locator('a[data-zoom]').first().click();
           assert.equal(await animationCount(page),0,'Image dialog cancels scene');
+          await page.locator('.image-dialog img').evaluate(image => image.decode());
+          if (kind === 'workflow') assert.match(await page.locator('.image-dialog img').getAttribute('alt'),lang === 'ko' ? /합성/ : /Synthetic/,'Enlargement identifies illustrative scans');
           await page.keyboard.press('Escape');
           await page.waitForFunction(() => !document.querySelector('.image-dialog').open);
-          assert(await scene.locator('a[data-zoom]').evaluate(node => node === document.activeElement),'Zoom returns focus');
-        } else {
+          assert(await scene.locator('a[data-zoom]').first().evaluate(node => node === document.activeElement),'Zoom returns focus');
+        }
+        if (kind === 'workflow') {
+          await replay.click();
           await page.locator('.is-current [data-read]').first().click();
           assert.equal(await animationCount(page),0,'Details cancel scene');
           await page.keyboard.press('Escape');

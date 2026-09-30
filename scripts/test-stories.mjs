@@ -13,7 +13,7 @@ try {
   const page=await browser.newPage({viewport:{width:1280,height:800},reducedMotion:'reduce'});
   page.on('pageerror',e=>failures.push(String(e)));
   await page.goto(`${process.env.TEST_URL || 'http://127.0.0.1:4173/dist/'}${lang==='en'?'en/':''}?lang=${lang}`);
-  for(const [width,height] of [[1280,800],[1280,640],[1440,900],[768,1024],[900,700],[1024,768],[375,667],[320,568],[375,480]]) {
+  for(const [width,height] of [[1280,800],[1280,640],[1440,900],[768,1024],[900,700],[1024,768],[375,667],[320,640],[320,568],[375,480]]) {
    await page.setViewportSize({width,height});
    await page.waitForTimeout(500);
    const ids=await page.locator('main > [data-slide]').evaluateAll(es=>es.map(e=>e.id));

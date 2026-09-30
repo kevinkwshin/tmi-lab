@@ -1,5 +1,15 @@
 # TMI-lab design system
 
+## October 1: make longitudinal review visible
+
+Page five pairs prior and follow-up abdominal CT illustrations with readable sample report excerpts. The supplied study concerns longitudinal report-text error detection; the scans explain clinical context, not an image-analysis capability or actual patient outcome. Mark the board “CT 비교 예시 / Illustrative CT comparison”; accessible image descriptions and the source ledger identify synthetic imagery and invented example measurements. Preserve the original study-design figure and its caption.
+
+Reuse the clinical-scene lifecycle and tokens. Two exam panels share a scan viewport, a report measurement (10 mm / 16 mm), and an intentionally inconsistent “No change” conclusion that leads to clinician review. Registered rings connect the same illustrative liver focus across the two scans; they are explanatory annotations, not detection results. Show static complete information by default and reuse the finite prior/follow-up, correspondence, discrepancy and review sequence. Scans enlarge through the existing image dialog. No input behavior changes. Replace paper-fold ornament with the medical image as the focal point; existing scan, paper, blue and focus colors, type and spacing remain authoritative.
+
+The scan frame is square and contained, never stretched. Its preferred height is 144px on desktop, 112px on short desktop/portrait tablet and 104px on phones, with a 72px compact-phone floor. On wide screens the original-study thumbnail and route share a row beneath the comparison. Labels and excerpts remain live localized text. Below360px, retain both exams and report excerpts, use an icon-only replay with its accessible name, and omit the repeated review footer in the presentation only. The reading view uses 200px scans and complete text. Verify KO/EN, mobile, short screens, enlargement/focus, static/motion, no-JS and the full deck.
+
+The short-desktop story uses 88px scans and its existing method/clinical-route explanation in place of the repeated scene footer. Its original study evidence remains on the existing continuation page. This is the established viewport adaptation, not a new page split.
+
 ## September 30: a living identity and quieter illustration captions
 
 Latest user direction: remove the explanatory production captions beneath concept illustrations; make the opening more graphic without another picture; animate the existing logo characters. Keep original scientific figure captions and their source links. Concept alt descriptions still identify illustrations as concepts. Remove redundant concept captions from presentation and reading layouts, including the logo slogan below the already-lettered image. Scene replay remains a small right-aligned control, with its accessible name preserved.

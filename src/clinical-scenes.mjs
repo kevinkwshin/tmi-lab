@@ -16,17 +16,21 @@ export function clinicalScene(kind, lang, asset, escape) {
       <div class="scene-caption">${replay}</div>
     </figure>`;
   }
+  const scanAlt = text('합성 복부 CT 비교 예시. 왼쪽 이전 검사보다 오른쪽 추적 검사에서 같은 간 병변이 크게 보입니다. 실제 환자 영상이나 측정 결과가 아닙니다.','Synthetic abdominal CT comparison: the same liver focus appears larger in the right follow-up than in the left prior exam. These are not patient scans or measured results.');
   const report = (period, part, current) => `<div class="scene-report" data-scene-part="${part}">
-    <div class="report-heading"><svg width="18" height="22" viewBox="0 0 18 22" fill="none" stroke="currentColor" aria-hidden="true"><path d="M2 1h9l5 5v15H2z M11 1v6h5 M5 11h8m-8 4h8"/></svg><strong>${period}</strong></div>
-    <div class="report-row"><span>${text('소견','Finding')}</span><span class="report-value">${current ? text('추적 소견','Follow-up') : text('이전 소견','Recorded')}</span></div>
-    <div class="report-row report-match" data-scene-part="workflow-match"><span>${text('부위','Region')}</span><span class="report-value">${text('동일 부위','Matched')}</span><span class="report-correspondence" aria-hidden="true">${current ? '←' : '→'}</span></div>
-    <div class="report-row report-difference" data-scene-part="workflow-difference"><span>${text('비교','Change')}</span><span class="report-value">${current ? text('차이 확인','Review') : text('기준 소견','Baseline')}</span><span class="report-attention" aria-hidden="true">!</span></div>
+    <div class="report-heading"><strong>${period}</strong><span lang="en">CT</span></div>
+    <a class="report-scan" data-zoom href="${asset('workflow-ct-comparison')}" aria-label="${period} · ${text('비교 영상 확대','Enlarge comparison')}">
+      <span class="report-scan-frame${current ? ' report-scan-followup' : ''}"><img src="${asset('workflow-ct-comparison')}" width="1774" height="887" alt="${scanAlt}" loading="lazy"><svg viewBox="0 0 1000 1000" aria-hidden="true"><g data-scene-part="workflow-match"><circle cx="${current ? '306' : '309'}" cy="389" r="${current ? '48' : '37'}"/></g></svg></span>
+      <span class="report-scan-enlarge" aria-hidden="true">↗</span>
+    </a>
+    <div class="report-row report-match" data-scene-part="workflow-match"><span>${text('간 병변','Liver focus')}</span><strong class="report-measure" lang="en">${current ? '16' : '10'} mm</strong></div>
+    <div class="report-row${current ? ' report-difference' : ''}" ${current ? 'data-scene-part="workflow-difference"' : ''}><span>${text('판독문','Report')}</span><span>${current ? text('“변화 없음”','“No change”') : text('기준 검사','Baseline')}</span></div>
   </div>`;
   return `<figure class="evidence-figure clinical-scene research-illustration" data-clinical-scene="workflow">
-    <div class="scene-comparison" role="img" aria-label="${text('설명용 예시: 이전 검사와 추적 검사 판독문에서 대응하는 정보를 비교하고 확인할 차이를 의료진에게 제시합니다.','Illustrative example: compare corresponding information in prior and follow-up reports and surface a difference for clinician review.')}">
-      <div class="scene-reports" aria-hidden="true">${report(text('이전 검사','Prior exam'),'workflow-prior',false)}${report(text('추적 검사','Follow-up'),'workflow-current',true)}</div>
-      <div class="scene-review-note" data-scene-part="workflow-review" aria-hidden="true"><svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="5"/><path d="m12 12 5 5"/></svg><span>${text('차이를 찾아, 의료진의 확인으로','Surface differences for clinician review')}</span></div>
+    <div class="scene-caption scene-comparison-header"><p class="scene-example-label">${text('CT 비교 예시','Illustrative CT comparison')}</p>${replay}</div>
+    <div class="scene-comparison" role="group" aria-label="${text('설명용 CT와 가상의 판독문 예시: 10 mm에서 16 mm로 달라진 기록과 변화 없음이라는 서술의 불일치를 비교합니다. LLM의 분석 대상은 판독문입니다.','Illustrative CT and fictional report example: compare the recorded change from 10 mm to 16 mm with the contradictory no-change statement. The LLM analyzes report text.')}">
+      <div class="scene-reports">${report(text('이전 검사','Prior exam'),'workflow-prior',false)}${report(text('추적 검사','Follow-up'),'workflow-current',true)}</div>
+      <div class="scene-review-note" data-scene-part="workflow-review"><svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="8" cy="8" r="5"/><path d="m12 12 5 5"/></svg><span>${text('LLM 판독문 비교 → 불일치 확인 → 의료진 검토','LLM report comparison → Discrepancy → Clinical review')}</span></div>
     </div>
-    <div class="scene-caption">${replay}</div>
   </figure>`;
 }

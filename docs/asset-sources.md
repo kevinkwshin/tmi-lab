@@ -1,5 +1,9 @@
 # Content and image sources
 
+## Longitudinal CT comparison (2026-10-01)
+
+`workflow-ct-comparison.png` is a synthetic explanatory CT pair generated for the workflow research page, not patient data or measured results. The fictional report excerpts illustrate a discrepancy requiring clinician review. The original report-text study figure remains unchanged. See [generation prompt and usage boundaries](workflow-ct-illustration.md).
+
 Reviewed on 2026-09-15. Assets remain the property of their respective owners; no blanket asset license is granted by this repository.
 
 ## Images
