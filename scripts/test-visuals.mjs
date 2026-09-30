@@ -124,7 +124,7 @@ try {
       await concept.click();
       await page.waitForFunction(() => document.querySelector('.image-dialog').open);
       assert.equal(await dialog.locator('img').getAttribute('src'), await concept.getAttribute('href').then(href => new URL(href,page.url()).href));
-      assert.match(await dialog.locator('.image-dialog-caption').innerText(), /AI 생성|AI-generated/);
+      assert.equal(await dialog.locator('.image-dialog-caption').innerText(), await concept.locator('img').getAttribute('alt'), 'Uncaptioned concept has its full accessible explanation in the image viewer');
       await page.waitForTimeout(480);
       await capture(`${source}-concept`);
       await page.keyboard.press('Escape');

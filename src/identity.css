@@ -1,0 +1,39 @@
+:root { --identity-flow-duration:2400ms; --mascot-duration:3200ms; --mascot-lead:800ms; --mascot-dragon:#d6f0fb; --mascot-white:#fdfdfe; --mascot-ink:#102033; }
+.identity-flow { display:block; width:100%; max-width:600px; height:var(--s16); margin-top:var(--s6); overflow:visible; }
+.identity-inputs { fill:none; stroke:var(--blue); stroke-width:1; opacity:.28; }
+.identity-outputs { fill:none; stroke:var(--blue); stroke-width:2; transform-origin:280px 48px; }
+.identity-flow-pulse { fill:var(--blue); opacity:0; transform:translate(60px,48px); }
+.identity-pulse-halo { opacity:.14; }
+.identity-visual .page-logo { height:100%; }
+.brand-mark { position:relative; height:100%; min-height:0; }
+.identity-visual .brand-poster { display:block; width:100%; object-fit:contain; }
+.brand-motion { position:absolute; inset:0; width:100%; height:100%; opacity:0; pointer-events:none; }
+.brand-mark[data-mascot-active] .brand-poster { opacity:0; }
+.brand-mark[data-mascot-active] .brand-motion { opacity:1; }
+.mascot-goose { transform-origin:978px 450px; }
+.mascot-blink { opacity:0; }
+.mascot-blink-dragon ellipse { fill:var(--mascot-dragon); }
+.mascot-blink-goose ellipse { fill:var(--mascot-white); }
+.mascot-blink path { fill:none; stroke:var(--mascot-ink); stroke-width:3.2; stroke-linecap:round; }
+.brand-replay { position:absolute; inset:0; width:100%; height:100%; border:0; padding:0; color:var(--blue); background:transparent; border-radius:var(--radius); cursor:pointer; }
+.brand-replay svg { position:absolute; bottom:var(--s2); right:var(--s2); opacity:.65; }
+.brand-replay:hover svg,.brand-replay:focus-visible svg { opacity:1; }
+.brand-replay:active { opacity:1; }
+.brand-replay[hidden] { display:none; }
+@media(max-width:760px) {
+ .identity-flow { height:var(--s8); margin-top:var(--s3); }
+}
+@media(max-width:359px) {
+ .identity-opening .page-actions { gap:var(--s2); }
+ .identity-opening .page-actions .action { padding-inline:var(--s3); gap:var(--s2); }
+ .identity-flow { height:var(--s6); margin-top:var(--s2); }
+}
+@media(max-height:559px), (max-width:359px) and (max-height:639px) {
+ .identity-flow { display:none; }
+}
+@media(prefers-reduced-motion:reduce) {
+ .brand-replay { display:none; }
+ .brand-mark[data-mascot-active] .brand-poster { opacity:1; }
+ .brand-motion { display:none; }
+}
+@media print { .brand-replay,.brand-motion { display:none; } .brand-mark .brand-poster { opacity:1; } }

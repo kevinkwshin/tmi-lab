@@ -13,7 +13,7 @@ export function clinicalScene(kind, lang, asset, escape) {
         </svg>
         <span class="evidence-zoom" aria-hidden="true">${text('그림 확대','Enlarge')} ↗</span>
       </a>
-      <figcaption class="scene-caption"><span>${text('우선 판독 과정 · AI 생성 개념도','Priority review · AI-generated concept')}</span>${replay}</figcaption>
+      <div class="scene-caption">${replay}</div>
     </figure>`;
   }
   const report = (period, part, current) => `<div class="scene-report" data-scene-part="${part}">
@@ -27,6 +27,6 @@ export function clinicalScene(kind, lang, asset, escape) {
       <div class="scene-reports" aria-hidden="true">${report(text('이전 검사','Prior exam'),'workflow-prior',false)}${report(text('추적 검사','Follow-up'),'workflow-current',true)}</div>
       <div class="scene-review-note" data-scene-part="workflow-review" aria-hidden="true"><svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="5"/><path d="m12 12 5 5"/></svg><span>${text('차이를 찾아, 의료진의 확인으로','Surface differences for clinician review')}</span></div>
     </div>
-    <figcaption class="scene-caption"><span>${text('종단 판독문 비교 · 설명용 예시','Longitudinal report comparison · illustrative example')}</span>${replay}</figcaption>
+    <div class="scene-caption">${replay}</div>
   </figure>`;
 }

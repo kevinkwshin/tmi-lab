@@ -9,7 +9,7 @@ export function researchStories(lang, asset, escape) {
   const p = (copy, cls = '') => `<p class="${cls}">${escape(copy)}</p>`;
   const fact = (label, copy) => `<div><dt>${label}</dt><dd>${escape(copy)}</dd></div>`;
   const route = steps => `<ol class="clinical-route" aria-label="${text('연구가 연결하는 임상 흐름','Clinical pathway addressed by the research')}">${steps.map(([label,body])=>`<li><span>${label}</span><strong>${body}</strong></li>`).join('')}</ol>`;
-  const figure = (name, alt, caption, cls = '') => `<figure class="evidence-figure ${cls}"><a class="evidence-media" data-zoom href="${asset(name)}" aria-label="${text('그림 확대','Enlarge figure')}: ${escape(alt)}"><img src="${asset(name)}" alt="${escape(alt)}" loading="lazy"><span class="evidence-zoom" aria-hidden="true"><span class="evidence-zoom-label">${text('그림 확대','Enlarge')}</span><svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3H3v4m10-4h4v4M3 13v4h4m10-4v4h-4"/></svg></span></a><figcaption>${escape(caption)}</figcaption></figure>`;
+  const figure = (name, alt, caption, cls = '') => `<figure class="evidence-figure ${cls}"><a class="evidence-media" data-zoom href="${asset(name)}" aria-label="${text('그림 확대','Enlarge figure')}: ${escape(alt)}"><img src="${asset(name)}" alt="${escape(alt)}" loading="lazy"><span class="evidence-zoom" aria-hidden="true"><span class="evidence-zoom-label">${text('그림 확대','Enlarge')}</span><svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3H3v4m10-4h4v4M3 13v4h4m10-4v4h-4"/></svg></span></a>${caption ? `<figcaption>${escape(caption)}</figcaption>` : ''}</figure>`;
   const sheet = (markup, cls = '') => `<article class="story-sheet ${cls}">${markup}</article>`;
   const variants = (wide, narrow, short = wide) => `<div class="story-templates" hidden><div data-story-pages="wide">${wide}</div><div data-story-pages="narrow">${narrow}</div><div data-story-pages="wide-short">${short}</div></div>`;
   const stories = {};
@@ -37,7 +37,7 @@ export function researchStories(lang, asset, escape) {
   stories.transfers = variants(sheet(transfers.map(transfer).join(''),'story-transfer-grid'),transfers.map(t=>sheet(transfer(t),'story-transfer-single')).join(''),transfers.map(t=>sheet(transfer(t),'story-transfer-feature')).join(''));
 
   const missionStages = `<ol class="mission-process">${c.approach.steps.map((step,i)=>`<li><span class="mission-index" aria-hidden="true">${i+1}</span><div><h3>${escape(step.title)}</h3>${p(step.body)}</div></li>`).join('')}</ol>`;
-  const missionImage = figure('mission-clinical-research',text('환자의 임상 질문에서 출발해 의료진과 연구자가 데이터를 함께 해석하고 진료 적용을 평가하는 연구 순환 개념도','Concept: a clinical question leads to collaboration between clinicians and researchers, followed by evaluation in care'),text('임상 질문에서 연구와 검증으로 · AI 생성 개념도','Clinical questions, research and evaluation · AI-generated concept'),'mission-illustration');
+  const missionImage = figure('mission-clinical-research',text('환자의 임상 질문에서 출발해 의료진과 연구자가 데이터를 함께 해석하고 진료 적용을 평가하는 연구 순환 개념도','Concept: a clinical question leads to collaboration between clinicians and researchers, followed by evaluation in care'),'','mission-illustration');
   const missionPurpose = `<div class="mission-purpose"><p class="mission-premise">${text('좋은 예측을 넘어, 진료의 변화로.','From a useful prediction to a change in care.')}</p>${missionImage}${p(c.intro.body)}</div>`;
   stories.mission = variants(sheet(`${missionPurpose}${missionStages}`,'story-mission'),sheet(missionPurpose,'story-mobile-context story-mission-opening')+sheet(missionStages,'story-mobile-context'));
 
@@ -59,8 +59,8 @@ export function researchStories(lang, asset, escape) {
     const id = ['research','research-imaging','research-signals'][i];
     const e = researchEvidence[lang][i];
     const images = e.images.map(f=>figure(f.name,f.alt,f.caption));
-    const [conceptName,conceptAlt,conceptCaption] = concepts[i];
-    const concept = i === 0 ? clinicalScene('workflow', lang, asset, escape) : figure(conceptName,conceptAlt,`${conceptCaption} · ${text('AI 생성 개념도','AI-generated concept')}`,'research-illustration');
+    const [conceptName,conceptAlt] = concepts[i];
+    const concept = i === 0 ? clinicalScene('workflow', lang, asset, escape) : figure(conceptName,conceptAlt,'','research-illustration');
     const facts = `<dl class="story-facts">${fact(text('연구 방법','Approach'),e.method)}${fact(text('임상적 의의','Clinical significance'),e.value)}</dl>`;
     const narrative = `<div class="story-narrative">${p(text('연구 목표','Research goal'),'story-label')}${p(r.body,'story-goal')}${facts}<div class="story-evidence-note"><h3>${escape(e.study)}</h3>${p(e.note)}</div></div>`;
     const visual = `<div class="story-visual research-visual"><div class="research-images">${concept}<div class="research-evidence-strip ${images.length>1?'story-figures-pair':''}">${images.join('')}</div></div>${route(routes[i])}</div>`;
