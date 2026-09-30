@@ -24,6 +24,7 @@ The generated website is in `dist/`. Serve that directory with a static HTTP ser
 |---|---|
 | `src/content.mjs` | Korean and English copy, research areas, career, transfers |
 | `src/publications.mjs` | Selected publications and DOI links |
+| `src/scholar-metrics.json` | Last successfully verified Google Scholar citation snapshot |
 | `src/patents.mjs` | Patent families, document status, and public records |
 | `src/render.mjs` | Shared HTML sections and metadata |
 | `src/tokens.css` | Color, typography, spacing, and control tokens |
@@ -44,6 +45,16 @@ Update both language versions together. Verify DOI metadata before adding papers
 The website uses static HTML, CSS, a small language selector in the document head, and deferred interaction scripts. On the root page, the first supported browser language selects Korean or English; English is the fallback. A manual KO/EN selection is remembered locally and preserves the section anchor. Direct `/en/` links stay English, and explicit language links work even when storage is blocked. Content, language navigation, links, and the default-open career disclosure remain available without JavaScript. There are no trackers, web fonts, or third-party scripts.
 
 Original private documents and extracted source material are excluded from Git. Scientific images retain their original annotations and proportions; only web resizing/compression is applied.
+
+## Automatic Scholar updates
+
+The existing **Publish TMI-lab** workflow refreshes the public Scholar profile every Monday around 09:17 Korea time, and when run manually from GitHub Actions. It updates total citations, h-index, i10-index, yearly counts and the verified date, then saves the snapshot and deploys both languages. The chart displays the latest seven available years. Curated publication entries and research summaries are edited separately.
+
+No API key, package or paid service is required. `npm run update:scholar` makes one ordinary request to the user-first public profile URL allowed by [Scholar's robots.txt](https://scholar.google.com/robots.txt). It does not paginate, retry blocked requests or bypass verification. This is public-page parsing, not a guaranteed Google API. If access fails or the HTML changes, validation stops the scheduled deployment; the previous live site, snapshot and verified date stay intact. Check the failed Actions run before rerunning. Citation counts may legitimately decrease, so successful updates are not forced upward.
+
+GitHub may delay scheduled runs; public repositories' schedules can be disabled after 60 days without repository activity. Successful weekly snapshot commits normally provide activity. If repeated collection failures leave the repository inactive, re-enable the workflow in Actions after addressing the failure. [GitHub schedule documentation](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule)
+
+Ordinary code pushes build from the saved snapshot without contacting Scholar. For an immediate refresh, use **Actions → Publish TMI-lab → Run workflow**. The workflow's snapshot commit does not trigger another build; the same run deploys it. Failed refreshes never change the on-page verified date.
 
 ## Navigation
 

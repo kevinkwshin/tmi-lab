@@ -1,10 +1,9 @@
+import metrics from './scholar-metrics.json' with { type: 'json' };
+
 export const scholarProfile = {
-  url: 'https://scholar.google.com/citations?hl=en&user=prJCNYoAAAAJ',
-  checked: '2026-09-30',
-  citations: 1090,
-  hIndex: 15,
-  i10Index: 18,
-  trend: [{year:2020,count:34},{year:2021,count:86},{year:2022,count:128},{year:2023,count:171},{year:2024,count:201},{year:2025,count:274},{year:2026,count:175}],
+  ...metrics,
+  url: 'https://scholar.google.com/citations?user=prJCNYoAAAAJ&hl=en',
+  trend: metrics.trend.slice(-7),
   interests: ['Medical Multi-Modal AI', 'Clinical AI Implementation'],
   studies: [
     {

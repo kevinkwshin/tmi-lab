@@ -68,10 +68,10 @@ try {
       await page.evaluate(id => navigateTo(document.getElementById(id), false), id);
       await assertFrame();
     }
-    assert.deepEqual(await page.locator('.slide-detail .citation-bars li').evaluateAll(es => es.map(e => e.getAttribute('aria-label').match(/\d+/g).map(Number))), [[2020,34],[2021,86],[2022,128],[2023,171],[2024,201],[2025,274],[2026,175]]);
+    assert.deepEqual(await page.locator('.slide-detail .citation-bars li').evaluateAll(es => es.map(e => e.getAttribute('aria-label').match(/\d+/g).map(Number))), scholarProfile.trend.map(({year,count}) => [year,count]));
     assert.equal(await page.locator('[data-deck-continuation="publications"]').count(), 0);
     assert.deepEqual(await page.locator('#publications .scholar-year').evaluateAll(es => es.map(e => e.getAttribute('aria-label').match(/\d+/g).slice(0,2).map(Number))), scholarProfile.trend.map(({year,count}) => [year,count]));
-    assert.equal(await page.locator('#publications .scholar-year-partial').count(), 1);
+    assert.equal(await page.locator('#publications .scholar-year-partial').count(), Number(scholarProfile.trend.some(point => point.year === Number(scholarProfile.checked.slice(0,4)))));
     assert.equal(await page.locator('#publications .deck-actions a[href*="scholar.google"]').getAttribute('target'), '_blank');
     assert.deepEqual(await page.locator('[data-paper] h3').allTextContents(), publications.map(p => p.title));
     const product = page.locator('#translation .deck-actions a.action');
