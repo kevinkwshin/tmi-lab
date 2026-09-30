@@ -21,6 +21,7 @@ try {
       incoming:(() => {const slide = document.querySelector('main > .is-current'); const style = getComputedStyle(slide); return {opacity:Number(style.opacity), y:new DOMMatrix(style.transform).m42, inert:slide.inert};})(),
       visible:[...document.querySelectorAll('main > [data-slide]')].filter(slide => getComputedStyle(slide).display !== 'none').length,
       animations:document.getAnimations().length,
+      pageAnimations:document.getAnimations().filter(animation => animation.effect?.target.matches('main > [data-slide]')).length,
       scrollY,
       ids:[...document.querySelectorAll('[id]')].map(element => element.id)
     }));
@@ -53,7 +54,8 @@ try {
     assert(forward.incoming.y > viewport.height * .2, 'Page travel must remain clearly visible at 110ms');
     assert.equal(forward.incoming.inert, false);
     assert.equal(forward.visible, 2);
-    assert.equal(forward.animations, 2);
+    assert.equal(forward.pageAnimations, 2);
+    assert(forward.animations > 2, 'Research image choreography accompanies the two page panels');
     assert.deepEqual(forward.ids, before.ids, 'Transition must not clone DOM or IDs');
     assert.deepEqual(await page.locator('.site-header,.slide-controls').evaluateAll(elements => elements.map(element => ({rect:element.getBoundingClientRect().toJSON(), transform:getComputedStyle(element).transform}))), chrome);
     await capture('forward-mid');
@@ -71,11 +73,11 @@ try {
     await pauseAt(110);
     await capture('reversal-mid');
     await page.evaluate(() => document.getAnimations().forEach(animation => animation.play()));
-    await page.waitForTimeout(700);
+    await page.waitForTimeout(850);
     await clean();
     await capture('reversal-settled');
     await page.keyboard.press('PageDown');
-    await page.waitForTimeout(700);
+    await page.waitForTimeout(850);
     await clean();
     await capture('forward-settled');
     await page.keyboard.press('PageUp');
@@ -88,8 +90,8 @@ try {
     const interrupted = await state();
     assert.equal(interrupted.leaving.length, 1, 'Rapid navigation retains only the latest outgoing slide');
     assert.equal(interrupted.visible, 2);
-    assert.equal(interrupted.animations, 2);
-    await page.waitForTimeout(700);
+    assert.equal(interrupted.pageAnimations, 2);
+    await page.waitForTimeout(850);
     await clean();
     const wheel = await page.evaluate(() => {
       const previous = current;

@@ -23,7 +23,7 @@ let touch;
 let contentHome;
 let trigger;
 const topOf = slide => slide.getBoundingClientRect().top + scrollY - header.offsetHeight;
-const overlayOpen = () => dialog.open || navigation[0]?.closest('.nav').classList.contains('is-open');
+const overlayOpen = () => dialog.open || document.querySelector('.image-dialog')?.open || navigation[0]?.closest('.nav').classList.contains('is-open');
 
 function update() {
   if (!active) current = slides.reduce((best, slide, index) => Math.abs(topOf(slide) - scrollY) < Math.abs(topOf(slides[best]) - scrollY) ? index : best, 0);
@@ -40,7 +40,8 @@ function update() {
     else link.removeAttribute('aria-current');
   }
 }
-function cancelTransition() {
+function cancelTransition(cancelVisuals = true) {
+  if (cancelVisuals) document.dispatchEvent(new Event('deck:cancel'));
   for (const animation of transitionAnimations) animation.cancel();
   transitionAnimations = [];
   for (const slide of slides) slide.classList.remove('is-leaving');
@@ -79,7 +80,7 @@ function go(index, animate = true) {
       ];
       transitionAnimations = animations;
       Promise.all(animations.map(animation => animation.finished)).then(() => {
-        if (transitionAnimations === animations) cancelTransition();
+        if (transitionAnimations === animations) cancelTransition(false);
       }, () => {});
     }
   } else scrollTo({top:topOf(target), behavior:'instant'});
@@ -88,7 +89,9 @@ function go(index, animate = true) {
     target.focus({preventScroll:true});
   }
   update();
+  document.dispatchEvent(new CustomEvent('deck:change', {detail:{slide:target, animate:transitioning, direction:Math.sign(current - old)}}));
 }
+document.addEventListener('image:open', () => cancelTransition());
 function closeReading() {
   if (!contentHome) return;
   contentHome.append(dialog.querySelector('.reading-content'));
@@ -166,7 +169,7 @@ addEventListener('wheel', event => {
 }, {passive:false});
 addEventListener('touchstart', event => {
   touch = undefined;
-  if (!active || overlayOpen() || event.touches.length !== 1 || (visualViewport?.scale || 1) > 1 || event.target.closest('a,button,input,textarea,select,summary,[contenteditable],.site-header,.slide-controls')) return;
+  if (!active || overlayOpen() || event.touches.length !== 1 || (visualViewport?.scale || 1) > 1 || event.target.closest('a:not([data-zoom]),button,input,textarea,select,summary,[contenteditable],.site-header,.slide-controls')) return;
   if (event.target.closest('[data-slide]') !== slides[current]) return;
   const point = event.touches[0];
   touch = {x:point.clientX, y:point.clientY, used:false};

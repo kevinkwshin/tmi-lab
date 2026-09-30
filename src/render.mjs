@@ -42,7 +42,7 @@ export function renderPage(lang, siteUrl, languageScript) {
 <link rel="icon" href="${root}favicon.svg" type="image/svg+xml">
 <script>document.documentElement.classList.add('js');</script>
 <script>${languageScript}</script>
-<link rel="stylesheet" href="${root}styles.css"><script src="${root}site.js" defer></script><script src="${root}deck.js" defer></script><script src="${root}scroll.js" defer></script>
+<link rel="stylesheet" href="${root}styles.css"><script src="${root}site.js" defer></script><script src="${root}deck.js" defer></script><script src="${root}visuals.js" defer></script><script src="${root}scroll.js" defer></script>
 <script type="application/ld+json">${JSON.stringify(schema).replaceAll('<', '\\u003c')}</script>
 </head>
 <body>

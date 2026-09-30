@@ -2,6 +2,7 @@ import { content } from './content.mjs';
 import { researchEvidence } from './research.mjs';
 import { publications } from './publications.mjs';
 import { patents } from './patents.mjs';
+import { researchStories } from './stories.mjs';
 
 // Full source material stays in the adjacent detail view and reading document.
 export function slideOverviews(lang, asset, escape) {
@@ -54,5 +55,8 @@ export function slideOverviews(lang, asset, escape) {
   pages.contact=layout('contact','Contact',text('연구 협력 및 문의','Research collaboration'),text('임상 질문을 함께 정의하고, 데이터 분석에서 검증까지 연구를 연결합니다.','Define a clinical question together, then connect data analysis with validation.'),
     `<div class="page-contact"><p class="page-contact-topics">${text('의료영상 · 생체신호 · 멀티모달 AI 공동연구','Research in medical imaging, biosignals and multimodal AI')}</p><a href="mailto:kevinkwshin@inha.ac.kr">kevinkwshin@inha.ac.kr</a><p>${escape(c.contact.location)}</p><p class="meta">${escape(c.footer.affiliation)}</p></div>`,
     `<p class="page-copyright">© 2026 Translational Medical Intelligence Lab</p>`,'page-contact-layout');
+  for (const [id, stories] of Object.entries(researchStories(lang, asset, escape))) {
+    pages[id] = pages[id].replace('<div class="page-actions">', `${stories}<div class="page-actions">`);
+  }
   return pages;
 }

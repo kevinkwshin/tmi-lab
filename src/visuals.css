@@ -1,0 +1,26 @@
+:root {
+  --image-reveal-duration:760ms;
+  --image-zoom-duration:420ms;
+  --image-entry-scale:1.04;
+  --image-motion-ease:cubic-bezier(.22,1,.36,1);
+  --route-emphasis-duration:420ms;
+}
+.evidence-media { position:relative; overflow:hidden; isolation:isolate; cursor:zoom-in; }
+a[data-zoom] { cursor:zoom-in; }
+.evidence-reveal-mask { position:absolute; inset:0; background:inherit; pointer-events:none; z-index:1; }
+.image-dialog { width:calc(100% - var(--s12)); max-width:var(--max); height:calc(100dvh - var(--s12)); max-height:none; margin:auto; padding:var(--s6); border:1px solid var(--line); border-radius:var(--radius); background:var(--paper); color:var(--ink); overflow:visible; }
+.image-dialog[open] { display:flex; flex-direction:column; gap:var(--s4); }
+.image-dialog::backdrop { background:var(--dialog-backdrop); }
+.image-dialog-header { display:flex; align-items:center; justify-content:space-between; gap:var(--s4); flex-shrink:0; }
+.image-dialog-header p { font-size:var(--text-sm); font-weight:600; }
+.image-dialog-close { min-height:var(--touch); min-width:var(--touch); padding:var(--s2) var(--s4); border:1px solid var(--line); border-radius:var(--radius); color:var(--ink); background:var(--paper); font-size:var(--text-sm); }
+.image-dialog-close:hover { background:var(--sky); }
+.image-dialog-stage { display:flex; align-items:center; justify-content:center; flex:1; min-height:0; min-width:0; }
+.image-dialog-image { display:block; max-width:100%; object-fit:contain; transform-origin:top left; }
+.image-dialog-caption { flex-shrink:0; max-width:none; max-height:25%; overflow:auto; overscroll-behavior:contain; font-size:var(--text-sm); line-height:1.5; color:var(--muted); }
+.image-dialog-open { overflow:hidden; }
+@media(max-width:640px) {
+  .image-dialog { width:calc(100% - var(--s6)); height:calc(100dvh - var(--s6)); padding:var(--s4); }
+}
+@media(prefers-reduced-motion:reduce) { .evidence-reveal-mask { display:none; } }
+@media print { .image-dialog,.evidence-reveal-mask { display:none!important; } }

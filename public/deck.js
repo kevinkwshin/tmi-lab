@@ -88,6 +88,37 @@ function deckSummary(source, summary, compact) {
   source.querySelector('.slide-overview').replaceChildren(frame);
 }
 
+function deckStoryPages(source, summary) {
+  const narrow = innerWidth <= 760 || (innerWidth <= 1000 && innerHeight <= 900);
+  const short = innerHeight <= 740 || (innerWidth <= 1200 && innerHeight <= 850);
+  const variant = narrow ? 'narrow' : short ? 'wide-short' : 'wide';
+  const sheets = summary.querySelector(`[data-story-pages="${variant}"]`);
+  if (!sheets) return false;
+  let section = source;
+  [...sheets.children].forEach((sheet, index) => {
+    if (index) {
+      const continuation = document.createElement('section');
+      continuation.className = source.className;
+      continuation.id = `${source.id}--${index + 1}`;
+      continuation.dataset.slide = source.dataset.slide;
+      continuation.dataset.nav = source.dataset.nav || source.id;
+      continuation.dataset.deckContinuation = source.id;
+      section.after(continuation);
+      section = continuation;
+    }
+    section.dataset.deckSource = source.id;
+    const overview = document.createElement('div');
+    overview.className = 'slide-overview';
+    const frame = deckFrame(source, summary, index + 1);
+    frame.classList.add('deck-story');
+    frame.querySelector('.deck-body').append(deckClone(sheet));
+    overview.append(frame);
+    if (index) section.append(overview);
+    else source.querySelector('.slide-overview').replaceWith(overview);
+  });
+  return true;
+}
+
 function buildDeck() {
   for (const page of document.querySelectorAll('[data-deck-continuation]')) page.remove();
   const compact = innerHeight < 560 || (innerWidth < 360 && innerHeight < 640);
@@ -96,6 +127,7 @@ function buildDeck() {
     source.dataset.deckSource = source.id;
     if (source.id === 'welcome') continue;
     const summary = deckSummaries.get(source.id);
+    if (!compact && deckStoryPages(source, summary)) continue;
     if (compact || ['contact', 'publications', 'people'].includes(source.id)) {
       deckSummary(source, summary, compact);
       continue;

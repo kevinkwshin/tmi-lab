@@ -29,6 +29,9 @@ The generated website is in `dist/`. Serve that directory with a static HTTP ser
 | `src/tokens.css` | Color, typography, spacing, and control tokens |
 | `src/layout.css` | Responsive page layouts |
 | `src/presentation.css` | Slide composition, reading dialogs, continuous reading |
+| `src/stories.mjs` · `src/stories.css` | Research narratives, authentic evidence figures, responsive story pages |
+| `public/deck.js` | Shared frames and responsive continuation pages |
+| `public/visuals.js` · `src/visuals.css` | Image reveals, clinical-pathway emphasis, accessible original-image viewer |
 | `public/site.js` | Language anchors, mobile navigation, publication filtering |
 | `public/scroll.js` | One-gesture slide navigation, reading mode, collection dialogs, reduced-motion support |
 | `public/assets/` | Reviewed, web-optimized images |
@@ -44,4 +47,21 @@ Original private documents and extracted source material are excluded from Git. 
 
 ## Navigation
 
-Desktop viewports of at least 961 × 700 CSS pixels use one wheel gesture per slide. Trackpad momentum cannot skip multiple slides. Arrow and Page keys, Home/End, header links, and the section dock also navigate. Reduced motion makes transitions immediate. Mobile, short viewports, enlarged text that cannot fit a slide, and the **Read page / 연속 보기** option use continuous reading. Publication and patent collections open in labelled dialogs in slide mode and remain inline elsewhere. Escape closes a dialog and returns focus to its button. Education and career are expanded alongside the profile on the People slide. Research directions emphasize clinical workflow, surgical digital twins, and evidence-based precision medicine. Clinical-impact sources are recorded in `docs/clinical-impact-sources.md`.
+Slides use a fixed viewport on desktop and mobile. Wheel gestures, vertical touch swipes, Arrow and Page keys, Home/End, header links, and the section dock navigate between pages. No presentation page owns a scrolling area. Short and narrow screens use semantic continuation pages; exceptionally short viewports retain compact overviews with explicit access to details. **Read page / 연속 보기** enables the complete scrolling document.
+
+Research pages connect the goal, method and clinical significance to original figures. Image curtains and staged pathway emphasis accompany page transitions. Click or tap a figure to expand the original; swiping from an image still changes pages. Escape, Close, or the viewer backdrop closes it and returns focus. Reduced motion makes these effects immediate.
+
+Publications and People each retain one overview page. Full publication search, patents, education, career, the current project and the dated Scholar chart remain in labelled detail dialogs and in continuous reading. Research directions emphasize clinical workflow, surgical digital twins, and evidence-based precision medicine. Clinical-impact sources are recorded in `docs/clinical-impact-sources.md`.
+
+## Verification
+
+`npm test` verifies wheel classification. After building and serving the preview at `http://127.0.0.1:4173/dist/`, the browser suites cover frame geometry, complete visible research copy, image interactions and page motion:
+
+```sh
+npm run test:deck
+npm run test:stories
+npm run test:visuals
+node scripts/test-motion.mjs
+```
+
+Browser suites need Playwright, available either as `playwright` or through the `PLAYWRIGHT_MODULE` environment variable. Set `BROWSER_PATH` to use a specific browser executable. `TEST_URL` overrides the preview URL; evidence is written under ignored `.omo/evidence/`. Automated wheel and touch events supplement testing with physical devices.
