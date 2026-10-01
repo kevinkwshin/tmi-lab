@@ -1,5 +1,9 @@
 # TMI-lab design system
 
+## October 1: a two-line header identity
+
+The approved header uses “TMI-lab (Translational Medical Intelligence)” on the first line and “Inha University College of Medicine” on the second, left aligned with4px spacing. Keep TMI-lab blue and bold at28px, the parenthetical expansion navy at13px, and the affiliation muted at12px. Highlight only the three expansion initials T/M/I in blue with600 weight. Reuse the existing color/spacing/type tokens, adding a named13px expansion token. Keep the header height and navigation stable; at1200px and below show only TMI-lab. The opening video and its typography remain unchanged.
+
 ## October 1: show the medical-school affiliation in the header
 
 Use “TMI-lab · Inha University College of Medicine” as the desktop header identity in both languages. Retain the existing large blue wordmark and set the affiliation in small navy text, centered beside it on one line with a decorative middle dot. Reuse the brand-description component and existing spacing/type/color tokens. Below1201px, show the short wordmark so navigation and language controls have enough room. Preserve header height, home navigation, and the opening video.
