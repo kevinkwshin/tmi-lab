@@ -1,8 +1,12 @@
 # TMI-lab design system
 
+## October 1: connect publications and patents to clinical research
+
+Use concise, period-free introductions: publications describe research for clinical problem-solving and evidence-based care; patents describe technologies supporting clinical AI applications. Place both introductions beneath their slide titles using the existing type and spacing tokens, including mobile and compact layouts. Remove the duplicated introduction from the publication chart body. Preserve a single desktop patent slide with all five records and the complete detail dialog. The NeuroCAD statement explicitly names priority review: “긴급한 영상을 먼저 판독하도록, 골든타임에 더 가까이”.
+
 ## October 1: keep desktop patents on one slide
 
-Arrange the five patent records in a six-track desktop grid: three medical patents span two tracks each in the first row; the two earlier industrial patents span three tracks each in the second. Reuse the current patent cards, complete titles, numbers, statuses, years, and related-family links. At heights of 740px and below, use the existing 14px text size for titles, tighter spacing, and show inventor lists in the full patent dialog rather than on the slide. At 620px and below, also move status badges and related-family links to the dialog, retaining all five primary titles, numbers and years. Exclude the existing extremely short-screen summary from the card grid. Keep desktop content centered in the shared slide frame and retain mobile pagination and full reading content. Verify a single desktop patent slide in both languages with no clipping or hidden records.
+Arrange the five patent records in a six-track desktop grid: three medical patents span two tracks each in the first row; the two earlier industrial patents span three tracks each in the second. Reuse the current patent cards, complete titles, numbers, statuses, years, and related-family links. At heights of 760px and below, use the existing 14px text size for titles, tighter spacing, and show inventor lists in the full patent dialog rather than on the slide. At 680px and below, also move status badges and related-family links to the dialog, retaining all five primary titles, numbers and years. Exclude the existing extremely short-screen summary from the card grid. Keep desktop content centered in the shared slide frame and retain mobile pagination and full reading content. Verify a single desktop patent slide in both languages with no clipping or hidden records.
 
 ## October 1: strengthen and tighten the header identity
 

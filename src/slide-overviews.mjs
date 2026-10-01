@@ -38,7 +38,7 @@ export function slideOverviews(lang, asset, escape) {
       button(id,r.title,text('연구 자료와 근거','Study & evidence')),'page-research',paragraph(r.body,'page-extended')).replace(`<h2>${escape(`${text('연구 목표','Research goal')} ${i+1}. ${r.title}`)}</h2>`, `<h2><span class="research-goal-label">${text('연구 목표','Research goal')} ${i+1}.</span> ${escape(r.title)}</h2>`);
   });
   pages.publications=scholarOverview(lang,escape);
-  pages.patents=layout('patents',text('연구 성과','Research output'),text('특허','Patents & applications'),text('의료영상과 생체신호의 분석 방법을 지식재산으로 연결합니다.','Translating imaging and biosignal methods into intellectual property'),
+  pages.patents=layout('patents',text('연구 성과','Research output'),text('특허','Patents & applications'),text('의료 AI의 임상 적용을 뒷받침하는 기술','Technologies supporting clinical applications of medical AI'),
     `<div class="page-list">${patents.filter(p=>p.area==='medical').slice(0,3).map((p,i)=>`<article><p class="meta">${p.year} · ${text(p.granted?'등록':'공개 출원',p.granted?'Granted':'Published application')}</p><h3>${text(['CT 영상 분류·분할','혈관 분석','심전도 분석'][i],['CT classification & segmentation','Vessel analysis','ECG analysis'][i])}</h3><p>${escape(p.summary[lang])}</p><p class="meta page-extended">${p.number}</p></article>`).join('')}</div>`,
     button('patents',text('특허','Patents'),text('전체 특허 보기','Browse all patents')),'page-listing');
   pages.people=peopleOverview(lang,asset,escape);

@@ -54,6 +54,9 @@ try {
         await writeFile(path.join(evidence,'frames.json'), JSON.stringify(frames,null,2));
         await page.screenshot({path:path.join(evidence,`${language}-${geometry.width}x${geometry.height}-${geometry.id}.png`)});
         const label = `${language} ${geometry.width}x${geometry.height} ${geometry.id}`;
+        if (/^(publications|patents)(--\d+)?$/.test(geometry.id)) {
+          assert.equal(await page.locator('.is-current .deck-heading .deck-lead:visible').count(), 1, `${label}: the research introduction must remain visible below the title`);
+        }
         assert(Math.abs(geometry.headingOffset) < 2, `${label}: heading must start at the common top anchor`);
         assert(Math.abs(geometry.actionOffset) < 2, `${label}: actions must end at the common bottom anchor`);
         assert(geometry.bodyCenterOffset < 2, `${label}: body must be centered between heading and actions`);
@@ -121,7 +124,7 @@ try {
         await assertFrame();
       }
     }
-    for (const viewport of [{width:1024,height:768},{width:1024,height:640},{width:1001,height:560},{width:1440,height:560},{width:1280,height:480}]) {
+    for (const viewport of [{width:1024,height:768},{width:1024,height:761},{width:1024,height:741},{width:1024,height:681},{width:1024,height:650},{width:1024,height:640},{width:1001,height:560},{width:1440,height:560},{width:1280,height:480}]) {
       await page.setViewportSize(viewport);
       await page.waitForTimeout(250);
       assert.equal(await page.locator('[data-deck-continuation="patents"]').count(), 0, `${language} ${viewport.width}x${viewport.height}: patents must remain one slide`);

@@ -60,6 +60,11 @@ function deckFrame(source, summary, pageIndex = 1) {
   heading.append(title);
   const question = source.querySelector('.research-question');
   if (question) heading.append(deckClone(question));
+  if (['publications', 'patents'].includes(source.id)) {
+    const lead = deckClone(summary.querySelector('.page-lead'));
+    lead.classList.add('deck-lead');
+    heading.append(lead);
+  }
   if (pageIndex > 1) {
     const continued = document.createElement('span');
     continued.className = 'meta';
@@ -83,6 +88,8 @@ function deckSummary(source, summary, compact) {
   const copy = composition.querySelector('.page-copy');
   copy.querySelector('h1,h2').remove();
   copy.querySelector('.page-eyebrow')?.remove();
+  if (frame.querySelector('.deck-lead')) copy.querySelector('.page-lead')?.remove();
+  if (!copy.children.length) copy.remove();
   composition.querySelector('.page-actions').remove();
   frame.querySelector('.deck-body').append(composition);
   source.querySelector('.slide-overview').replaceChildren(frame);
