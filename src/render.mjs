@@ -6,6 +6,7 @@ import { slideOverviews } from './slide-overviews.mjs';
 import { scholarProfile } from './scholar.mjs';
 import { scholarView } from './scholar-view.mjs';
 import { clinicalScene } from './clinical-scenes.mjs';
+import { identityLogo } from './identity.mjs';
 
 const scholar = 'https://scholar.google.com/citations?user=prJCNYoAAAAJ&hl=en';
 const profile = 'https://medicine.inha.ac.kr/medicine/9606/subview.do';
@@ -20,8 +21,8 @@ export function renderPage(lang, siteUrl, languageScript, stylesheet = 'styles.c
   const ko = lang === 'ko';
   const root = ko ? './' : '../';
   const pageUrl = new URL(ko ? './' : 'en/', siteUrl).href;
-  const illustrations = new Set(['neurocad-triage-journey','neurocad-triage-clean','tmi-logo-smile','research-workflow-concept','research-twin-concept','research-precision-concept','mission-clinical-research','workflow-ct-comparison']);
-  const asset = (name) => `${root}assets/${name}.${illustrations.has(name) ? 'png' : 'webp'}`;
+  const illustrations = new Set(['neurocad-triage-journey','neurocad-triage-clean','research-workflow-concept','research-twin-concept','research-precision-concept','mission-clinical-research','workflow-ct-comparison']);
+  const asset = (name) => `${root}assets/${name}.${name === 'tmi-logo-film' ? 'mp4' : name === 'tmi-logo-video-poster' ? 'jpg' : illustrations.has(name) ? 'png' : 'webp'}`;
   const overviews = slideOverviews(lang, asset, escape);
   const overview = id => `<div class="slide-overview">${overviews[id]}</div>`;
   const patentRow = (p) => `<article class="patent rule-row"><time class="meta" datetime="${p.year}">${p.year}</time><div><p class="patent-number" lang="en">${p.number}<span class="patent-status" lang="${lang}">${ko ? (p.granted ? '등록공보' : '출원공개') : (p.granted ? 'Granted patent' : 'Published application')}</span></p><h3>${link(`https://patents.google.com/patent/${p.number}/${lang}`, p.title[lang], 'paper-title')}</h3><p class="meta" lang="ko">${escape(p.inventors)}</p>${p.related.length ? `<div class="cluster">${p.related.map(f=>link(`https://patents.google.com/patent/${f.number}/en`, `${f.number} · ${f.year} · ${ko ? (f.granted ? '미국 등록' : '국제출원 공개') : (f.granted ? 'US grant' : 'PCT publication')}`)).join('')}</div>` : ''}</div></article>`;
@@ -44,7 +45,7 @@ export function renderPage(lang, siteUrl, languageScript, stylesheet = 'styles.c
 <link rel="icon" href="${root}favicon.svg" type="image/svg+xml">
 <script>document.documentElement.classList.add('js');</script>
 <script>${languageScript}</script>
-<link rel="stylesheet" href="${escape(root + stylesheet)}"><script src="${root}site.js" defer></script><script src="${root}deck.js" defer></script><script src="${root}visuals.js" defer></script><script src="${root}clinical-scenes.js" defer></script><script src="${root}identity.js" defer></script><script src="${root}scroll.js" defer></script>
+<link rel="stylesheet" href="${escape(root + stylesheet)}"><script src="${root}site.js" defer></script><script src="${root}deck.js" defer></script><script src="${root}visuals.js" defer></script><script src="${root}clinical-scenes.js" defer></script><script src="${root}identity.js?v=20261001-video" defer></script><script src="${root}scroll.js" defer></script>
 <script type="application/ld+json">${JSON.stringify(schema).replaceAll('<', '\\u003c')}</script>
 </head>
 <body>
@@ -57,7 +58,7 @@ export function renderPage(lang, siteUrl, languageScript, stylesheet = 'styles.c
 <main id="main">
 <section class="hero container" id="welcome" data-slide="${ko ? '소개' : 'Welcome'}" aria-labelledby="hero-title">${overview('welcome')}<div class="slide-detail reading-content" id="detail-welcome" data-detail="welcome">
 <div><p class="eyebrow">${c.hero.eyebrow}</p><h1 id="hero-title">${c.hero.titleLines.map(v => `<span>${escape(v)}</span>`).join('')}</h1><p class="hero-expansion" lang="en">Translational<br>Medical Intelligence</p><p class="hero-description">${escape(c.hero.description)}</p><div class="hero-actions cluster">${link('#translation', c.hero.primary, 'action')}${link('#research', c.hero.secondary)}</div><p class="hero-affiliation meta">${escape(c.footer.affiliation)}</p></div>
-<figure class="hero-figure logo-figure"><img src="${asset('tmi-logo')}" width="1200" height="810" alt="${ko ? '의사 가운을 입은 용과 거위 캐릭터가 있는 TMI-lab 로고. Too Much Information에서 Translational Medical Intelligence로.' : 'TMI-lab logo with a dragon and goose in lab coats. From Too Much Information to Translational Medical Intelligence.'}" fetchpriority="high"></figure>
+${identityLogo(lang,asset,escape,'hero-figure logo-figure')}
 </div></section>
 <section class="section translation-section" id="translation" data-slide="${ko ? '기술이전' : 'Translation'}">${overview('translation')}<div class="slide-detail reading-content" id="detail-translation" data-detail="translation"><div class="container">
 ${heading(c.translation)}

@@ -1,8 +1,14 @@
 # Content and image sources
 
+## Supplied logo video (2026-10-01)
+
+The user supplied `gemini_generated_video_93afe2e7.mp4` to replace the welcome logo animation. `public/assets/tmi-logo-film.mp4` preserves its original 1280×720, 24fps H.264 video stream and 10 second duration; its audio stream was removed and MP4 metadata moved to the front for web loading. `public/assets/tmi-logo-video-poster.jpg` is the first frame, extracted as a static fallback. No image generation, visual retouching or video re-encoding was applied. The supplied video's original framing and lettering are preserved.
+
+The video replaces the custom SVG mascot gestures in slide and continuous-reading views. It plays muted, inline and on a loop while visible, with a localized pause/play control. Static poster behavior covers reduced motion, no JavaScript and playback failure. The older generated mascot assets below are retained as source history and are no longer rendered by the website.
+
 ## Explanatory animation plates (2026-10-01)
 
-`tmi-logo-smile.png` supplies only the dragon's smiling eyes and mouth through a registered face mask. The original logo supplies its stationary hands, body and lettering. Generated with the built-in image tool from the supplied logo. Full prompt and usage are in [the motion source record](scene-motion.md#tmi-logo-smilepng--cheerful-facial-expression).
+`tmi-logo-smile.png` formerly supplied the dragon's smiling eyes and mouth through a registered face mask. It is retired from the live page following the supplied-video replacement. Generated with the built-in image tool from the supplied logo. Full prompt and prior usage are in [the motion source record](scene-motion.md#tmi-logo-smilepng--cheerful-facial-expression).
 
 `neurocad-triage-clean.png` removes the stationary amber study from the prior concept illustration so the original study can move from the queue to the front. The former hand-wave assets `tmi-logo-motion-base.png` and `tmi-dragon-palm.png` are retained as source history but no longer used by the page. See [motion design, source assets and generation prompts](scene-motion.md).
 

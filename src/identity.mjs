@@ -1,21 +1,12 @@
-export function identityLogo(lang, asset, escape) {
+export function identityLogo(lang, asset, escape, figureClass = 'page-figure page-logo') {
   const ko = lang === 'ko';
-  const src = asset('tmi-logo');
+  const poster = asset('tmi-logo-video-poster');
   const alt = escape(ko ? '용과 거위 캐릭터가 있는 TMI-lab 로고' : 'TMI-lab dragon and goose logo');
-  return `<figure class="page-figure page-logo"><div class="brand-mark" data-brand-mark>
-    <img class="brand-poster" src="${src}" width="1200" height="810" alt="${alt}" fetchpriority="high">
-    <svg class="brand-motion" viewBox="0 0 1200 810" aria-hidden="true">
-      <defs>
-        <clipPath id="welcome-goose-clip"><path d="M909 112H997V244L1044 290H1079V412L1045 437V466H899V436L860 405V339L883 285L909 252Z"/></clipPath>
-        <filter id="welcome-face-edge" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="2"/></filter>
-        <mask id="welcome-smile-mask" maskUnits="userSpaceOnUse" x="195" y="177" width="144" height="94"><rect x="203" y="185" width="128" height="78" rx="20" fill="white" filter="url(#welcome-face-edge)"/></mask>
-        <mask id="welcome-goose-base" maskUnits="userSpaceOnUse" x="0" y="0" width="1200" height="810"><path fill="white" d="M0 0H1200V810H0Z"/><path fill="black" d="M868 100H1086V463H868Z"/></mask>
-      </defs>
-      <image href="${src}" width="1200" height="810" mask="url(#welcome-goose-base)"/>
-      <g class="mascot-smile" data-mascot-smile><image href="${asset('tmi-logo-smile')}" width="1200" height="810" preserveAspectRatio="none" mask="url(#welcome-smile-mask)"/></g>
-      <g class="mascot-goose" data-mascot-goose><image href="${src}" width="1200" height="810" clip-path="url(#welcome-goose-clip)"/>
-        <g class="mascot-blink mascot-blink-goose" data-mascot-blink="goose"><ellipse cx="941" cy="168" rx="8" ry="11"/><ellipse cx="968" cy="170" rx="8" ry="11"/><path d="M936 169q5 4 10 0m17 2q5 4 10 0"/></g>
-      </g>
-    </svg>
+  const play = ko ? '로고 영상 재생' : 'Play logo video';
+  const pause = ko ? '로고 영상 일시정지' : 'Pause logo video';
+  return `<figure class="${figureClass}"><div class="brand-mark" data-brand-mark>
+    <img class="brand-poster" src="${poster}" width="1280" height="720" alt="${alt}" fetchpriority="high">
+    <video class="brand-video" data-brand-video data-src="${asset('tmi-logo-film')}" poster="${poster}" width="1280" height="720" muted loop playsinline preload="none" aria-hidden="true" disablepictureinpicture></video>
+    <button class="brand-toggle" data-brand-toggle data-play-label="${play}" data-pause-label="${pause}" type="button" aria-label="${play}" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path class="brand-play-icon" d="m9 5 11 7-11 7Z"/><path class="brand-pause-icon" d="M7 5h4v14H7zm7 0h4v14h-4z"/></svg></button>
   </div></figure>`;
 }

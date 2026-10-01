@@ -1,5 +1,11 @@
 # TMI-lab design system
 
+## October 1: use the supplied logo video
+
+Replace the custom mascot animation with the user's 10 second 1280×720 H.264 video in both the welcome slide and continuous-reading hero. Preserve its frames and 16:9 aspect ratio with contain sizing; remove the audio track and move MP4 metadata to the front for web playback. Extract the first frame as the matching static poster. Remove the SVG hand, face and goose animation from the live component. Use the existing hero placement, typography and desktop one-line description.
+
+The reusable brand mark owns a muted, looping, inline video, loaded only when visible and motion is allowed. Pause when offscreen, leaving the slide, hidden, printing or a dialog opens; resume when eligible. A 44px localized play/pause control allows deliberate stopping and retry when autoplay is blocked. Manual pause persists during this page visit, including navigation and responsive rebuilds. Reduced motion, no-JS and unavailable video retain the complete static poster. No dependency or wheel behavior changes. Validate real playback and natural looping, user controls, loading failures, interruption races, both languages, mobile aspect ratio and reading view.
+
 ## October 1: keep the desktop introduction on one line
 
 Let the welcome description use the full existing text column instead of a34em cap. Preserve the complete sentence, font size and two-column hero; at desktop widths the Korean description fits on one line like the English version. Keep normal text wrapping on narrow viewports and when fonts are enlarged; never force overflow with nowrap or shrink text to fit.

@@ -1,12 +1,12 @@
 # Illustration motion · October 1, 2026
 
-The five requested scenes use native SVG and Web Animations over existing artwork. Motion is explanatory and does not represent patient records, product inference, measured treatment outcomes or validated surgical predictions. Original scientific figures remain intact. All animations repeat with rests and stop on navigation, hidden tabs, dialogs, printing or reduced motion. No replay controls or changes to wheel handling.
+The clinical scenes use native SVG and Web Animations over existing artwork. Motion is explanatory and does not represent patient records, product inference, measured treatment outcomes or validated surgical predictions. Original scientific figures remain intact. Clinical animations repeat with rests. The welcome logo uses the user's 10 second video on a native loop with no extra pause between loops. Both stop on navigation, hidden tabs, dialogs, printing or reduced motion. No replay controls or changes to wheel handling; the logo has a localized pause/play control.
 
 Supplemental SVG images must decode before replacing a poster. Slow loads retain the original artwork; failed loads remain static. Navigation or preference changes invalidate pending playback, so a late download cannot start an off-screen animation.
 
 ## Choreography
 
-- Welcome: the dragon's eyes close into happy crescents and its mouth opens into a cheerful smile, then gently returns to the original expression. Its hands and body remain fixed in the original logo. The goose retains its bow and blink. Lettering stays fixed. The opening information-flow lines remain removed.
+- Welcome: the supplied `tmi-logo-film.mp4` replaces the custom SVG gestures. Its original visual stream is preserved, with the audio removed for a muted web logo. It plays inline while visible in slide and reading views. The matching first-frame poster is used for static and unavailable-playback states. User pause persists through navigation and resize during the page visit. The opening information-flow lines remain removed.
 - Triage: the amber CT study starts late in the waiting queue, moves around the queue and arrives in front, then the blue route leads toward clinical review.
 - Mission: chevrons follow the existing forward arrows, then travel along the return loop.
 - Digital twin: upper and lower hypothetical outcomes alternate emphasis, synchronized with their incoming branches.
@@ -46,9 +46,9 @@ Prompt:
 
 > Use case: precise-object-edit. Reference: supplied TMI-lab blue dragon logo, use ONLY as style and color reference. Generate one isolated sprite of this dragon's small light-blue cartoon hand in a friendly hello gesture, PALM clearly facing the viewer, fingers pointing UP. Show three upright rounded fingers and a shorter thumb opening to the LEFT. Visible soft palm and one minimal palm crease; no claws, fingernails, fur, paw pad, realistic human skin. Match the exact logo style: soft icy blue watercolor fill, subtle highlight, confident dark navy rounded outline, cute and simple. End in a short narrow blue wrist pointing down, no sleeve or arm. Hand should be naturally front facing, NOT knuckles or back of hand, NOT fingers curled downward, NOT a hand resting on a surface. One hand only, upright, centered, fills about85% of a square canvas with modest transparent margins. Genuinely transparent background, no white rectangle, shadow, text, logo lettering, or other objects. This is a small website animation part composited onto the existing dragon at its wrist.
 
-### tmi-logo-smile.png · cheerful facial expression
+### tmi-logo-smile.png · cheerful facial expression (retired)
 
-Generated with the built-in image tool on2026-10-01. Input: `public/assets/tmi-logo.webp`. Output: `exec-c8f00891-3101-485e-b647-b77d49e4350e.png`; saved as `public/assets/tmi-logo-smile.png`. Only the registered inner face appears through a softly feathered mask. All hands, body outlines, logo letters and background remain original pixels. The opacity-only expression shares the existing playback lifecycle and original static fallback.
+Generated with the built-in image tool on2026-10-01. Input: `public/assets/tmi-logo.webp`. Output: `exec-c8f00891-3101-485e-b647-b77d49e4350e.png`; saved as `public/assets/tmi-logo-smile.png`. Previously used through a registered inner-face mask; no longer rendered after the supplied-video replacement.
 
 Prompt:
 

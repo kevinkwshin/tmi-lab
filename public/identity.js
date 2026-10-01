@@ -1,110 +1,106 @@
 (() => {
   const root = document.documentElement;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const running = new Set();
-  const imageLoads = new Map();
-  let playbackVersion = 0;
-  let activeMark;
-  let activeSlide;
-  let repeatTimer;
-  let resumeFrame;
+  const initialized = new WeakSet();
+  const failed = new WeakSet();
+  const denied = new WeakSet();
+  let activeVideo;
+  let pending = false;
+  let version = 0;
+  let frame;
   let printing = false;
-  const duration = name => parseFloat(getComputedStyle(root).getPropertyValue(name));
+  let userPaused = false;
 
-  function visibleSlide() {
-    if (reduced.matches || document.hidden || printing || document.querySelector('dialog[open]') || !root.classList.contains('presentation')) return;
-    return document.querySelector('.is-current:has(.identity-opening)');
+  function eligible(video) {
+    if (!video.isConnected || reduced.matches || document.hidden || printing || document.querySelector('dialog[open]')) return false;
+    const mark = video.closest('[data-brand-mark]');
+    const bounds = mark.getBoundingClientRect();
+    if (!bounds.width || !bounds.height || bounds.bottom <= 0 || bounds.top >= innerHeight) return false;
+    return !root.classList.contains('presentation') || !!mark.closest('.is-current .identity-opening');
+  }
+
+  function controls(video) {
+    const mark = video.closest('[data-brand-mark]');
+    const button = mark.querySelector('[data-brand-toggle]');
+    button.hidden = reduced.matches || failed.has(video);
+    button.setAttribute('aria-label', mark.hasAttribute('data-brand-playing') ? button.dataset.pauseLabel : button.dataset.playLabel);
   }
 
   function settle() {
-    playbackVersion++;
-    clearTimeout(repeatTimer);
-    cancelAnimationFrame(resumeFrame);
-    for (const animation of running) animation.cancel();
-    running.clear();
-    activeMark?.removeAttribute('data-mascot-active');
-    activeMark = undefined;
-    activeSlide = undefined;
+    version++;
+    cancelAnimationFrame(frame);
+    if (activeVideo) {
+      activeVideo.pause();
+      activeVideo.closest('[data-brand-mark]').removeAttribute('data-brand-playing');
+      controls(activeVideo);
+    }
+    activeVideo = undefined;
+    pending = false;
   }
 
-  function animate(element, frames, time, delay = 0) {
-    if (!element?.getBoundingClientRect().height) return;
-    const animation = element.animate(frames, {duration:time,delay,easing:'ease-in-out',fill:'both'});
-    running.add(animation);
-    animation.finished.then(() => {
-      animation.cancel();
-      if (!running.delete(animation)) return;
-      if (!running.size) {
-        activeMark?.removeAttribute('data-mascot-active');
-        repeatTimer = setTimeout(() => {
-          const slide = visibleSlide();
-          if (slide && slide === activeSlide) enter(slide, false);
-          else settle();
-        }, duration('--mascot-rest'));
-      }
-    }, () => {});
-  }
-
-  function greet(mark, lead = 0) {
-    if (!mark?.getBoundingClientRect().height) return;
-    activeMark = mark;
-    mark.setAttribute('data-mascot-active','');
-    const time = duration('--mascot-duration');
-    animate(mark.querySelector('[data-mascot-goose]'), [
-      {transform:'rotate(0deg)',offset:0},
-      {transform:'rotate(0deg)',offset:.24},
-      {transform:'rotate(-6deg)',offset:.43},
-      {transform:'rotate(3deg)',offset:.64},
-      {transform:'rotate(0deg)',offset:.84},
-      {transform:'rotate(0deg)',offset:1}
-    ],time,lead);
-    animate(mark.querySelector('[data-mascot-smile]'), [
-      {opacity:0,offset:0},{opacity:0,offset:.08},
-      {opacity:1,offset:.26},{opacity:1,offset:.74},
-      {opacity:0,offset:.94},{opacity:0,offset:1}
-    ],time,lead);
-    animate(mark.querySelector('[data-mascot-blink="goose"]'), [
-      {opacity:0,offset:0},{opacity:0,offset:.52},
-      {opacity:1,offset:.54},{opacity:1,offset:.565},
-      {opacity:0,offset:.59},{opacity:0,offset:1}
-    ],time,lead);
-  }
-
-  async function enter(slide, entering = true) {
-    settle();
-    const opening = slide?.querySelector('.identity-opening');
-    if (!opening || !visibleSlide()) return;
-    const mark = opening.querySelector('[data-brand-mark]');
-    const version = playbackVersion;
-    const loaded = await Promise.all([...mark.querySelectorAll('svg image')].map(node => {
-      const src = node.getAttribute('href');
-      if (!imageLoads.has(src)) {
-        const image = new Image();
-        image.src = src;
-        imageLoads.set(src,image.decode().then(() => true,() => false));
-      }
-      return imageLoads.get(src);
-    }));
-    if (version !== playbackVersion || loaded.includes(false) || visibleSlide() !== slide) return;
-    activeSlide = slide;
-    const lead = entering ? duration('--mascot-lead') : 0;
-    greet(mark,lead);
-  }
-
-  function resume() {
-    cancelAnimationFrame(resumeFrame);
-    resumeFrame = requestAnimationFrame(() => {
-      const slide = visibleSlide();
-      if (slide !== activeSlide) enter(slide);
+  function initialize(video) {
+    if (initialized.has(video)) return;
+    initialized.add(video);
+    video.muted = true;
+    video.addEventListener('playing', () => {
+      if (video !== activeVideo || userPaused || !eligible(video)) { video.pause(); return; }
+      video.closest('[data-brand-mark]').setAttribute('data-brand-playing', '');
+      controls(video);
+    });
+    video.addEventListener('pause', () => {
+      video.closest('[data-brand-mark]').removeAttribute('data-brand-playing');
+      controls(video);
+    });
+    video.addEventListener('error', () => {
+      failed.add(video);
+      if (video === activeVideo) settle();
+      controls(video);
     });
   }
 
-  document.addEventListener('deck:change',() => { settle(); resume(); });
-  for (const event of ['deck:cancel','image:open']) document.addEventListener(event,settle);
-  document.addEventListener('close',() => resume(),true);
-  document.addEventListener('visibilitychange',() => { if (document.hidden) settle(); else resume(); });
-  addEventListener('resize',settle);
-  addEventListener('beforeprint',() => { printing = true; settle(); });
-  addEventListener('afterprint',() => { printing = false; resume(); });
-  reduced.addEventListener('change',() => { settle(); if (!reduced.matches) setTimeout(() => resume(),0); });
+  function sync() {
+    const videos = [...document.querySelectorAll('[data-brand-video]')];
+    videos.forEach(video => { initialize(video); controls(video); });
+    const video = videos.find(eligible);
+    if (video !== activeVideo) settle();
+    if (!video || userPaused || failed.has(video) || denied.has(video) || pending || (video === activeVideo && !video.paused)) return;
+    activeVideo = video;
+    pending = true;
+    const request = ++version;
+    if (!video.getAttribute('src')) video.src = video.dataset.src;
+    video.muted = true;
+    video.play().then(() => {
+      if (request === version) pending = false;
+    }, error => {
+      if (request !== version) return;
+      pending = false;
+      if (error.name !== 'AbortError') denied.add(video);
+      controls(video);
+    });
+  }
+
+  function resume() {
+    cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(sync);
+  }
+
+  document.addEventListener('click', event => {
+    const button = event.target.closest('[data-brand-toggle]');
+    if (!button) return;
+    const video = button.closest('[data-brand-mark]').querySelector('[data-brand-video]');
+    userPaused = video === activeVideo && (!video.paused || pending);
+    settle();
+    if (!userPaused) { denied.delete(video); sync(); }
+  });
+  document.addEventListener('deck:change', () => { settle(); resume(); });
+  document.addEventListener('deck:cancel', settle);
+  document.addEventListener('image:open', settle);
+  document.addEventListener('close', resume, true);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) settle(); else resume(); });
+  document.addEventListener('scroll', () => { if (!root.classList.contains('presentation')) resume(); }, {passive:true});
+  addEventListener('resize', () => { settle(); resume(); });
+  addEventListener('beforeprint', () => { printing = true; settle(); });
+  addEventListener('afterprint', () => { printing = false; resume(); });
+  reduced.addEventListener('change', () => { settle(); setTimeout(resume, 0); });
+  resume();
 })();
