@@ -53,19 +53,24 @@ export function researchStories(lang, asset, escape) {
   c.research.items.forEach((r,i)=>{
     const id = ['research','research-imaging','research-signals'][i];
     const e = researchEvidence[lang][i];
-    const images = e.images.map(f=>figure(f.name,f.alt,f.caption));
+    const images = e.images.map(f=>figure(f.name,f.alt,f.caption,f.layout==='comparison'?'evidence-comparison':''));
+    const comparisonIndex = e.images.findIndex(f=>f.layout==='comparison');
     const concept = clinicalScene(['workflow','twin','precision'][i], lang, asset, escape);
     const facts = `<dl class="story-facts">${fact(text('연구 방법','Approach'),e.method)}${fact(text('임상적 의의','Clinical significance'),e.value)}</dl>`;
     const narrative = `<div class="story-narrative">${p(text('연구 목표','Research goal'),'story-label')}${p(r.body,'story-goal')}${facts}<div class="story-evidence-note"><h3>${escape(e.study)}</h3>${p(e.note)}</div></div>`;
-    const visual = `<div class="story-visual research-visual"><div class="research-images">${concept}<div class="research-evidence-strip ${images.length>1?'story-figures-pair':''}">${images.join('')}</div></div>${route(routes[i])}</div>`;
+    const supportingImages = images.filter((_,index)=>index!==comparisonIndex).join('');
+    const visualFigures = comparisonIndex < 0 ? `${concept}<div class="research-evidence-strip ${images.length>1?'story-figures-pair':''}">${images.join('')}</div>` : `${images[comparisonIndex]}<div class="research-supporting">${concept}<div class="research-evidence-strip">${supportingImages}</div></div>`;
+    const visual = `<div class="story-visual research-visual"><div class="research-images${comparisonIndex>=0?' research-comparison':''}">${visualFigures}</div>${route(routes[i])}</div>`;
     const conceptVisual = `<div class="story-visual">${concept}${route(routes[i])}</div>`;
     const opening = `<div class="story-mobile-intent">${p(e.value)}</div>${concept}`;
     const note = `<div class="story-evidence-note"><h3>${escape(e.study)}</h3>${p(e.note)}</div>`;
     const context = `<div class="story-narrative">${p(r.body,'story-goal')}<dl class="story-facts">${fact(text('연구 방법','Approach'),e.method)}</dl></div>${route(routes[i])}`;
     const compactNarrative = `<div class="story-narrative">${p(text('연구 목표','Research goal'),'story-label')}${p(r.body,'story-goal')}${facts}</div>`;
-    const foundation = sheet(`<div class="story-narrative">${p(text('기반 연구 · 다음 단계','Foundational work · Next steps'),'story-label')}${note}</div><div class="story-visual"><div class="story-figures ${images.length>1?'story-figures-pair':''}">${images.join('')}</div></div>`,'story-feature');
-    const evidencePages = images.map((image,index)=>sheet(`${image}${index===0?note:''}`,'story-mobile-opening story-original-evidence')).join('');
-    stories[id] = variants(sheet(narrative+visual,'story-feature story-research'),sheet(opening,'story-mobile-opening')+sheet(context,'story-mobile-context')+evidencePages,sheet(compactNarrative+conceptVisual,'story-feature story-research')+foundation);
+    const compactVisual = comparisonIndex < 0 ? conceptVisual : `<div class="story-visual research-comparison">${images[comparisonIndex]}${route(routes[i])}</div>`;
+    const foundationFigures = comparisonIndex < 0 ? `<div class="story-figures ${images.length>1?'story-figures-pair':''}">${images.join('')}</div>` : `${concept}<div class="research-evidence-strip">${supportingImages}</div>`;
+    const foundation = sheet(`<div class="story-narrative">${p(text('기반 연구 · 다음 단계','Foundational work · Next steps'),'story-label')}${note}</div><div class="story-visual">${foundationFigures}</div>`,comparisonIndex<0?'story-feature':'story-feature story-comparison-foundation');
+    const evidencePages = images.map((image,index)=>sheet(`${image}${comparisonIndex<0&&index===0?note:''}`,'story-mobile-opening story-original-evidence')).join('')+(comparisonIndex>=0?sheet(note,'story-mobile-context'):'');
+    stories[id] = variants(sheet(narrative+visual,'story-feature story-research'),sheet(opening,'story-mobile-opening')+sheet(context,'story-mobile-context')+evidencePages,sheet(compactNarrative+compactVisual,'story-feature story-research')+foundation);
   });
   return stories;
 }
