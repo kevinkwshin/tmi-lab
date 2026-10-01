@@ -1,5 +1,9 @@
 # TMI-lab design system
 
+## October 1: show the medical-school affiliation in the header
+
+Use “TMI-lab · Inha University College of Medicine” as the desktop header identity in both languages. Retain the existing large blue wordmark and set the affiliation in small navy text, centered beside it on one line with a decorative middle dot. Reuse the brand-description component and existing spacing/type/color tokens. Below1201px, show the short wordmark so navigation and language controls have enough room. Preserve header height, home navigation, and the opening video.
+
 ## October 1: identify the opening research links
 
 Prefix the desktop opening's three research links with the noninteractive label “연구 목표” / “Research goals”. Set the label in the existing small type size, semibold navy, vertically centered with the links. Reuse the current spacing and responsive visibility; keep the header logo and opening video placement unchanged.
