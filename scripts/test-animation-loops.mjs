@@ -20,7 +20,7 @@ try {
   await page.context().tracing.start({screenshots:true,snapshots:true});
   await page.goto(`${base}?lang=ko`);
   for (const id of ['welcome','translation','mission','research-imaging','research-signals','research']) {
-    parts = id === 'welcome' ? '.identity-opening [data-mascot-wave], .identity-opening [data-mascot-resting-hand], .identity-opening [data-mascot-goose], .identity-opening [data-mascot-blink]' : '[data-scene-part]';
+    parts = id === 'welcome' ? '.identity-opening [data-mascot-smile], .identity-opening [data-mascot-goose], .identity-opening [data-mascot-blink]' : '[data-scene-part]';
     const assertPoster = async () => {
       if (id !== 'welcome') return;
       const mark = page.locator('.identity-opening [data-brand-mark]');

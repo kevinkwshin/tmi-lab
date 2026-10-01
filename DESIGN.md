@@ -1,5 +1,9 @@
 # TMI-lab design system
 
+## October 1: a cheerful smile instead of a wave
+
+The latest direction removes the dragon's waving hand entirely. Keep the original hands, arm, body and lettering fixed; no patched sleeve or separate palm remains in the rendered logo. A registered facial image changes only the eyes and mouth to a cheerful closed-eye smile, softly blending in, holding, then returning to the original expression. Preserve the original nose, cheeks, silhouette and drawing style. Use the existing4.4second cycle,800ms entry lead and2.8second rest, with opacity only for the face. The goose retains its existing gentle bow. Asset loading, interruption, reduced motion, print and no-JS keep the original complete logo. No hero line graphic, new decoration, dependency or layout change. Verify smile/rest frames at actual display size, hand immobility, automatic repeat and bilingual responsive views.
+
 ## October 1: a clear hello, without the opening line graphic
 
 Remove the information-flow SVG below the hero description, including its renderer and styles. Preserve the existing text hierarchy and logo placement. The dragon's resting hand was palm-down on the T and therefore read as an awkward wave. Replace the waving pose with an upright, front-facing open palm in the same blue/navy illustration style, rotating at the wrist through16° and−18°. Keep the arm still, briefly turn from the resting hand into the open palm, then return to the original pose. The goose, automatic repeat, asset-decode fallback and interruption behavior remain. Do not bring back the hero's decorative lines.

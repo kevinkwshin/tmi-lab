@@ -9,8 +9,7 @@ const results=[];
 const errors=[];
 try {
  for(const [id,asset,selector] of [
-  ['welcome','tmi-logo-motion-base.png','.identity-opening [data-brand-mark]'],
-  ['welcome','tmi-dragon-palm.png','.identity-opening [data-brand-mark]'],
+  ['welcome','tmi-logo-smile.png','.identity-opening [data-brand-mark]'],
   ['translation','neurocad-triage-clean.png','#translation .deck-body [data-clinical-scene]']
  ]) {
   for(const scenario of ['failed','delayed','left-while-loading','reduced-while-loading']) {

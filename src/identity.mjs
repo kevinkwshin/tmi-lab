@@ -7,22 +7,15 @@ export function identityLogo(lang, asset, escape) {
     <svg class="brand-motion" viewBox="0 0 1200 810" aria-hidden="true">
       <defs>
         <clipPath id="welcome-goose-clip"><path d="M909 112H997V244L1044 290H1079V412L1045 437V466H899V436L860 405V339L883 285L909 252Z"/></clipPath>
-        <clipPath id="welcome-arm-patch"><path d="M361 205H425V278L376 306L342 317L333 297L343 280L356 256Z"/></clipPath>
-        <clipPath id="welcome-hand-clip"><path d="M363 237C359 223 370 215 385 213C404 210 419 220 417 235Q416 246 409 247Q403 249 400 240Q397 251 390 247Q386 247 385 240Q381 251 374 247Q369 248 369 237Z"/></clipPath>
+        <filter id="welcome-face-edge" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="2"/></filter>
+        <mask id="welcome-smile-mask" maskUnits="userSpaceOnUse" x="195" y="177" width="144" height="94"><rect x="203" y="185" width="128" height="78" rx="20" fill="white" filter="url(#welcome-face-edge)"/></mask>
         <mask id="welcome-goose-base" maskUnits="userSpaceOnUse" x="0" y="0" width="1200" height="810"><path fill="white" d="M0 0H1200V810H0Z"/><path fill="black" d="M868 100H1086V463H868Z"/></mask>
       </defs>
       <image href="${src}" width="1200" height="810" mask="url(#welcome-goose-base)"/>
-      <image href="${asset('tmi-logo-motion-base')}" width="1200" height="810" preserveAspectRatio="none" clip-path="url(#welcome-arm-patch)"/>
-      <path class="mascot-letter-repair" d="M363 229H418V272H363Z"/>
-      <path class="mascot-sleeve" d="M329 277Q340 273 348 259L368 235Q379 232 390 246L376 270Q367 290 345 300"/>
-      <g data-mascot-resting-hand>
-        <image href="${src}" width="1200" height="810" clip-path="url(#welcome-hand-clip)"/>
-      </g>
-      <g class="mascot-wave" data-mascot-wave><image href="${asset('tmi-dragon-palm')}" x="355" y="178" width="74" height="74"/></g>
+      <g class="mascot-smile" data-mascot-smile><image href="${asset('tmi-logo-smile')}" width="1200" height="810" preserveAspectRatio="none" mask="url(#welcome-smile-mask)"/></g>
       <g class="mascot-goose" data-mascot-goose><image href="${src}" width="1200" height="810" clip-path="url(#welcome-goose-clip)"/>
         <g class="mascot-blink mascot-blink-goose" data-mascot-blink="goose"><ellipse cx="941" cy="168" rx="8" ry="11"/><ellipse cx="968" cy="170" rx="8" ry="11"/><path d="M936 169q5 4 10 0m17 2q5 4 10 0"/></g>
       </g>
-      <g class="mascot-blink mascot-blink-dragon" data-mascot-blink="dragon"><ellipse cx="224" cy="214" rx="12" ry="12"/><ellipse cx="304" cy="204" rx="12" ry="12"/><path d="M216 215q8 6 16 0m64-10q8 6 16 0"/></g>
     </svg>
   </div></figure>`;
 }

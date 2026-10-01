@@ -1,4 +1,4 @@
-:root { --mascot-duration:4400ms; --mascot-lead:800ms; --mascot-rest:2800ms; --mascot-dragon:#d6f0fb; --mascot-white:#fdfdfe; --mascot-ink:#102033; --mascot-letter:#084788; }
+:root { --mascot-duration:4400ms; --mascot-lead:800ms; --mascot-rest:2800ms; --mascot-white:#fdfdfe; --mascot-ink:#102033; }
 .identity-visual .page-logo { height:100%; }
 .brand-mark { position:relative; height:100%; min-height:0; }
 .identity-visual .brand-poster { display:block; width:100%; object-fit:contain; }
@@ -6,11 +6,8 @@
 .brand-mark[data-mascot-active] .brand-poster { opacity:0; }
 .brand-mark[data-mascot-active] .brand-motion { opacity:1; }
 .mascot-goose { transform-origin:978px 450px; }
-.mascot-wave { opacity:0; transform-origin:392px 244px; }
-.mascot-letter-repair { fill:var(--mascot-letter); }
-.mascot-sleeve { fill:var(--mascot-white); stroke:var(--mascot-ink); stroke-width:3; stroke-linecap:round; stroke-linejoin:round; }
+.mascot-smile { opacity:0; }
 .mascot-blink { opacity:0; }
-.mascot-blink-dragon ellipse { fill:var(--mascot-dragon); }
 .mascot-blink-goose ellipse { fill:var(--mascot-white); }
 .mascot-blink path { fill:none; stroke:var(--mascot-ink); stroke-width:3.2; stroke-linecap:round; }
 @media(max-width:359px) {

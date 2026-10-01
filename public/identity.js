@@ -58,30 +58,16 @@
       {transform:'rotate(0deg)',offset:.84},
       {transform:'rotate(0deg)',offset:1}
     ],time,lead);
-    animate(mark.querySelector('[data-mascot-wave]'), [
-      {opacity:0,transform:'rotate(0deg) scaleY(.3)',offset:0},
-      {opacity:0,transform:'rotate(0deg) scaleY(.3)',offset:.06},
-      {opacity:1,transform:'rotate(16deg) scaleY(1)',offset:.18},
-      {opacity:1,transform:'rotate(-18deg) scaleY(1)',offset:.3},
-      {opacity:1,transform:'rotate(16deg) scaleY(1)',offset:.42},
-      {opacity:1,transform:'rotate(-18deg) scaleY(1)',offset:.54},
-      {opacity:1,transform:'rotate(16deg) scaleY(1)',offset:.66},
-      {opacity:1,transform:'rotate(0deg) scaleY(1)',offset:.86},
-      {opacity:0,transform:'rotate(0deg) scaleY(.3)',offset:.98},
-      {opacity:0,transform:'rotate(0deg) scaleY(.3)',offset:1}
+    animate(mark.querySelector('[data-mascot-smile]'), [
+      {opacity:0,offset:0},{opacity:0,offset:.08},
+      {opacity:1,offset:.26},{opacity:1,offset:.74},
+      {opacity:0,offset:.94},{opacity:0,offset:1}
     ],time,lead);
-    animate(mark.querySelector('[data-mascot-resting-hand]'), [
-      {opacity:1,offset:0},{opacity:1,offset:.06},
-      {opacity:0,offset:.18},{opacity:0,offset:.86},
-      {opacity:1,offset:.98},{opacity:1,offset:1}
+    animate(mark.querySelector('[data-mascot-blink="goose"]'), [
+      {opacity:0,offset:0},{opacity:0,offset:.52},
+      {opacity:1,offset:.54},{opacity:1,offset:.565},
+      {opacity:0,offset:.59},{opacity:0,offset:1}
     ],time,lead);
-    for (const [kind,offset] of [['dragon',.18],['goose',.52]]) {
-      animate(mark.querySelector(`[data-mascot-blink="${kind}"]`), [
-        {opacity:0,offset:0}, {opacity:0,offset},
-        {opacity:1,offset:offset+.02}, {opacity:1,offset:offset+.045},
-        {opacity:0,offset:offset+.07}, {opacity:0,offset:1}
-      ],time,lead);
-    }
   }
 
   async function enter(slide, entering = true) {
