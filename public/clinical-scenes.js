@@ -2,6 +2,8 @@
   const root = document.documentElement;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const running = new Set();
+  const imageLoads = new Map();
+  let playbackVersion = 0;
   let activeScene;
   let repeatTimer;
   let resumeFrame;
@@ -17,6 +19,7 @@
   }
 
   function settle() {
+    playbackVersion++;
     clearTimeout(repeatTimer);
     cancelAnimationFrame(resumeFrame);
     for (const animation of running) animation.cancel();
@@ -25,10 +28,21 @@
     activeScene = undefined;
   }
 
-  function play(scene, entering = false) {
+  async function play(scene, entering = false) {
     settle();
     if (!scene || reduced.matches || document.hidden || !scene.getBoundingClientRect().height) return;
-    const tokens = getComputedStyle(root);
+    const version = playbackVersion;
+    const loaded = await Promise.all([...scene.querySelectorAll('svg image')].map(node => {
+      const src = node.getAttribute('href');
+      if (!imageLoads.has(src)) {
+        const image = new Image();
+        image.src = src;
+        imageLoads.set(src,image.decode().then(() => true,() => false));
+      }
+      return imageLoads.get(src);
+    }));
+    if (version !== playbackVersion || loaded.includes(false) || visibleScene() !== scene) return;
+    const tokens = getComputedStyle(scene);
     const duration = parseFloat(tokens.getPropertyValue('--scene-duration'));
     const delay = entering ? parseFloat(tokens.getPropertyValue('--scene-lead')) : 0;
     const easing = tokens.getPropertyValue('--scene-ease').trim();
@@ -38,7 +52,7 @@
     function animate(part, frames) {
       for (const element of scene.querySelectorAll(`[data-scene-part="${part}"]`)) {
         if (!element.getBoundingClientRect().height) continue;
-        const animation = element.animate(frames.map(frame => ({...frame, easing})), {duration, delay, fill:'both'});
+        const animation = element.animate(frames.map(frame => ({easing, ...frame})), {duration, delay, fill:'both'});
         running.add(animation);
         animation.finished.then(() => {
           animation.cancel();
@@ -53,28 +67,52 @@
         }, () => {});
       }
     }
+    function travel(part, points) {
+      animate(part, points.map(([offset,x,y,opacity,angle = 0]) => ({offset,opacity,transform:`translate(${x}px,${y}px) rotate(${angle}deg)`,easing:'linear'})));
+    }
+    function emphasize(part, start, peak, hold, end) {
+      animate(part, [{opacity:0,offset:0},{opacity:0,offset:start},{opacity:1,offset:peak},{opacity:1,offset:hold},{opacity:0,offset:end},{opacity:0,offset:1}]);
+    }
     if (scene.dataset.clinicalScene === 'triage') {
-      animate('triage-alert', [
-        {opacity:0, transform:'scale(1.12)', offset:0},
-        {opacity:0, transform:'scale(1.12)', offset:.12},
-        {opacity:1, transform:'scale(1)', offset:.3},
-        {opacity:.8, transform:'scale(1)', offset:1}
+      animate('triage-priority', [
+        {opacity:0,transform:'translate(270px,-230px) scale(.72)',offset:0},
+        {opacity:1,transform:'translate(270px,-230px) scale(.72)',offset:.08},
+        {opacity:1,transform:'translate(270px,-230px) scale(.72)',offset:.23},
+        {opacity:1,transform:'translate(310px,-100px) scale(.82)',offset:.42},
+        {opacity:1,transform:'translate(175px,-20px) scale(.94)',offset:.58},
+        {opacity:1,transform:'translate(0,0) scale(1)',offset:.73},
+        {opacity:1,transform:'translate(0,0) scale(1)',offset:1}
       ]);
       animate('triage-route', [
         {opacity:0, transform:'translate(0,0)', offset:0},
-        {opacity:0, transform:'translate(0,0)', offset:.3},
-        {opacity:1, transform:'translate(0,0)', offset:.35},
-        {opacity:1, transform:'translate(22px,34px)', offset:.45},
-        {opacity:1, transform:'translate(112px,76px)', offset:.58},
-        {opacity:1, transform:'translate(190px,43px)', offset:.7},
-        {opacity:1, transform:'translate(269px,0)', offset:.84},
-        {opacity:0, transform:'translate(269px,0)', offset:.9},
+        {opacity:0, transform:'translate(0,0)', offset:.73},
+        {opacity:1, transform:'translate(0,0)', offset:.76},
+        {opacity:1, transform:'translate(22px,34px)', offset:.8},
+        {opacity:1, transform:'translate(112px,76px)', offset:.86},
+        {opacity:1, transform:'translate(190px,43px)', offset:.91},
+        {opacity:1, transform:'translate(269px,0)', offset:.96},
+        {opacity:0, transform:'translate(269px,0)', offset:.99},
         {opacity:0, transform:'translate(269px,0)', offset:1}
       ]);
       animate('triage-review', [
-        {opacity:0, offset:0}, {opacity:0, offset:.7}, {opacity:.7, offset:.95}, {opacity:.7, offset:1}
+        {opacity:0, offset:0}, {opacity:0, offset:.9}, {opacity:.7, offset:.98}, {opacity:.7, offset:1}
       ]);
-    } else {
+    } else if (scene.dataset.clinicalScene === 'mission') {
+      travel('mission-forward-a', [[0,443,626,0,20],[.06,443,626,1,20],[.28,600,684,1,20],[.33,608,687,0,20],[1,608,687,0,20]]);
+      travel('mission-forward-b', [[0,982,690,0,-25],[.28,982,690,0,-25],[.34,982,690,1,-25],[.53,1112,623,1,-30],[.58,1122,617,0,-30],[1,1122,617,0,-30]]);
+      travel('mission-return', [[0,1200,737,0,155],[.55,1200,737,0,155],[.6,1200,737,1,155],[.71,1020,802,1,170],[.82,810,825,1,180],[.9,600,800,1,197],[.97,360,692,1,220],[1,277,617,0,230]]);
+    } else if (scene.dataset.clinicalScene === 'twin') {
+      travel('twin-branch-a', [[0,925,503,0],[.05,925,503,1],[.17,995,481,1],[.3,1098,416,1],[.36,1098,416,0],[1,1098,416,0]]);
+      emphasize('twin-option-a', .16, .28, .42, .52);
+      travel('twin-branch-b', [[0,930,538,0],[.5,930,538,0],[.55,930,538,1],[.65,981,558,1],[.72,1010,601,1],[.8,1066,633,1],[.85,1066,633,0],[1,1066,633,0]]);
+      emphasize('twin-option-b', .65, .77, .9, 1);
+    } else if (scene.dataset.clinicalScene === 'precision') {
+      travel('precision-retina', [[0,602,374,0],[.06,602,374,1],[.23,691,401,1],[.4,805,398,1],[.45,805,398,0],[1,805,398,0]]);
+      travel('precision-signal', [[0,752,382,0],[.13,752,382,0],[.19,752,382,1],[.43,805,398,1],[.48,805,398,0],[1,805,398,0]]);
+      travel('precision-imaging', [[0,919,415,0],[.2,919,415,0],[.26,919,415,1],[.4,865,418,1],[.48,805,398,1],[.53,805,398,0],[1,805,398,0]]);
+      animate('precision-junction', [{opacity:0,transform:'scale(.65)',offset:0},{opacity:0,transform:'scale(.65)',offset:.4},{opacity:1,transform:'scale(1)',offset:.55},{opacity:0,transform:'scale(1.5)',offset:.72},{opacity:0,transform:'scale(1.5)',offset:1}]);
+      travel('precision-care', [[0,934,629,0],[.68,934,629,0],[.74,934,629,1],[.9,1015,586,1],[.97,1037,586,0],[1,1037,586,0]]);
+    } else if (scene.dataset.clinicalScene === 'workflow') {
       animate('workflow-prior', [
         {opacity:.35, transform:'translateX(-12px)', offset:0},
         {opacity:1, transform:'translateX(0)', offset:.22},

@@ -1,12 +1,29 @@
 export function clinicalScene(kind, lang, asset, escape) {
   const text = (ko, en) => escape(lang === 'ko' ? ko : en);
+  const illustrations = {
+    mission: ['mission-clinical-research','mission-illustration',text('임상 질문에서 연구 협업과 진료 적용으로 이어지고, 임상 피드백이 다시 연구로 돌아오는 순환 개념도','Concept: clinical questions lead to collaborative research and evaluation in care; clinical feedback returns to research.')],
+    twin: ['research-twin-concept','research-illustration',text('환자의 해부학적 모델에서 두 가지 가상의 수술 후 상태를 번갈아 비교하는 디지털 트윈 연구 개념도','Digital twin research concept comparing two hypothetical surgical outcomes from a patient-specific anatomical model.')],
+    precision: ['research-precision-concept','research-illustration',text('안저 영상, 생체신호와 의료영상의 근거를 함께 해석하고 환자별 임상 판단으로 연결하는 멀티모달 연구 개념도','Multimodal research concept: retinal images, biosignals and medical images converge for interpretation and individual clinical decisions.')]
+  };
+  if (illustrations[kind]) {
+    const [name, cls, alt] = illustrations[kind];
+    const arrow = part => `<g class="scene-arrow" data-scene-part="${part}"><path class="scene-arrow-edge" d="M-16-11 0 0-16 11"/><path d="M-16-11 0 0-16 11"/></g>`;
+    const packet = part => `<g class="scene-packet" data-scene-part="${part}"><circle r="17" class="scene-packet-halo"/><circle r="6"/></g>`;
+    const layers = {
+      mission: `${arrow('mission-forward-a')}${arrow('mission-forward-b')}${arrow('mission-return')}`,
+      twin: `<g class="scene-option" data-scene-part="twin-option-a"><path d="M1060 378V230Q1060 220 1073 215L1187 177Q1195 174 1205 179L1319 223Q1330 227 1330 239V387"/><ellipse cx="1198" cy="400" rx="85" ry="34"/></g><g class="scene-option" data-scene-part="twin-option-b"><path d="M1071 678V522Q1071 513 1082 508L1203 458Q1211 455 1221 460L1326 502Q1337 507 1337 520V684"/><ellipse cx="1211" cy="709" rx="86" ry="33"/></g>${packet('twin-branch-a')}${packet('twin-branch-b')}`,
+      precision: `<g class="scene-connections"><path d="M602 374Q680 414 805 398M752 382 805 398M919 415Q864 424 805 398"/></g>${packet('precision-retina')}${packet('precision-signal')}${packet('precision-imaging')}<g class="scene-junction" data-scene-part="precision-junction"><circle cx="805" cy="398" r="22"/><circle cx="805" cy="398" r="7"/></g>${packet('precision-care')}`
+    };
+    return `<figure class="evidence-figure clinical-scene ${cls}" data-clinical-scene="${kind}"><a class="evidence-media scene-art" data-zoom href="${asset(name)}" aria-label="${text('그림 확대','Enlarge figure')}: ${alt}"><img src="${asset(name)}" width="1536" height="1024" alt="${alt}" loading="lazy"><svg class="scene-overlay" viewBox="0 0 1536 1024" aria-hidden="true">${layers[kind]}</svg><span class="evidence-zoom" aria-hidden="true">${text('그림 확대','Enlarge')} ↗</span></a></figure>`;
+  }
   if (kind === 'triage') {
-    const alt = text('대기 중인 뇌 CT에서 출혈 의심 영상을 표시하고 의료진의 우선 검토로 연결하는 개념도','Concept: a CT study with suspected bleeding is flagged in the queue and routed for priority clinical review');
+    const alt = text('대기열 뒤쪽의 출혈 의심 뇌 CT를 앞으로 옮겨 의료진의 우선 검토로 연결하는 개념도','Concept: a late queued CT study with suspected bleeding moves to the front for priority clinical review');
     return `<figure class="evidence-figure clinical-scene triage-illustration" data-clinical-scene="triage">
       <a class="evidence-media scene-triage-art" data-zoom href="${asset('neurocad-triage-journey')}" aria-label="${text('그림 확대','Enlarge figure')}: ${alt}">
         <img src="${asset('neurocad-triage-journey')}" width="1536" height="1024" alt="${alt}" loading="lazy">
-        <svg class="scene-triage-overlay" viewBox="0 0 1536 1024" aria-hidden="true">
-          <g data-scene-part="triage-alert" class="scene-alert"><path d="M725 426 Q725 411 739 416 L826 448 Q840 453 838 469 L835 580 Q834 596 820 591 L736 559 Q723 554 724 538 Z"/><circle cx="788" cy="421" r="29"/></g>
+        <svg class="scene-overlay scene-triage-motion" viewBox="0 0 1536 1024" aria-hidden="true">
+          <image href="${asset('neurocad-triage-clean')}" width="1536" height="1024"/>
+          <g data-scene-part="triage-priority" class="scene-priority"><svg x="718" y="390" width="130" height="212" viewBox="718 390 130 212"><image href="${asset('neurocad-triage-journey')}" width="1536" height="1024" style="clip-path:path('M724 416Q727 409 736 413L770 425C762 391 809 391 807 435L831 444Q842 448 841 465L839 584Q838 598 826 593L734 560Q721 556 722 541Z')"/></svg></g>
           <g data-scene-part="triage-route" class="scene-traveller"><circle cx="780" cy="588" r="22"/><path d="M772 577h11l6 6v16h-17z M783 577v7h6 M776 589h9m-9 5h9"/></g>
           <g data-scene-part="triage-review" class="scene-review"><path d="M1164 415 L1347 477 L1345 617 L1162 554 Z"/><circle cx="1372" cy="487" r="24"/><path d="m1360 487 8 8 16-18"/></g>
         </svg>

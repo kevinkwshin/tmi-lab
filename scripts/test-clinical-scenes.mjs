@@ -13,6 +13,7 @@ try {
   for (const lang of ['ko','en']) {
     const page = await browser.newPage({viewport:{width:1440,height:900}, reducedMotion:'reduce'});
     page.on('pageerror', error => errors.push(String(error)));
+    await page.context().tracing.start({screenshots:true,snapshots:true});
     await page.goto(`${base}${lang === 'en' ? 'en/' : ''}?lang=${lang}#translation`);
     await page.waitForFunction(() => document.querySelector('.is-current .deck-page'));
     assert.equal(await page.locator('[data-scene-replay], [data-brand-replay]').count(),0,'Replay controls are removed from the document');
@@ -72,7 +73,10 @@ try {
         const old=await page.evaluate(() => current);
         await page.mouse.wheel(0,24);
         assert.equal(await page.evaluate(() => current),old+1,'Small wheel notch responds during scene motion');
-        assert.equal(await animationCount(page),0,'Leaving scene cancels its animations');
+        const noncurrentAnimations = await page.locator('[data-scene-part]').evaluateAll(nodes => nodes
+          .filter(node => !node.closest('.is-current'))
+          .flatMap(node => node.getAnimations().map(() => ({scene:node.closest('[data-clinical-scene]').dataset.clinicalScene,part:node.dataset.scenePart}))));
+        assert.deepEqual(noncurrentAnimations,[],'Leaving scene cancels all outgoing and noncurrent scene animations');
         await page.evaluate(id => navigateTo(document.getElementById(id),false),id);
         await page.emulateMedia({reducedMotion:'reduce'});
         await page.waitForTimeout(80);
@@ -106,9 +110,10 @@ try {
         assert.equal(await animationCount(page),0,'Off-screen reading scenes stop');
         await page.locator('[data-reading]').click();
         await page.waitForTimeout(150);
-        results.push({lang,width,height,kind,motion:true,automaticRepeat:true,interruption:true,reduced:true,dialog:true,reading:true});
+        results.push({lang,width,height,kind,motion:true,automaticRepeat:true,interruption:true,noncurrentScenesCancelled:true,reduced:true,dialog:true,reading:true});
       }
     }
+    await page.context().tracing.stop({path:`${out}/${lang}-actions.zip`});
     await page.close();
     const nojs=await browser.newPage({javaScriptEnabled:false,viewport:{width:1440,height:900}});
     await nojs.goto(`${base}${lang==='en'?'en/':''}?lang=${lang}`);

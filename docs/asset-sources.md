@@ -1,5 +1,9 @@
 # Content and image sources
 
+## Explanatory animation plates (2026-10-01)
+
+`neurocad-triage-clean.png` removes the stationary amber study from the prior concept illustration so the original study can move from the queue to the front. `tmi-logo-motion-base.png` supplies only the small background patch behind the dragon's waving arm. The original logo lettering and static poster remain. See [motion design, source assets and generation prompts](scene-motion.md).
+
 ## Longitudinal CT comparison (2026-10-01)
 
 `workflow-ct-comparison.png` is a synthetic explanatory CT pair generated for the workflow research page, not patient data or measured results. The fictional report excerpts illustrate a discrepancy requiring clinician review. The original report-text study figure remains unchanged. See [generation prompt and usage boundaries](workflow-ct-illustration.md).

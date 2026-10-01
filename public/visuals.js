@@ -33,12 +33,6 @@
         entryAnimations.add(animation);
         animation.finished.then(() => entryAnimations.delete(animation), () => {});
       });
-      const logo = opening.querySelector('.identity-visual');
-      if (logo?.getBoundingClientRect().height) {
-        const animation = logo.animate([{opacity:.3,transform:'scale(.94)'},{opacity:1,transform:'scale(1)'}], {duration:duration('--identity-duration'), easing:easing()});
-        entryAnimations.add(animation);
-        animation.finished.then(() => entryAnimations.delete(animation), () => {});
-      }
     }
     for (const anchor of slide.querySelectorAll('.evidence-media')) {
       if (anchor.closest('[data-clinical-scene]')) continue;

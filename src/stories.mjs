@@ -37,7 +37,7 @@ export function researchStories(lang, asset, escape) {
   stories.transfers = variants(sheet(transfers.map(transfer).join(''),'story-transfer-grid'),transfers.map(t=>sheet(transfer(t),'story-transfer-single')).join(''),transfers.map(t=>sheet(transfer(t),'story-transfer-feature')).join(''));
 
   const missionStages = `<ol class="mission-process">${c.approach.steps.map((step,i)=>`<li><span class="mission-index" aria-hidden="true">${i+1}</span><div><h3>${escape(step.title)}</h3>${p(step.body)}</div></li>`).join('')}</ol>`;
-  const missionImage = figure('mission-clinical-research',text('환자의 임상 질문에서 출발해 의료진과 연구자가 데이터를 함께 해석하고 진료 적용을 평가하는 연구 순환 개념도','Concept: a clinical question leads to collaboration between clinicians and researchers, followed by evaluation in care'),'','mission-illustration');
+  const missionImage = clinicalScene('mission', lang, asset, escape);
   const missionPurpose = `<div class="mission-purpose"><p class="mission-premise">${text('좋은 예측을 넘어, 진료의 변화로.','From a useful prediction to a change in care.')}</p>${missionImage}${p(c.intro.body)}</div>`;
   stories.mission = variants(sheet(`${missionPurpose}${missionStages}`,'story-mission'),sheet(missionPurpose,'story-mobile-context story-mission-opening')+sheet(missionStages,'story-mobile-context'));
 
@@ -50,17 +50,11 @@ export function researchStories(lang, asset, escape) {
     [['Observe','Anatomical change'],['Model','Individual prediction'],['Goal','Surgical planning']],
     [['Measure','Images & biosignals'],['Interpret','Value & confidence'],['Goal','Individual evidence']]
   ];
-  const concepts = [
-    ['research-workflow-concept',text('이전 검사와 추적 검사 판독문을 비교하고 확인이 필요한 차이를 의료진에게 제시하는 연구 개념','Research concept: compare prior and follow-up reports and surface differences for clinician review'),text('판독 흐름 개선','Improving the review workflow')],
-    ['research-twin-concept',text('환자별 해부학적 모델에서 가능한 치료 후 상태를 비교하는 연구 개념','Research concept: compare possible treatment outcomes using patient-specific anatomical models'),text('환자별 수술 계획','Patient-specific planning')],
-    ['research-precision-concept',text('영상과 생체신호의 정량값과 불확실성을 환자별 임상 상담에 연결하는 연구 개념','Research concept: bring measurements and uncertainty from images and biosignals into individual clinical discussions'),text('환자별 근거 해석','Evidence for individual care')]
-  ];
   c.research.items.forEach((r,i)=>{
     const id = ['research','research-imaging','research-signals'][i];
     const e = researchEvidence[lang][i];
     const images = e.images.map(f=>figure(f.name,f.alt,f.caption));
-    const [conceptName,conceptAlt] = concepts[i];
-    const concept = i === 0 ? clinicalScene('workflow', lang, asset, escape) : figure(conceptName,conceptAlt,'','research-illustration');
+    const concept = clinicalScene(['workflow','twin','precision'][i], lang, asset, escape);
     const facts = `<dl class="story-facts">${fact(text('연구 방법','Approach'),e.method)}${fact(text('임상적 의의','Clinical significance'),e.value)}</dl>`;
     const narrative = `<div class="story-narrative">${p(text('연구 목표','Research goal'),'story-label')}${p(r.body,'story-goal')}${facts}<div class="story-evidence-note"><h3>${escape(e.study)}</h3>${p(e.note)}</div></div>`;
     const visual = `<div class="story-visual research-visual"><div class="research-images">${concept}<div class="research-evidence-strip ${images.length>1?'story-figures-pair':''}">${images.join('')}</div></div>${route(routes[i])}</div>`;
