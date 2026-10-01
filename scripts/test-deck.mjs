@@ -64,6 +64,7 @@ try {
       }
     };
     const desktopIds = await page.locator('main > [data-slide]').evaluateAll(es => es.map(e => e.id));
+    assert.equal(desktopIds.filter(id => id.startsWith('patents')).length, 1, 'Desktop patents must stay on one slide');
     for (const id of desktopIds) {
       await page.evaluate(id => navigateTo(document.getElementById(id), false), id);
       await assertFrame();
@@ -114,10 +115,22 @@ try {
       await page.setViewportSize(viewport);
       await page.waitForTimeout(250);
       const resizedIds = await page.locator('main > [data-slide]').evaluateAll(es => es.map(e => e.id));
+      if (viewport.width > 1000) assert.equal(resizedIds.filter(id => id.startsWith('patents')).length, 1, 'Resized desktop patents must stay on one slide');
       for (const id of resizedIds) {
         await page.evaluate(id => navigateTo(document.getElementById(id), false), id);
         await assertFrame();
       }
+    }
+    for (const viewport of [{width:1024,height:768},{width:1024,height:640},{width:1001,height:560},{width:1440,height:560},{width:1280,height:480}]) {
+      await page.setViewportSize(viewport);
+      await page.waitForTimeout(250);
+      assert.equal(await page.locator('[data-deck-continuation="patents"]').count(), 0, `${language} ${viewport.width}x${viewport.height}: patents must remain one slide`);
+      await page.evaluate(() => navigateTo(document.getElementById('patents'), false));
+      if (viewport.height >= 560) assert.equal(await page.locator('#patents .slide-overview .patent').count(), 5);
+      await assertFrame();
+      await page.locator('.is-current [data-read="detail-patents"]').click();
+      assert.equal(await page.locator('.reading-dialog .patent').count(), 5);
+      await page.keyboard.press('Escape');
     }
     assert.deepEqual(errors, []);
     await page.close();

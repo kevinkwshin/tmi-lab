@@ -1,5 +1,9 @@
 # TMI-lab design system
 
+## October 1: keep desktop patents on one slide
+
+Arrange the five patent records in a six-track desktop grid: three medical patents span two tracks each in the first row; the two earlier industrial patents span three tracks each in the second. Reuse the current patent cards, complete titles, numbers, statuses, years, and related-family links. At heights of 740px and below, use the existing 14px text size for titles, tighter spacing, and show inventor lists in the full patent dialog rather than on the slide. At 620px and below, also move status badges and related-family links to the dialog, retaining all five primary titles, numbers and years. Exclude the existing extremely short-screen summary from the card grid. Keep desktop content centered in the shared slide frame and retain mobile pagination and full reading content. Verify a single desktop patent slide in both languages with no clipping or hidden records.
+
 ## October 1: strengthen and tighten the header identity
 
 Increase both parts of the first line to 24px on desktops from 1280px, scaling smoothly to 22px near the compact-header breakpoint. Use a shared 1.2 line height, an 8px gap before the expansion, and a 2px gap above the existing 13px affiliation. Keep the complete approved name and blue T/M/I initials. A 20px minimum gap between desktop header groups leaves room for the English navigation at 1201px. Preserve the 96px desktop header height and compact wordmark below 1201px. Verify both languages, clipping, alignment, and header controls across the size transition.
