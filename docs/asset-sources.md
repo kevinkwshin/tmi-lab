@@ -2,6 +2,8 @@
 
 ## Explanatory animation plates (2026-10-01)
 
+`tmi-dragon-palm.png` is a transparent, front-facing hand sprite generated from the original logo's style reference for a natural greeting. The original downward resting hand remains only during the turn into/out of the greeting. Full prompt and usage are in [the motion source record](scene-motion.md#tmi-dragon-palmpng--front-facing-greeting-revision).
+
 `neurocad-triage-clean.png` removes the stationary amber study from the prior concept illustration so the original study can move from the queue to the front. `tmi-logo-motion-base.png` supplies only the small background patch behind the dragon's waving arm. The original logo lettering and static poster remain. See [motion design, source assets and generation prompts](scene-motion.md).
 
 ## Longitudinal CT comparison (2026-10-01)

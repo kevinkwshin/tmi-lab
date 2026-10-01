@@ -20,7 +20,7 @@ export function renderPage(lang, siteUrl, languageScript, stylesheet = 'styles.c
   const ko = lang === 'ko';
   const root = ko ? './' : '../';
   const pageUrl = new URL(ko ? './' : 'en/', siteUrl).href;
-  const illustrations = new Set(['neurocad-triage-journey','neurocad-triage-clean','tmi-logo-motion-base','research-workflow-concept','research-twin-concept','research-precision-concept','mission-clinical-research','workflow-ct-comparison']);
+  const illustrations = new Set(['neurocad-triage-journey','neurocad-triage-clean','tmi-logo-motion-base','tmi-dragon-palm','research-workflow-concept','research-twin-concept','research-precision-concept','mission-clinical-research','workflow-ct-comparison']);
   const asset = (name) => `${root}assets/${name}.${illustrations.has(name) ? 'png' : 'webp'}`;
   const overviews = slideOverviews(lang, asset, escape);
   const overview = id => `<div class="slide-overview">${overviews[id]}</div>`;

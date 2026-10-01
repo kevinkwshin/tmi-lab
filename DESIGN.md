@@ -1,5 +1,9 @@
 # TMI-lab design system
 
+## October 1: a clear hello, without the opening line graphic
+
+Remove the information-flow SVG below the hero description, including its renderer and styles. Preserve the existing text hierarchy and logo placement. The dragon's resting hand was palm-down on the T and therefore read as an awkward wave. Replace the waving pose with an upright, front-facing open palm in the same blue/navy illustration style, rotating at the wrist through16° and−18°. Keep the arm still, briefly turn from the resting hand into the open palm, then return to the original pose. The goose, automatic repeat, asset-decode fallback and interruption behavior remain. Do not bring back the hero's decorative lines.
+
 ## October 1: motion that explains each research story
 
 The final welcome steering restores the logo greeting: the dragon waves its hand three times, and the goose bows more visibly. Keep the information-flow graphic stationary. Use a local imagegen clean patch behind the arm, a native coat sleeve and original clipped hand/goose pixels, leaving the logo lettering fixed. The4.4second greeting repeats after2.8seconds of rest, with the original untouched poster during rest, reduced motion, no-JS and print. Keep the existing typography, white canvas, navy/clinical-blue tokens, six colored initials and complete page content.

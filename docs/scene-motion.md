@@ -6,7 +6,7 @@ Supplemental SVG images must decode before replacing a poster. Slow loads retain
 
 ## Choreography
 
-- Welcome: original dragon hand waves three times; the goose bows and both blink. Lettering stays fixed. The information-flow lines remain static.
+- Welcome: the dragon opens its palm toward the visitor and waves at the wrist three times; the goose bows and both blink. Lettering stays fixed. The opening information-flow lines were removed at the user's request.
 - Triage: the amber CT study starts late in the waiting queue, moves around the queue and arrives in front, then the blue route leads toward clinical review.
 - Mission: chevrons follow the existing forward arrows, then travel along the return loop.
 - Digital twin: upper and lower hypothetical outcomes alternate emphasis, synchronized with their incoming branches.
@@ -37,3 +37,11 @@ Prompt:
 > Precise local object removal for animation, not a logo redesign. Preserve this exact1200x810 TMI logo including all lettering, blue T, dragon, goose, layout, white background and illustration texture. Remove ONLY the dragon's right raised arm and blue hand resting on the upper left edge of the blue T: the hand roughly x365-415 y214-252, and the white coat forearm from x337 y277 to x384 y248. Reconstruct the solid blue T underneath the hand (its top horizontal edge is at y229), white background above the T, and a smooth natural contour of the dragon's body/coat at the shoulder around x330 y279. The dragon should have no raised arm visible in this one small area. Do not remove its other arm holding a tablet. Do not change the dragon's head, body, eyes, feet, horns, goose, or any text. Keep exact registration and all other pixels visually identical; no crop or rescale. This is a clean background plate over which the original arm will be animated independently.
 
 Only a small registered arm-area patch from this output is displayed. Original source pixels supply the rest of the logo, moving hand and goose. A native sleeve joins the moving hand to the shoulder, and a small solid-blue patch restores the T beneath the original hand. SVG coordinate data are artwork registration, not layout dimensions. The original poster remains the fallback and resting state.
+
+### tmi-dragon-palm.png · front-facing greeting revision
+
+Generated with the built-in image tool from `tmi-logo.webp` as the style reference. Output: `exec-97ddac46-4ba1-4de3-b247-02faee23acff.png`. Its transparent background is preserved. The original clipped hand is now used only for the transition into and out of the open-palm greeting; the replacement hand rotates at its wrist, with the sleeve stationary.
+
+Prompt:
+
+> Use case: precise-object-edit. Reference: supplied TMI-lab blue dragon logo, use ONLY as style and color reference. Generate one isolated sprite of this dragon's small light-blue cartoon hand in a friendly hello gesture, PALM clearly facing the viewer, fingers pointing UP. Show three upright rounded fingers and a shorter thumb opening to the LEFT. Visible soft palm and one minimal palm crease; no claws, fingernails, fur, paw pad, realistic human skin. Match the exact logo style: soft icy blue watercolor fill, subtle highlight, confident dark navy rounded outline, cute and simple. End in a short narrow blue wrist pointing down, no sleeve or arm. Hand should be naturally front facing, NOT knuckles or back of hand, NOT fingers curled downward, NOT a hand resting on a surface. One hand only, upright, centered, fills about85% of a square canvas with modest transparent margins. Genuinely transparent background, no white rectangle, shadow, text, logo lettering, or other objects. This is a small website animation part composited onto the existing dragon at its wrist.

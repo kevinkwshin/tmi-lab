@@ -10,10 +10,14 @@ const errors=[];
 try {
  for(const [id,asset,selector] of [
   ['welcome','tmi-logo-motion-base.png','.identity-opening [data-brand-mark]'],
+  ['welcome','tmi-dragon-palm.png','.identity-opening [data-brand-mark]'],
   ['translation','neurocad-triage-clean.png','#translation .deck-body [data-clinical-scene]']
  ]) {
   for(const scenario of ['failed','delayed','left-while-loading','reduced-while-loading']) {
    const page=await browser.newPage({viewport:{width:1440,height:900}});
+   const prefix=`${id}-${asset.replace(/\.png$/,'')}-${scenario}`;
+   const artifacts=[`${prefix}-fallback.png`,`${prefix}-actions.zip`];
+   await page.context().tracing.start({screenshots:true,snapshots:true});
    page.on('pageerror',error=>errors.push(String(error)));
    let release,requested;
    const hold=new Promise(resolve=>{release=resolve;});
@@ -34,20 +38,22 @@ try {
    await page.waitForTimeout(1000);
    assert.equal(await poster.evaluate(node=>getComputedStyle(node).opacity),'1','Original image stays visible while extra artwork is unavailable');
    assert.equal(await scene.evaluate(node=>node.getAnimations({subtree:true}).length),0,'No incomplete animation starts');
-   await page.screenshot({path:`${out}/${id}-${scenario}-fallback.png`});
+   await page.screenshot({path:`${out}/${prefix}-fallback.png`});
    if(scenario==='left-while-loading') await page.evaluate(()=>navigateTo(document.getElementById('contact'),false));
    if(scenario==='reduced-while-loading') await page.emulateMedia({reducedMotion:'reduce'});
    release();
    if(scenario==='delayed') {
     await page.waitForFunction(selector=>document.querySelector(selector).getAnimations({subtree:true}).length>0,selector);
     await page.waitForTimeout(1900);
-    await page.screenshot({path:`${out}/${id}-ready.png`});
+    await page.screenshot({path:`${out}/${prefix}-ready.png`});
+    artifacts.push(`${prefix}-ready.png`);
    } else {
     await page.waitForTimeout(1000);
     assert.equal(await scene.evaluate(node=>node.getAnimations({subtree:true}).length),0,'Failure or interruption cannot launch a stale animation');
     assert.equal(await poster.evaluate(node=>getComputedStyle(node).opacity),'1');
    }
-   results.push({id,scenario,originalPoster:true,stalePlaybackPrevented:scenario!=='delayed',resumedWhenReady:scenario==='delayed'});
+   results.push({id,asset,scenario,originalPoster:true,stalePlaybackPrevented:scenario!=='delayed',resumedWhenReady:scenario==='delayed',artifacts});
+   await page.context().tracing.stop({path:`${out}/${prefix}-actions.zip`});
    await page.close();
   }
  }
