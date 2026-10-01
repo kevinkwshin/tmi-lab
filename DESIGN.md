@@ -1,5 +1,9 @@
 # TMI-lab design system
 
+## October 1: two complete lines for the mobile identity
+
+Keep the welcome title as “From Too Much Information” and “to Translational Medical Intelligence.”, one line per phrase at normal mobile text size. Use `--identity-title-mobile:clamp(var(--text-base),5.2vw,var(--text-2xl))` so the longer phrase fits from320px without clipping, condensing glyphs or changing the six blue initials. The short-height composition uses the smaller of26px and this token. Preserve natural wrapping for enlarged accessibility text; no forced nowrap. Desktop typography and body copy retain their existing scale. In the mobile logo slot, the static poster and video share the full available height and contain sizing, so the extra space from the shorter title does not shift the artwork between playback states.
+
 ## October 1: use the supplied logo video
 
 Replace the custom mascot animation with the user's 10 second 1280×720 H.264 video in both the welcome slide and continuous-reading hero. Preserve its frames and 16:9 aspect ratio with contain sizing; remove the audio track and move MP4 metadata to the front for web playback. Extract the first frame as the matching static poster. Remove the SVG hand, face and goose animation from the live component. Use the existing hero placement, typography and desktop one-line description.
