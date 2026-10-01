@@ -1,5 +1,9 @@
 # TMI-lab design system
 
+## October 1: one subtitle hierarchy across slides
+
+Place the clinical-translation and mission statements directly below their page titles, using the same subtitle component as the three research goals, publications and patents. Use a shared 20px token, medium weight, navy text and 1.5 line height; reduce all subtitles together to 16px on narrow/short screens and 14px on very short screens. Remove the former 36px statements from the body so content remains vertically centered without competing headings. Preserve explanatory copy, figures and the single desktop patent page. Research titles use “연구 목표 1 - 임상 워크플로우 개선” (and equivalent numbering/English); mobile keeps the goal label above its title without a stranded separator. Emphasize the opening mission sentence at 18–20px, medium navy, on desktops above 1000px, retaining one line from 1280px and existing mobile sizing. Below360px, use16px gutters and an8px header gap to keep the wordmark and controls on one row; tighten translation/mission body spacing to accommodate their new subtitles without removing copy.
+
 ## October 1: connect publications and patents to clinical research
 
 Use concise, period-free introductions: publications describe research for clinical problem-solving and evidence-based care; patents describe technologies supporting clinical AI applications. Place both introductions beneath their slide titles using the existing type and spacing tokens, including mobile and compact layouts. Remove the duplicated introduction from the publication chart body. Preserve a single desktop patent slide with all five records and the complete detail dialog. The NeuroCAD statement explicitly names priority review: “긴급한 영상을 먼저 판독하도록, 골든타임에 더 가까이”.

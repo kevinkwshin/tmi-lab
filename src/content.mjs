@@ -16,7 +16,7 @@ export const content = {
       secondary: '연구 살펴보기',
       caption: '의료영상의 해부학적 구조를 이해하고 정량화하는 연구'
     },
-    intro: { label: 'Our mission', title: '정보를 지능으로,\n연구를 임상으로', body: '좋은 예측은 진료의 변화를 만들어야 합니다. 영상과 생체신호, 임상기록을 연결해 진료 과정의 병목을 줄이고, 치료 후의 변화를 예측하며, 환자별 선택을 뒷받침하는 근거를 만듭니다.' },
+    intro: { label: 'Our mission', title: '정보를 지능으로,\n연구를 임상으로', subtitle: '좋은 예측을 넘어, 진료의 변화로', body: '좋은 예측은 진료의 변화를 만들어야 합니다. 영상과 생체신호, 임상기록을 연결해 진료 과정의 병목을 줄이고, 치료 후의 변화를 예측하며, 환자별 선택을 뒷받침하는 근거를 만듭니다.' },
     approach: {
       label: 'OUR APPROACH',
       title: '문제 정의부터 적용을 위한 평가까지',
@@ -54,6 +54,7 @@ export const content = {
     translation: {
       label: 'Translation',
       title: '연구의 가치를,\n진료의 변화로',
+      subtitle: '긴급한 영상을 먼저 판독하도록, 골든타임에 더 가까이',
       intro: '',
       items: [
         {
@@ -142,6 +143,7 @@ export const content = {
     intro: {
       label: 'Our mission',
       title: 'From information\nto intelligence',
+      subtitle: 'From a useful prediction to a change in care',
       body: 'Better predictions should lead to better clinical decisions. We connect imaging, biosignals and clinical records to address workflow bottlenecks, anticipate treatment outcomes and build evidence for individual care.'
     },
     approach: {
@@ -181,6 +183,7 @@ export const content = {
     translation: {
       label: 'Translation',
       title: 'From research\nto clinical impact',
+      subtitle: 'Prioritizing urgent scans for timely clinical decisions',
       intro: '',
       items: [
         {

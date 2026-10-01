@@ -16,14 +16,13 @@ export function researchStories(lang, asset, escape) {
 
   const neuroRoute = route(ko ? [['검사','뇌 CT 촬영'],['AI Triage','출혈 의심 영상 알림'],['의료진','우선 검토 · 치료 판단']] : [['Acquisition','Brain CT'],['AI triage','Flag suspected bleeding'],['Clinician','Review & treatment decision']]);
   const neuroImage = clinicalScene('triage', lang, asset, escape);
-  const neuroGoal = text('긴급한 영상을 먼저 판독하도록, 골든타임에 더 가까이','Prioritizing urgent scans for timely clinical decisions');
   const neuroBody = text('응급실의 판독 대기는 치료 판단을 늦출 수 있습니다. 뇌 CT의 출혈 의심 부위와 출혈량을 분석하고 우선 검토를 지원해, 뇌출혈 환자의 골든타임을 놓치는 상황을 줄이는 것이 목표입니다.','Waiting for a CT report can delay treatment decisions. By analyzing suspected hemorrhage and its volume, NeuroCAD supports priority review, aiming to reduce delays during the critical treatment window.');
   const neuroProof = `<div class="translation-proof"><strong>100<span>+</span></strong><div>${text('응급실에서 사용','emergency departments')}<p>${text('식약처 혁신의료기기 지정','MFDS Innovative Medical Device')}</p></div></div>`;
   const neuroIdentity = text('AVIEW NeuroCAD · 2024 코어라인소프트 기술이전','AVIEW NeuroCAD · Coreline Soft transfer, 2024');
-  const neuroCopy = `<div class="story-narrative">${p(neuroIdentity,'story-status')}<h3 class="story-statement">${neuroGoal}</h3>${p(neuroBody)}${neuroProof}<a class="text-link" href="https://doi.org/10.1016/j.media.2022.102489" target="_blank" rel="noopener noreferrer">Medical Image Analysis · 2022 ↗</a></div>`;
+  const neuroCopy = `<div class="story-narrative">${p(neuroIdentity,'story-status')}${p(neuroBody)}${neuroProof}<a class="text-link" href="https://doi.org/10.1016/j.media.2022.102489" target="_blank" rel="noopener noreferrer">Medical Image Analysis · 2022 ↗</a></div>`;
   stories.translation = variants(
     sheet(`${neuroCopy}<div class="story-visual">${neuroImage}${neuroRoute}</div>`,'story-feature story-triage'),
-    sheet(`${p('AVIEW NeuroCAD','story-status')}<h3 class="story-statement">${neuroGoal}</h3>${neuroImage}${neuroProof}`,'story-mobile-opening story-triage-opening')+
+    sheet(`${p('AVIEW NeuroCAD','story-status')}${neuroImage}${neuroProof}`,'story-mobile-opening story-triage-opening')+
     sheet(`<div class="story-narrative">${p(neuroIdentity,'story-status')}${p(neuroBody,'story-goal')}</div>${neuroRoute}<a class="text-link" href="https://doi.org/10.1016/j.media.2022.102489" target="_blank" rel="noopener noreferrer">Medical Image Analysis · 2022 ↗</a>`,'story-mobile-context')
   );
 
@@ -38,7 +37,7 @@ export function researchStories(lang, asset, escape) {
 
   const missionStages = `<ol class="mission-process">${c.approach.steps.map((step,i)=>`<li><span class="mission-index" aria-hidden="true">${i+1}</span><div><h3>${escape(step.title)}</h3>${p(step.body)}</div></li>`).join('')}</ol>`;
   const missionImage = clinicalScene('mission', lang, asset, escape);
-  const missionPurpose = `<div class="mission-purpose"><p class="mission-premise">${text('좋은 예측을 넘어, 진료의 변화로','From a useful prediction to a change in care')}</p>${missionImage}${p(c.intro.body)}</div>`;
+  const missionPurpose = `<div class="mission-purpose">${missionImage}${p(c.intro.body)}</div>`;
   stories.mission = variants(sheet(`${missionPurpose}${missionStages}`,'story-mission'),sheet(missionPurpose,'story-mobile-context story-mission-opening')+sheet(missionStages,'story-mobile-context'));
 
   const routes = ko ? [

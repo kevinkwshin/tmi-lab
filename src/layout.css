@@ -86,6 +86,10 @@ figcaption { font-size:var(--text-xs); color:var(--muted); line-height:1.6; marg
 .footer p { color:var(--muted); }
 @media(min-width:1201px) { .header-inner { gap:var(--s5); } }
 @media(max-width:1200px) { .brand-description,.brand-expansion { display:none; } .brand .brand-mark { font-size:var(--brand-mobile); line-height:1.75; } }
+@media(max-width:359px) {
+ :root { --gutter:var(--s4); }
+ .header-inner { column-gap:var(--s2); }
+}
 @media(max-width:1100px) { .nav { gap:var(--s4); } .hero { gap:var(--s10); } .scan-frame { height:480px; } }
 @media(max-width:960px) {
   .header-inner { flex-wrap:wrap; min-height:var(--s20); }

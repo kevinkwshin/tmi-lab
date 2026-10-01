@@ -20,22 +20,22 @@ export function slideOverviews(lang, asset, escape) {
   const pages = {};
   pages.welcome = `<div class="page-composition page-welcome identity-opening"><div class="page-copy"><p class="page-eyebrow">${escape(c.hero.eyebrow)}</p><h1 class="identity-title" lang="en"><span><span>From <span class="identity-initial">T</span>oo <span class="identity-initial">M</span>uch <span class="identity-initial">I</span>nformation</span></span> <span><span>to <span class="identity-initial">T</span>ranslational <span class="identity-initial">M</span>edical <span class="identity-initial">I</span>ntelligence</span></span></h1><p class="page-lead">${escape(c.hero.description)}</p></div><div class="identity-visual">${identityLogo(lang,asset,escape)}</div><div class="identity-directions"><span class="identity-directions-label">${text('연구 목표','Research goals')}</span>${c.research.items.map((r,i)=>`<a href="#${['research','research-imaging','research-signals'][i]}">${escape(r.title)}</a>`).join('')}</div><div class="page-actions"><a class="action" href="#translation">${c.hero.primary} <span aria-hidden="true">↓</span></a><a class="text-link" href="#research">${c.hero.secondary}</a></div></div>`;
   pages.translation = layout('translation',text('연구의 임상 적용','Clinical translation'),text('연구에서 임상으로, 생명을 위한 기술','From research to care. Technology for life'),
-    text('뇌출혈 환자의 골든타임을 위한 영상 기반 Triage', 'Image-based triage for time-critical hemorrhage care'),
+    c.translation.subtitle,
     `${image('neurocad',text('AVIEW NeuroCAD 뇌 CT 분석 화면','AVIEW NeuroCAD brain CT analysis'), 'Coreline Soft · AVIEW NeuroCAD')}<div class="page-proof"><strong>100+</strong><div>${text('응급실에서 사용','emergency departments')}<small>${text('식약처 혁신의료기기 지정','MFDS Innovative Medical Device')}</small></div></div>`,
     `<a class="action" href="https://corelinesoft.com/en-gb/aview/brain/neurocad/" target="_blank" rel="noopener noreferrer">${text('공식 제품 소개','Product site')} <span aria-hidden="true">↗</span></a><button class="text-link evidence-button" data-read="translation-sources" data-title="${text('근거 및 출처','Evidence & sources')}">${text('근거 및 출처','Evidence & sources')}</button>`,
     'page-product', paragraph(c.translation.items.find(t=>t.name==='AVIEW NeuroCAD').body));
   pages.transfers = layout('transfers',text('기술이전','Technology transfer'),text('연구가 이어진 기술들','A portfolio of translation'),text('촬영 품질부터 정량적 평가까지, 진료 과정의 구체적인 문제를 해결합니다.','From image quality to quantitative assessment: AI for specific steps in care'),
     `<div class="page-list">${c.translation.items.filter(t=>t.name!=='AVIEW NeuroCAD').map(t=>`<article><p class="meta">${t.year} · ${escape(t.recipient)}</p><h3>${escape(t.name)}</h3><p>${escape(t.summary)}</p></article>`).join('')}</div>`,null,'page-listing');
   pages.mission = layout('mission','Our mission',text('정보를 지능으로, 연구를 임상으로','From information to intelligence'),
-    c.intro.body,
-    `<ol class="page-steps">${c.approach.steps.map(s=>`<li><h3>${escape(s.title)}</h3><p>${escape(s.body)}</p></li>`).join('')}</ol>`,null,'page-mission');
+    c.intro.subtitle,
+    `<ol class="page-steps">${c.approach.steps.map(s=>`<li><h3>${escape(s.title)}</h3><p>${escape(s.body)}</p></li>`).join('')}</ol>`,null,'page-mission',paragraph(c.intro.body,'page-extended'));
   c.research.items.forEach((r,i)=>{
     const id=['research','research-imaging','research-signals'][i];
     const e=researchEvidence[lang][i];
     const f=e.images[0];
-    pages[id]=layout(id,text('연구 분야','Research'),`${text('연구 목표','Research goal')} ${i+1}. ${r.title}`,r.question,
+    pages[id]=layout(id,text('연구 분야','Research'),`${text('연구 목표','Research goal')} ${i+1} - ${r.title}`,r.question,
       `${image(f.name,f.alt,f.caption)}<dl class="page-brief"><div><dt>${text('연구 방법','Method')}</dt><dd>${escape(e.method)}</dd></div><div><dt>${text('임상적 의의','Clinical relevance')}</dt><dd>${escape(e.value)}</dd></div></dl>`,
-      button(id,r.title,text('연구 자료와 근거','Study & evidence')),'page-research',paragraph(r.body,'page-extended')).replace(`<h2>${escape(`${text('연구 목표','Research goal')} ${i+1}. ${r.title}`)}</h2>`, `<h2><span class="research-goal-label">${text('연구 목표','Research goal')} ${i+1}.</span> ${escape(r.title)}</h2>`);
+      button(id,r.title,text('연구 자료와 근거','Study & evidence')),'page-research',paragraph(r.body,'page-extended')).replace(`<h2>${escape(`${text('연구 목표','Research goal')} ${i+1} - ${r.title}`)}</h2>`, `<h2><span class="research-goal-label">${text('연구 목표','Research goal')} ${i+1}</span><span class="research-goal-separator"> - </span>${escape(r.title)}</h2>`);
   });
   pages.publications=scholarOverview(lang,escape);
   pages.patents=layout('patents',text('연구 성과','Research output'),text('특허','Patents & applications'),text('의료 AI의 임상 적용을 뒷받침하는 기술','Technologies supporting clinical applications of medical AI'),

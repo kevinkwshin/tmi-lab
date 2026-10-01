@@ -59,9 +59,9 @@ function deckFrame(source, summary, pageIndex = 1) {
   const title = summary.querySelector('h1,h2').cloneNode(true);
   heading.append(title);
   const question = source.querySelector('.research-question');
-  if (question) heading.append(deckClone(question));
-  if (['publications', 'patents'].includes(source.id)) {
-    const lead = deckClone(summary.querySelector('.page-lead'));
+  const subtitle = question || (['translation', 'mission', 'publications', 'patents'].includes(source.id) && summary.querySelector('.page-lead'));
+  if (subtitle) {
+    const lead = deckClone(subtitle);
     lead.classList.add('deck-lead');
     heading.append(lead);
   }
