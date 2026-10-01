@@ -1,5 +1,9 @@
 # TMI-lab design system
 
+## October 1: keep digital-twin evidence together
+
+Combine the mobile Ceph and growth-error continuations into one evidence page, followed by the complete study explanation. Stack the two figures in a centered, height-aware grid: captions keep their natural size and images fit the remaining space without cropping or distortion. Preserve independent enlargement for both figures. On wide desktop screens, align the two supporting media frames at the top and give their images the same 104px height. Keep the existing stacked portrait-tablet sizing and short-desktop evidence pair. Verify both languages from320px through desktop, including captions, enlargement and reading view; no content is removed.
+
 ## October 1: lead the desktop digital-twin page with its concept
 
 Swap the two image roles in the desktop digital-twin composition: the animated surgical-twin concept occupies the large upper position, and the Ceph comparison sits below on the left, beside the existing error chart. Preserve source images, captions and enlargement. Short desktop layouts lead with the concept and pair the two scientific figures on their evidence continuation. Mobile ordering remains unchanged. Change the study introduction to “의료 영상에서” and “Medical images” in English. Reuse the existing image-height, spacing and typography rules; verify both languages and responsive layouts with no accepted accessibility debt.

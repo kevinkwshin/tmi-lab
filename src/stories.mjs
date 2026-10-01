@@ -68,7 +68,9 @@ export function researchStories(lang, asset, escape) {
     const compactNarrative = `<div class="story-narrative">${p(text('연구 목표','Research goal'),'story-label')}${p(r.body,'story-goal')}${facts}</div>`;
     const foundationFigures = `<div class="story-figures ${images.length>1?'story-figures-pair':''}">${images.join('')}</div>`;
     const foundation = sheet(`<div class="story-narrative">${p(text('기반 연구 · 다음 단계','Foundational work · Next steps'),'story-label')}${note}</div><div class="story-visual">${foundationFigures}</div>`,'story-feature');
-    const evidencePages = images.map((image,index)=>sheet(`${image}${comparisonIndex<0&&index===0?note:''}`,'story-mobile-opening story-original-evidence')).join('')+(comparisonIndex>=0?sheet(note,'story-mobile-context'):'');
+    const evidencePages = comparisonIndex>=0
+      ? sheet(images.join(''),'story-original-evidence story-evidence-combined')+sheet(note,'story-mobile-context')
+      : images.map((image,index)=>sheet(`${image}${index===0?note:''}`,'story-mobile-opening story-original-evidence')).join('');
     stories[id] = variants(sheet(narrative+visual,'story-feature story-research'),sheet(opening,'story-mobile-opening')+sheet(context,'story-mobile-context')+evidencePages,sheet(compactNarrative+conceptVisual,'story-feature story-research')+foundation);
   });
   return stories;
