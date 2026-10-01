@@ -57,7 +57,7 @@
  .identity-visual img { max-height:240px; }
  .triage-illustration .evidence-media img { height:210px; }
  .story-triage { gap:var(--s8); }
- .story-triage .translation-proof { margin-block:var(--s3); }
+ .story-triage .translation-proof { margin-block:var(--s2); }
  .story-mission { grid-template-rows:auto; align-content:normal; gap:var(--s8); }
  .story-mission .mission-purpose { display:grid; }
  .story-mission .mission-process { grid-column:auto; grid-row:auto; }
@@ -73,6 +73,8 @@
  .identity-directions { grid-row:3; }
  .identity-opening .page-actions { grid-row:4; }
  .story-triage { grid-template-columns:1fr; gap:var(--s4); }
+ .story-triage .translation-proof { grid-column:2; grid-row:2/4; margin:0; }
+ .story-triage .neurocad-links { grid-column:1; grid-row:3; align-self:start; }
  .triage-illustration .evidence-media img { height:280px; }
  .story-mission { grid-template-columns:1fr; grid-template-rows:auto auto; gap:var(--s8); align-content:center; }
  .story-mission .mission-purpose { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:var(--s4) var(--s6); }

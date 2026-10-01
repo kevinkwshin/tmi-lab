@@ -26,11 +26,24 @@
 .story-figures-pair { grid-template-columns:1fr 1fr; }
 .story-figures-pair .evidence-media { padding:var(--s2); }
 .story-figures-pair .evidence-media img { height:clamp(170px,28vh,300px); }
-.translation-proof { display:flex; align-items:center; gap:var(--s5); margin:var(--s6) 0; }
-.translation-proof>strong { font-size:clamp(48px,5vw,72px); letter-spacing:-.06em; font-weight:600; color:var(--blue); line-height:1; }
-.translation-proof>strong span { font-size:.55em; vertical-align:top; }
-.translation-proof>div { font-size:var(--text-base); }
-.translation-proof p { font-size:var(--text-xs); margin-top:var(--s2); color:var(--muted); }
+.translation-proof { display:grid; gap:var(--s3); margin:var(--s5) 0; width:100%; }
+.translation-proof a { text-decoration:none; min-width:0; }
+.neurocad-designation { display:grid; gap:var(--s2); padding:var(--s5); background:var(--blue); color:var(--white); border-radius:var(--radius); }
+.neurocad-designation>strong { font-size:var(--text-xl); font-weight:600; line-height:1.35; text-wrap:balance; }
+.neurocad-proof-meta { display:flex; justify-content:space-between; flex-wrap:wrap; gap:var(--s1) var(--s3); font-size:var(--text-xs); line-height:1.5; }
+.neurocad-usage { display:flex; align-items:center; gap:var(--s4); padding:var(--s2) 0; border-bottom:1px solid var(--line); color:var(--ink); }
+.neurocad-usage>strong { font-size:40px; font-weight:600; letter-spacing:-.05em; line-height:1.1; color:var(--blue); white-space:nowrap; }
+.neurocad-usage>strong>span { font-size:.6em; vertical-align:top; }
+.neurocad-usage b { display:block; font-size:var(--text-base); font-weight:600; }
+.neurocad-usage small { display:block; font-size:var(--text-xs); color:var(--muted); line-height:1.5; }
+.neurocad-designation:is(:hover,:focus-visible)>strong,.neurocad-usage:is(:hover,:focus-visible) b { text-decoration:underline; text-underline-offset:.2em; }
+.translation-proof a:focus-visible { outline:2px solid var(--ink); outline-offset:4px; }
+.neurocad-links { display:grid; gap:var(--s1); justify-items:start; }
+.neurocad-links .text-link { font-size:var(--text-xs); line-height:1.5; min-height:44px; display:flex; align-items:center; gap:var(--s1); }
+.neurocad-source-list { display:grid; gap:var(--s6); margin-block:var(--s6); }
+.neurocad-source-list article { padding-top:var(--s4); border-top:1px solid var(--line); }
+.neurocad-source-list h4 { color:var(--blue); font-size:var(--text-lg); }
+.neurocad-source-list p { margin-block:var(--s2); }
 .clinical-route { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); margin:0; padding:0; list-style:none; gap:var(--s4); }
 .clinical-route li { position:relative; padding-top:var(--s3); border-top:1px solid var(--line); }
 .clinical-route li::before { content:''; position:absolute; top:-3px; left:0; width:5px; height:5px; border-radius:50%; background:var(--blue); }
@@ -69,7 +82,11 @@
  .clinical-route li { padding-top:var(--s2); }
  .clinical-route span { margin-bottom:var(--s1); }
  .translation-proof { margin:var(--s4) 0; }
- .translation-proof>strong { font-size:56px; }
+ .neurocad-designation { padding:var(--s3) var(--s4); gap:var(--s1); }
+ .neurocad-designation>strong { font-size:var(--text-lg); }
+ .story-triage .translation-proof { margin-block:var(--s2); gap:var(--s2); }
+ .neurocad-usage { padding-block:var(--s1); }
+ .neurocad-usage>strong { font-size:32px; }
  .illustrated-transfer .evidence-media { padding:var(--s2); }
  .illustrated-transfer .evidence-media img { height:125px; }
  .story-transfer-feature .evidence-media img { height:250px; }
@@ -105,9 +122,13 @@
  .evidence-media img { height:clamp(120px,24vh,190px); }
  .evidence-figure figcaption { margin-top:var(--s2); font-size:var(--text-xs); }
  .story-mobile-intent p { font-size:var(--text-sm); line-height:1.6; }
- .story-mobile-opening .translation-proof { margin:0; gap:var(--s4); }
- .translation-proof>strong { font-size:48px; }
- .translation-proof>div { font-size:var(--text-sm); }
+ .story-mobile-opening .translation-proof { margin:0; gap:var(--s2); }
+ .neurocad-designation { padding:var(--s3) var(--s4); gap:var(--s1); }
+ .neurocad-designation>strong { font-size:var(--text-lg); }
+ .neurocad-usage { gap:var(--s3); }
+ .neurocad-usage>strong { font-size:32px; }
+ .neurocad-usage b { font-size:var(--text-sm); }
+ .story-triage-context { gap:var(--s3); }
  .clinical-route { gap:var(--s3); }
  .clinical-route li { padding-top:var(--s2); }
  .clinical-route span { margin-bottom:var(--s1); }

@@ -35,7 +35,7 @@
 @media(max-width:760px), (max-width:1000px) and (max-height:900px) {
  .story-mobile-opening .research-illustration .evidence-media img { height:clamp(170px,30vh,240px); }
  .story-triage-opening { gap:var(--s2); }
- .story-triage-opening .triage-illustration .evidence-media img { height:clamp(130px,23vh,190px); }
+ .story-triage-opening .triage-illustration .evidence-media img { height:clamp(110px,20vh,160px); }
  .story-original-evidence .story-evidence-note { margin-top:0; }
  .story-original-evidence .evidence-media img { height:110px; }
  .story-original-evidence .evidence-comparison img { height:auto; max-height:220px; }

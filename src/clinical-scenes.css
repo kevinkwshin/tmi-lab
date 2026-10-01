@@ -101,6 +101,6 @@
  .deck-translation .deck-actions .action { padding-inline:var(--s3); gap:var(--s3); }
  .deck-translation .deck-actions .evidence-button { font-size:var(--text-sm); }
  .story-triage-opening { gap:var(--s1); }
+ .story-triage-opening .neurocad-designation>strong { font-size:var(--text-base); }
  .story-triage-opening .clinical-scene .evidence-media img { height:110px; }
- .story-triage-opening .translation-proof p { margin-top:var(--s1); line-height:1.5; }
 }

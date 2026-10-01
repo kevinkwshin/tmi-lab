@@ -149,6 +149,10 @@
  .deck-compact .deck-summary .page-copy { display:block; }
  .deck-compact .page-lead { font-size:var(--text-sm); line-height:1.5; }
  .deck-compact .page-context { display:none; }
+ .deck-translation.deck-compact .deck-summary { padding:0; }
+ .deck-translation.deck-compact .translation-proof { margin:0; gap:var(--s1); }
+ .deck-translation.deck-compact .neurocad-designation { padding:var(--s2) var(--s3); gap:var(--s1); }
+ .deck-translation.deck-compact .neurocad-designation>strong { font-size:var(--text-base); }
  .deck-compact:is(.deck-mission,.deck-research,.deck-research-imaging,.deck-research-signals) .page-context { display:block; font-size:var(--text-sm); line-height:1.5; }
  .deck-contact.deck-compact .page-copy { display:none; }
  .deck-contact.deck-compact .page-contact { display:block; }
