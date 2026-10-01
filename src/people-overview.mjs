@@ -8,7 +8,7 @@ export function peopleOverview(lang, asset, escape) {
   return `<div class="page-composition page-people">
     <div class="page-copy people-fallback"><p class="page-eyebrow">People</p><h2>${title}</h2><p class="page-lead">${escape(person.name)} · ${escape(person.role)}<br>${escape(person.affiliation)}</p><p class="page-context">${text('의료영상·생체신호·멀티모달 AI를 임상으로 연결하는 중개연구.', 'Translational research connecting medical imaging, biosignals and multimodal AI with clinical practice.')}</p></div>
     <article class="faculty-profile" aria-label="${escape(person.name)}">
-      <figure class="faculty-portrait"><img src="${asset('keewon-shin')}" width="640" height="795" loading="lazy" alt="${text('신기원 교수', 'Professor Keewon Shin')}"><figcaption>Translational Medical<br>Intelligence Lab</figcaption></figure>
+      <figure class="faculty-portrait"><img src="${asset('keewon-shin')}" width="640" height="795" loading="lazy" alt="${text('신기원 교수', 'Professor Keewon Shin')}"><figcaption>${text('연구책임자', 'Principal Investigator')}</figcaption></figure>
       <div class="faculty-content">
         <header class="faculty-identity"><p class="faculty-kicker">${text('의료 AI 중개연구', 'Translational medical AI')}</p><h3>${escape(person.name)}</h3><p class="faculty-role">${escape(person.role)}</p><p class="faculty-affiliation">${escape(person.affiliation)}</p></header>
         <p class="faculty-bio">${escape(person.bio)}</p><p class="faculty-bio-short">${text('의료영상·생체신호·멀티모달 AI를 임상 워크플로우 개선과 근거기반 치료로 연결합니다.', 'Connecting medical imaging, biosignals and multimodal AI with clinical workflows and evidence-based treatment.')}</p>
