@@ -3,10 +3,10 @@
 .brand { display:flex; flex-direction:column; align-items:flex-start; gap:var(--s1); flex-shrink:0; }
 .brand-title { display:flex; align-items:baseline; gap:var(--s3); }
 .brand-mark { font-family:var(--serif); font-weight:600; font-size:var(--text-2xl); letter-spacing:-.05em; white-space:nowrap; }
-.brand .brand-mark { font-size:var(--brand-mobile); line-height:1.15; }
-.brand-expansion { font-size:var(--brand-expansion-size); line-height:1.45; color:var(--ink); white-space:nowrap; }
+.brand .brand-mark { font-size:var(--brand-title-size); line-height:1.15; }
+.brand-expansion { font-size:var(--brand-title-size); line-height:1.45; color:var(--ink); white-space:nowrap; }
 .brand-initial { color:var(--blue); font-weight:600; }
-.brand-description { font-size:var(--text-xs); line-height:1.45; color:var(--muted); white-space:nowrap; }
+.brand-description { font-size:var(--brand-affiliation-size); line-height:1.45; color:var(--muted); white-space:nowrap; }
 .nav { display:flex; gap:var(--s6); align-items:center; margin-left:auto; }
 .nav a { font-size:var(--text-sm); min-height:var(--touch); display:flex; align-items:center; white-space:nowrap; }
 .nav a:hover { text-decoration:underline; text-underline-offset:var(--s2); }
@@ -84,7 +84,7 @@ figcaption { font-size:var(--text-xs); color:var(--muted); line-height:1.6; marg
 .footer { padding-block:var(--s10); display:flex; align-items:center; justify-content:space-between; gap:var(--s8); font-size:var(--text-xs); }
 .footer-brand { font-size:var(--text-xl); font-family:var(--serif); margin-right:var(--s5); }
 .footer p { color:var(--muted); }
-@media(max-width:1200px) { .brand-description,.brand-expansion { display:none; } .brand .brand-mark { line-height:1.75; } }
+@media(max-width:1200px) { .brand-description,.brand-expansion { display:none; } .brand .brand-mark { font-size:var(--brand-mobile); line-height:1.75; } }
 @media(max-width:1100px) { .nav { gap:var(--s4); } .hero { gap:var(--s10); } .scan-frame { height:480px; } }
 @media(max-width:960px) {
   .header-inner { flex-wrap:wrap; min-height:var(--s20); }
