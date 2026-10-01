@@ -26,7 +26,7 @@ export function slideOverviews(lang, asset, escape) {
     'page-product', paragraph(c.translation.items.find(t=>t.name==='AVIEW NeuroCAD').body));
   pages.transfers = layout('transfers',text('기술이전','Technology transfer'),text('연구가 이어진 기술들','A portfolio of translation'),text('촬영 품질부터 정량적 평가까지, 진료 과정의 구체적인 문제를 해결합니다.','From image quality to quantitative assessment: AI for specific steps in care.'),
     `<div class="page-list">${c.translation.items.filter(t=>t.name!=='AVIEW NeuroCAD').map(t=>`<article><p class="meta">${t.year} · ${escape(t.recipient)}</p><h3>${escape(t.name)}</h3><p>${escape(t.summary)}</p></article>`).join('')}</div>`,null,'page-listing');
-  pages.mission = layout('mission','Our mission',text('정보를 지능으로, 연구를 임상으로.','From information to intelligence.'),
+  pages.mission = layout('mission','Our mission',text('정보를 지능으로, 연구를 임상으로','From information to intelligence.'),
     c.intro.body,
     `<ol class="page-steps">${c.approach.steps.map(s=>`<li><h3>${escape(s.title)}</h3><p>${escape(s.body)}</p></li>`).join('')}</ol>`,null,'page-mission');
   c.research.items.forEach((r,i)=>{
