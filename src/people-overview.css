@@ -3,7 +3,7 @@
 .faculty-profile { display:grid; grid-template-columns:minmax(180px,.65fr) minmax(0,1.6fr); align-items:center; gap:var(--s12); min-width:0; }
 .faculty-portrait { align-self:stretch; display:flex; flex-direction:column; justify-content:center; min-width:0; }
 .faculty-portrait img { width:100%; max-height:350px; object-fit:contain; object-position:bottom; }
-.faculty-portrait figcaption { padding-top:var(--s4); margin-top:var(--s4); border-top:1px solid var(--line); color:var(--muted); font-size:var(--text-xs); line-height:1.5; letter-spacing:.02em; }
+.faculty-portrait figcaption { padding-top:var(--s4); margin-top:var(--s4); border-top:1px solid var(--line); color:var(--muted); font-size:var(--text-xs); line-height:1.5; letter-spacing:.02em; text-align:center; }
 .faculty-content { display:grid; gap:var(--s3); min-width:0; }
 .faculty-kicker { color:var(--blue); font-size:var(--text-xs); font-weight:600; letter-spacing:.04em; margin-bottom:var(--s2); }
 .faculty-identity h3 { font-size:clamp(32px,3.4vw,48px); font-weight:600; letter-spacing:-.045em; line-height:1.1; }
