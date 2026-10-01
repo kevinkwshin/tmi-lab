@@ -1,5 +1,9 @@
 # TMI-lab design system
 
+## October 1: identify the opening research links
+
+Prefix the desktop opening's three research links with the noninteractive label “연구 목표” / “Research goals”. Set the label in the existing small type size, semibold navy, vertically centered with the links. Reuse the current spacing and responsive visibility; keep the header logo and opening video placement unchanged.
+
 ## October 1: keep digital-twin evidence together
 
 Combine the mobile Ceph and growth-error continuations into one evidence page, followed by the complete study explanation. Stack the two figures in a centered, height-aware grid: captions keep their natural size and images fit the remaining space without cropping or distortion. Preserve independent enlargement for both figures. On wide desktop screens, align the two supporting media frames at the top and give their images the same 104px height. Keep the existing stacked portrait-tablet sizing and short-desktop evidence pair. Verify both languages from320px through desktop, including captions, enlargement and reading view; no content is removed.

@@ -13,6 +13,7 @@
 .identity-visual img { height:auto; max-height:380px; }
 .identity-visual figcaption { text-align:center; font-size:var(--text-sm); margin-top:var(--s4); color:var(--blue); }
 .identity-directions { grid-column:1/-1; grid-row:2; display:flex; gap:var(--s8); border-top:1px solid var(--line); padding-top:var(--s3); }
+.identity-directions-label { align-self:center; flex:none; font-size:var(--text-sm); font-weight:600; color:var(--ink); }
 .identity-directions a { display:flex; align-items:center; min-height:var(--touch); font-size:var(--text-sm); color:var(--muted); }
 .identity-directions a:hover { color:var(--blue); text-decoration:underline; text-underline-offset:4px; }
 .identity-opening .page-actions { grid-column:1/-1; padding:0; }
