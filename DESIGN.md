@@ -1,5 +1,9 @@
 # TMI-lab design system
 
+## October 1: strengthen and tighten the header identity
+
+Increase both parts of the first line to 24px on desktops from 1280px, scaling smoothly to 22px near the compact-header breakpoint. Use a shared 1.2 line height, an 8px gap before the expansion, and a 2px gap above the existing 13px affiliation. Keep the complete approved name and blue T/M/I initials. A 20px minimum gap between desktop header groups leaves room for the English navigation at 1201px. Preserve the 96px desktop header height and compact wordmark below 1201px. Verify both languages, clipping, alignment, and header controls across the size transition.
+
 ## October 1: balance the complete header name
 
 Use “TMI-lab (Translational Medical Intelligence Lab.)” on the desktop first line, with both parts at20px and baseline aligned. Keep the wordmark bold blue, the expansion normal navy, and its T/M/I initials blue and semibold. The left-aligned medical-school affiliation is13px with4px spacing below. Shared title and affiliation tokens set these sizes. At1200px and below, retain only the existing28px wordmark. Verify both languages at the breakpoint and preserve navigation, header height, and the opening identity.
