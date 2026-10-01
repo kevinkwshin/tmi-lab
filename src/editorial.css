@@ -7,7 +7,7 @@
 .hero .identity-title>span>span { display:block; color:var(--ink); }
 .hero .identity-title .identity-initial { display:inline; color:var(--blue); }
 .hero .identity-title span::after { content:none; }
-.identity-opening .page-lead { max-width:34em; font-size:var(--text-base); margin-top:var(--s5); }
+.identity-opening .page-lead { max-width:none; font-size:var(--text-base); margin-top:var(--s5); }
 .identity-visual { grid-column:2; grid-row:1; min-height:0; align-self:center; }
 .identity-visual .page-logo { display:block; }
 .identity-visual img { height:auto; max-height:380px; }

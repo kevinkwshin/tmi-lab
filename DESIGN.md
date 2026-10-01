@@ -1,5 +1,9 @@
 # TMI-lab design system
 
+## October 1: keep the desktop introduction on one line
+
+Let the welcome description use the full existing text column instead of a34em cap. Preserve the complete sentence, font size and two-column hero; at desktop widths the Korean description fits on one line like the English version. Keep normal text wrapping on narrow viewports and when fonts are enlarged; never force overflow with nowrap or shrink text to fit.
+
 ## October 1: a cheerful smile instead of a wave
 
 The latest direction removes the dragon's waving hand entirely. Keep the original hands, arm, body and lettering fixed; no patched sleeve or separate palm remains in the rendered logo. A registered facial image changes only the eyes and mouth to a cheerful closed-eye smile, softly blending in, holding, then returning to the original expression. Preserve the original nose, cheeks, silhouette and drawing style. Use the existing4.4second cycle,800ms entry lead and2.8second rest, with opacity only for the face. The goose retains its existing gentle bow. Asset loading, interruption, reduced motion, print and no-JS keep the original complete logo. No hero line graphic, new decoration, dependency or layout change. Verify smile/rest frames at actual display size, hand immobility, automatic repeat and bilingual responsive views.
