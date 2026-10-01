@@ -16,7 +16,7 @@ export const content = {
       secondary: '연구 살펴보기',
       caption: '의료영상의 해부학적 구조를 이해하고 정량화하는 연구'
     },
-    intro: { label: 'Our mission', title: '정보를 지능으로,\n연구를 임상으로.', body: '좋은 예측은 진료의 변화를 만들어야 합니다. 영상과 생체신호, 임상기록을 연결해 진료 과정의 병목을 줄이고, 치료 후의 변화를 예측하며, 환자별 선택을 뒷받침하는 근거를 만듭니다.' },
+    intro: { label: 'Our mission', title: '정보를 지능으로,\n연구를 임상으로', body: '좋은 예측은 진료의 변화를 만들어야 합니다. 영상과 생체신호, 임상기록을 연결해 진료 과정의 병목을 줄이고, 치료 후의 변화를 예측하며, 환자별 선택을 뒷받침하는 근거를 만듭니다.' },
     approach: {
       label: 'OUR APPROACH',
       title: '문제 정의부터 적용을 위한 평가까지',
@@ -28,24 +28,24 @@ export const content = {
     },
     research: {
       label: 'Research',
-      title: '서로 다른 데이터,\n하나의 임상 질문.',
+      title: '서로 다른 데이터,\n하나의 임상 질문',
       intro: '의료영상과 생체신호 연구의 기반 위에, 멀티모달 AI와 임상 워크플로우 개선을 연구합니다.',
       items: [
         {
           title: '임상 워크플로우 개선',
-          question: '분석 결과가 다음 진료로 이어지도록.',
+          question: '분석 결과가 다음 진료로 이어지도록',
           body: '촬영부터 판독, 기록 검토까지. 의료진이 놓치기 쉬운 신호와 반복 확인하는 정보를 AI로 찾아, 필요한 판단이 제때 이루어지는 워크플로우를 연구합니다.',
           tags: [ 'Triage', 'Image quality', 'Clinical workflow' ]
         },
         {
           title: '디지털 트윈',
-          question: '치료 이후를 예측하는 환자별 모델.',
+          question: '치료 이후를 예측하는 환자별 모델',
           body: '해부학적 구조와 시간에 따른 변화를 모델링합니다. 성장 예측 연구를 기반으로, 수술 전 영상과 임상정보에서 수술 후 상태를 예측하는 서지컬 디지털 트윈으로 연구를 확장합니다.',
           tags: [ 'Preoperative data', 'Outcome prediction', 'Surgical planning' ]
         },
         {
           title: '정밀의료 · 근거기반 치료',
-          question: '같은 진단을 넘어, 환자별 치료의 근거로.',
+          question: '같은 진단을 넘어, 환자별 치료의 근거로',
           body: '영상 속 미세한 구조와 생체신호의 패턴을 정량화하고, 예측이 얼마나 신뢰할 만한지 함께 평가합니다. 환자별 위험과 치료 반응을 해석하는 근거기반 정밀의료를 지향합니다.',
           tags: [ 'Quantitative imaging', 'Treatment response', 'Uncertainty' ]
         }
@@ -53,7 +53,7 @@ export const content = {
     },
     translation: {
       label: 'Translation',
-      title: '연구의 가치를,\n진료의 변화로.',
+      title: '연구의 가치를,\n진료의 변화로',
       intro: '',
       items: [
         {
@@ -64,7 +64,7 @@ export const content = {
           summary: 'Grashey X-ray의 자세와 품질을 평가해, 필요한 재촬영을 방사선사에게 즉시 요청합니다.',
           impact: '촬영 직후 품질을 확인'
         },
-        { year: 2024, name: 'AVIEW NeuroCAD', recipient: '코어라인소프트 · Coreline Soft', body: '비조영 뇌 CT에서 뇌출혈 의심 영역을 탐지하고 우선 판독을 지원하는 기술.' },
+        { year: 2024, name: 'AVIEW NeuroCAD', recipient: '코어라인소프트 · Coreline Soft', body: '비조영 뇌 CT에서 뇌출혈 의심 영역을 탐지하고 우선 판독을 지원하는 기술' },
         {
           year: 2023,
           name: 'FlatNet',
@@ -141,7 +141,7 @@ export const content = {
     },
     intro: {
       label: 'Our mission',
-      title: 'From information\nto intelligence.',
+      title: 'From information\nto intelligence',
       body: 'Better predictions should lead to better clinical decisions. We connect imaging, biosignals and clinical records to address workflow bottlenecks, anticipate treatment outcomes and build evidence for individual care.'
     },
     approach: {
@@ -155,24 +155,24 @@ export const content = {
     },
     research: {
       label: 'Research',
-      title: 'Different data.\nA shared clinical question.',
+      title: 'Different data\nA shared clinical question',
       intro: 'Our research in multimodal AI and clinical workflows builds on experience in medical imaging and biosignal analysis.',
       items: [
         {
           title: 'Clinical workflow',
-          question: 'From an AI output to the next clinical action.',
+          question: 'From an AI output to the next clinical action',
           body: 'From acquisition and interpretation to record review, we study how AI can surface overlooked signals and repeated checks at the point where clinicians need them.',
           tags: [ 'Triage', 'Image quality', 'Clinical workflow' ]
         },
         {
           title: 'Digital twins',
-          question: 'Patient-specific models of what comes next.',
+          question: 'Patient-specific models of what comes next',
           body: 'We model anatomy and its change over time. Building on growth-prediction research, we are extending this work toward surgical digital twins that predict postoperative states from preoperative images and clinical data.',
           tags: [ 'Preoperative data', 'Outcome prediction', 'Surgical planning' ]
         },
         {
           title: 'Precision medicine',
-          question: 'Beyond a shared diagnosis, evidence for the individual.',
+          question: 'Beyond a shared diagnosis, evidence for the individual',
           body: 'We quantify subtle structures in images and patterns in biosignals, while assessing how much confidence to place in each prediction. These foundations support our research toward individual risk assessment and treatment response.',
           tags: [ 'Quantitative imaging', 'Treatment response', 'Uncertainty' ]
         }
@@ -180,7 +180,7 @@ export const content = {
     },
     translation: {
       label: 'Translation',
-      title: 'From research\nto clinical impact.',
+      title: 'From research\nto clinical impact',
       intro: '',
       items: [
         {
@@ -190,7 +190,7 @@ export const content = {
           body: 'Evaluates Grashey X-ray positioning and quality to request an immediate retake from the radiographer when needed, enabling quality checks before the patient leaves the imaging room.',
           impact: 'Quality checks at acquisition'
         },
-        { year: 2024, name: 'AVIEW NeuroCAD', recipient: 'Coreline Soft', body: 'Detection of suspected cerebral hemorrhage in non-contrast brain CT to support triage.' },
+        { year: 2024, name: 'AVIEW NeuroCAD', recipient: 'Coreline Soft', body: 'Detection of suspected cerebral hemorrhage in non-contrast brain CT to support triage' },
         {
           year: 2023,
           name: 'FlatNet', summary: 'Detects landmarks in weight-bearing foot X-rays for consistent, quantitative flatfoot assessment.',

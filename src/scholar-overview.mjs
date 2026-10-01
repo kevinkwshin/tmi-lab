@@ -14,7 +14,7 @@ export function scholarOverview(lang, escape) {
     return `<li class="scholar-year${isPartial ? ' scholar-year-partial' : ''}" aria-label="${point.year}: ${point.count} ${text('회 인용', 'citations')}${isPartial ? ` · ${partial}` : ''}"><div class="scholar-bar-space" aria-hidden="true"><div class="scholar-bar" style="height:${point.count / ceiling * 100}%"><span class="scholar-bar-value">${point.count}</span></div></div><span class="scholar-year-label" aria-hidden="true">${point.year}${isPartial ? '*' : ''}</span></li>`;
   }).join('');
   return `<div class="page-composition page-scholar">
-    <div class="page-copy"><p class="page-eyebrow">${text('연구 성과', 'Research output')}</p><h2>${title}</h2><p class="page-lead">${text('연구의 확산을 보여주는 인용 기록.', 'A growing body of research, cited across the field.')}</p></div>
+    <div class="page-copy"><p class="page-eyebrow">${text('연구 성과', 'Research output')}</p><h2>${title}</h2><p class="page-lead">${text('연구의 확산을 보여주는 인용 기록', 'A growing body of research, cited across the field')}</p></div>
     <div class="scholar-overview">
       <div class="scholar-overview-top"><p class="scholar-source">Google Scholar <span>${text('신기원 교수 연구 프로필', 'Keewon Shin · Research profile')}</span></p><p class="scholar-checked">${text('확인일', 'Checked')} ${checked}</p></div>
       <dl class="scholar-overview-metrics"><div class="scholar-total"><dt>${text('총 인용', 'Total citations')}</dt><dd>${scholarProfile.citations.toLocaleString('en-US')}</dd></div><div><dt>h-index</dt><dd>${scholarProfile.hIndex}</dd></div><div><dt>i10-index</dt><dd>${scholarProfile.i10Index}</dd></div></dl>

@@ -6,7 +6,7 @@ export function peopleOverview(lang, asset, escape) {
   const title = text('구성원 소개', 'People');
   const project = text('건강진단의 멀티모달 추적관찰 데이터 기반 심혈관 질환 조기 예측 AI 시스템 개발', 'Development of an AI system for early cardiovascular disease prediction using multimodal longitudinal health screening data');
   return `<div class="page-composition page-people">
-    <div class="page-copy people-fallback"><p class="page-eyebrow">People</p><h2>${title}</h2><p class="page-lead">${escape(person.name)} · ${escape(person.role)}<br>${escape(person.affiliation)}</p><p class="page-context">${text('의료영상·생체신호·멀티모달 AI를 임상으로 연결하는 중개연구.', 'Translational research connecting medical imaging, biosignals and multimodal AI with clinical practice.')}</p></div>
+    <div class="page-copy people-fallback"><p class="page-eyebrow">People</p><h2>${title}</h2><p class="page-lead">${escape(person.name)} · ${escape(person.role)}<br>${escape(person.affiliation)}</p><p class="page-context">${text('의료영상·생체신호·멀티모달 AI를 임상으로 연결하는 중개연구', 'Translational research connecting medical imaging, biosignals and multimodal AI with clinical practice')}</p></div>
     <article class="faculty-profile" aria-label="${escape(person.name)}">
       <figure class="faculty-portrait"><img src="${asset('keewon-shin')}" width="640" height="795" loading="lazy" alt="${text('신기원 교수', 'Professor Keewon Shin')}"><figcaption>${text('연구책임자', 'Principal Investigator')}</figcaption></figure>
       <div class="faculty-content">
