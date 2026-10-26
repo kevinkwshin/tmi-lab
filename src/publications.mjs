@@ -1,13 +1,29 @@
-export const publications = [
+import automatic from './publications-auto.json' with {type: 'json'};
+
+const selectedPublications = [
   {
-    year: 2026,
+    year: 2026, published: '2026-10-22',
+    title: 'Deep learning-based detection of pneumoperitoneum on computed tomography: performance and clinical feasibility',
+    journal: 'Abdominal Radiology',
+    doi: '10.1007/s00261-026-05813-6',
+    category: 'imaging', authors: 'Ryu HS, Jung SH, Shin K, et al.',
+  },
+  {
+    year: 2026, published: '2026-08-11',
+    title: 'Hierarchical classification of acute and chronic osteoporotic vertebral compression fractures of the lumbar spine using X-ray images',
+    journal: 'Skeletal Radiology',
+    doi: '10.1007/s00256-026-05328-7',
+    category: 'imaging', authors: 'Kim J, Shin K, et al.',
+  },
+  {
+    year: 2026, published: '2026-09',
     title: 'Transforming large language models into medical specialists via knowledge injection',
     journal: 'Cell Reports Medicine',
     doi: '10.1016/j.xcrm.2026.103020',
     category: 'clinical', authors: 'Kim K, Song JM, et al.',
   },
   {
-    year: 2026,
+    year: 2026, published: '2026-03-19',
     title: 'Deep learning-based assessment of coronary artery disease using curved-multiplanar reconstruction: comprehensive evaluation of stenosis, calcification, and plaque',
     journal: 'Frontiers in Artificial Intelligence',
     doi: '10.3389/frai.2026.1602119',
@@ -84,3 +100,15 @@ export const publications = [
     category: 'imaging', authors: 'Kyung S, Shin K, et al.',
   },
 ];
+
+export function mergePublications(selected, discovered) {
+  const merged = new Map(discovered.map(paper => [paper.doi.toLowerCase(), {...paper, category: 'other'}]));
+  for (const paper of selected) {
+    const key = paper.doi.toLowerCase();
+    merged.set(key, {...merged.get(key), ...paper});
+  }
+  return [...merged.values()].sort((a, b) => b.year - a.year ||
+    (b.published || `${b.year}-01-01`).localeCompare(a.published || `${a.year}-01-01`));
+}
+
+export const publications = mergePublications(selectedPublications, automatic.publications);

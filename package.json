@@ -5,8 +5,9 @@
   "type": "module",
   "description": "Bilingual Translational Medical Intelligence Lab website",
   "scripts": {
-    "test": "node --test scripts/test-wheel.mjs scripts/test-scholar-sync.mjs",
+    "test": "node --test scripts/test-wheel.mjs scripts/test-scholar-sync.mjs scripts/test-publications-sync.mjs",
     "update:scholar": "node scripts/update-scholar.mjs",
+    "update:publications": "node scripts/update-publications.mjs",
     "test:deck": "node scripts/test-deck.mjs",
     "test:stories": "node scripts/test-stories.mjs",
     "test:visuals": "node scripts/test-visuals.mjs",

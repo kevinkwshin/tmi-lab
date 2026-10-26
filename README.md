@@ -24,6 +24,7 @@ The generated website is in `dist/`. Serve that directory with a static HTTP ser
 |---|---|
 | `src/content.mjs` | Korean and English copy, research areas, career, transfers |
 | `src/publications.mjs` | Selected publications and DOI links |
+| `src/publications-auto.json` | Automatically verified ORCID-linked journal articles from 2026 onward |
 | `src/scholar-metrics.json` | Last successfully verified Google Scholar citation snapshot |
 | `src/patents.mjs` | Patent families, document status, and public records |
 | `src/render.mjs` | Shared HTML sections and metadata |
@@ -48,13 +49,19 @@ Original private documents and extracted source material are excluded from Git. 
 
 ## Automatic Scholar updates
 
-The existing **Publish TMI-lab** workflow refreshes the public Scholar profile every Monday around 09:17 Korea time, and when run manually from GitHub Actions. It updates total citations, h-index, i10-index, yearly counts and the verified date, then saves the snapshot and deploys both languages. The chart displays the latest seven available years. Curated publication entries and research summaries are edited separately.
+The existing **Publish TMI-lab** workflow refreshes the public Scholar profile every Monday around 09:17 Korea time, and when run manually from GitHub Actions. It updates total citations, h-index, i10-index, yearly counts and the verified date, then saves the snapshot and deploys both languages. The chart displays the latest seven available years. Publication discovery runs independently through Crossref's official API (see below); research summaries remain manually edited.
 
 No API key, package or paid service is required. `npm run update:scholar` makes one ordinary request to the user-first public profile URL allowed by [Scholar's robots.txt](https://scholar.google.com/robots.txt). It does not paginate, retry blocked requests or bypass verification. This is public-page parsing, not a guaranteed Google API. If access fails or the HTML changes, the workflow reports a warning and keeps the previous snapshot and verified date, then continues site checks, tests and deployment. Only a successful refresh can save a new snapshot. Site check, test and deployment failures still fail the workflow. The standalone update command still exits with an error on a failed refresh; see that step's log and the run summary for details. Citation counts may legitimately decrease, so successful updates are not forced upward.
 
 GitHub may delay scheduled runs; public repositories' schedules can be disabled after 60 days without repository activity. Successful weekly snapshot commits normally provide activity. If repeated collection failures leave the repository inactive, re-enable the workflow in Actions after addressing the failure. [GitHub schedule documentation](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule)
 
-Ordinary code pushes build from the saved snapshot without contacting Scholar. For an immediate refresh, use **Actions → Publish TMI-lab → Run workflow**. The workflow's snapshot commit does not trigger another build; the same run deploys it. Failed refreshes never change the on-page verified date.
+Ordinary code pushes build from the saved snapshots without contacting Scholar or Crossref. For an immediate refresh, use **Actions → Publish TMI-lab → Run workflow**. The workflow's snapshot commit does not trigger another build; the same run deploys it. Failed Scholar refreshes never change the on-page verified date.
+
+## Automatic publication updates
+
+On the same weekly schedule and manual workflow runs, `npm run update:publications` queries [Crossref's official API](https://www.crossref.org/documentation/retrieve-metadata/rest-api/) for journal articles published from 2026 onward whose author metadata contains Keewon Shin's ORCID `0000-0002-5028-5716`. It does not depend on Scholar access. DOI, title, journal, authors and publication date are validated before saving `src/publications-auto.json`; a future print issue does not delay an already published online article. The list merges by DOI with the curated selections, preserving their categories and wording. New articles appear in the publication search, with unreviewed categories shown as “Other research.” Existing verified articles are retained if a later index response omits them. Publication checks and Scholar checks fail independently; either source being unavailable produces a warning and retains its previous snapshot while normal site checks and deployment continue.
+
+Automatic discovery covers articles linked to this ORCID in Crossref. Publisher indexing delays and missing ORCID metadata can prevent discovery; those papers can still be added after manual DOI verification in `src/publications.mjs`. Older selections remain curated, and conference abstracts, patents, corrections and research narratives are not automatically added. The Scholar chart's checked date describes citation metrics only, not the publication-list refresh.
 
 ## Navigation
 

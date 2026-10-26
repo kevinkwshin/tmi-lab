@@ -1,0 +1,22 @@
+{
+  "orcid": "0000-0002-5028-5716",
+  "checked": "2026-10-26",
+  "publications": [
+    {
+      "year": 2026,
+      "published": "2026-10-22",
+      "title": "Deep learning-based detection of pneumoperitoneum on computed tomography: performance and clinical feasibility",
+      "journal": "Abdominal Radiology",
+      "doi": "10.1007/s00261-026-05813-6",
+      "authors": "Ryu HS, Jung SH, Shin K, et al."
+    },
+    {
+      "year": 2026,
+      "published": "2026-01-24",
+      "title": "Automated landmark detection and view positioning assessment of shoulder grashey view radiographs using cascade deep learning: A dual‐center validation study",
+      "journal": "Medical Physics",
+      "doi": "10.1002/mp.70285",
+      "authors": "Ryu SM, Park C, Shin K, et al."
+    }
+  ]
+}

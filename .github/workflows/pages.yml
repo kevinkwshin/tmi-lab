@@ -26,6 +26,17 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+      - name: Refresh ORCID-linked publications
+        id: publications
+        if: github.event_name != 'push'
+        continue-on-error: true
+        run: npm run update:publications
+      - name: Report preserved publication list
+        if: steps.publications.outcome == 'failure'
+        run: |
+          echo '::warning title=Publication refresh unavailable::Using the last verified publication list; site checks and deployment will continue.'
+          echo '### Publication refresh unavailable' >> "$GITHUB_STEP_SUMMARY"
+          echo 'The DOI registry could not be verified. The saved publication list is unchanged. See the refresh step for details.' >> "$GITHUB_STEP_SUMMARY"
       - name: Refresh public Scholar metrics
         id: scholar
         if: github.event_name != 'push'
@@ -42,14 +53,14 @@ jobs:
       - run: npm run build
         env:
           SITE_URL: ${{ vars.SITE_URL || 'https://kevinkwshin.github.io/tmi-lab/' }}
-      - name: Save verified Scholar snapshot
-        if: steps.scholar.outcome == 'success'
+      - name: Save verified research snapshots
+        if: steps.scholar.outcome == 'success' || steps.publications.outcome == 'success'
         run: |
-          if ! git diff --quiet -- src/scholar-metrics.json; then
+          if ! git diff --quiet -- src/scholar-metrics.json src/publications-auto.json; then
             git config user.name 'github-actions[bot]'
             git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git add src/scholar-metrics.json
-            git commit -m 'Keep citation evidence current' -m 'Constraint: Refresh one public profile; preserve the last snapshot on failure.' -m 'Confidence: high' -m 'Scope-risk: narrow' -m 'Tested: Scholar parser validation, unit tests, syntax checks and bilingual build.'
+            git add src/scholar-metrics.json src/publications-auto.json
+            git commit -m 'Update verified research snapshots' -m 'Preserve each saved snapshot on collection failure. Validated with syntax checks, unit tests and a bilingual build.'
             git push origin HEAD:main
           fi
       - uses: actions/configure-pages@v5
