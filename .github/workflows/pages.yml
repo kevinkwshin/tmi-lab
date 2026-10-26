@@ -27,15 +27,23 @@ jobs:
         with:
           node-version: '24'
       - name: Refresh public Scholar metrics
+        id: scholar
         if: github.event_name != 'push'
+        continue-on-error: true
         run: npm run update:scholar
+      - name: Report preserved Scholar snapshot
+        if: steps.scholar.outcome == 'failure'
+        run: |
+          echo '::warning title=Scholar refresh unavailable::Using the last verified Scholar snapshot. Citation counts and the checked date are unchanged; site checks and deployment will continue.'
+          echo '### Scholar refresh unavailable' >> "$GITHUB_STEP_SUMMARY"
+          echo 'The public profile could not be verified. The site uses the last verified snapshot and its original checked date. See the refresh step for the error; a later scheduled or manual run can try again.' >> "$GITHUB_STEP_SUMMARY"
       - run: npm run check
       - run: npm test
       - run: npm run build
         env:
           SITE_URL: ${{ vars.SITE_URL || 'https://kevinkwshin.github.io/tmi-lab/' }}
       - name: Save verified Scholar snapshot
-        if: github.event_name != 'push'
+        if: steps.scholar.outcome == 'success'
         run: |
           if ! git diff --quiet -- src/scholar-metrics.json; then
             git config user.name 'github-actions[bot]'
