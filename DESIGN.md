@@ -1,5 +1,13 @@
 # TMI-lab design system
 
+## V2 preview — October 28, 2026
+
+The `codex/v2` branch introduces a separate, naturally scrolling editorial design in `src/v2-render.mjs` and `src/v2.css`. Its large navy/blue typography, original concept illustrations, distinct NeuroCAD chapter, research evidence disclosures, selected publications and compact PI profile supersede the V1 slide-composition rules below for this preview only. Retain the original character video, both languages, scientific-image proportions, source attribution, complete publication and patent records, research caveats and reduced-motion behavior.
+
+V1 code and assets remain intact. `SITE_DESIGN=v1 npm run build` selects that design with the current data. The GitHub tag `v1-before-v2-20261028` preserves the exact prior source. Production remains on `main`; see `docs/v2-and-restore.md`. No production deployment is part of the preview.
+
+Validation: syntax checks, 53 unit/content checks, both design builds, and browser checks at 534px and 775px widths. Browser checks cover menu visibility/closing, section links, KO/EN anchor preservation, publication search/empty/reset/filter states, image enlargement/Escape/focus restoration, and absence of horizontal overflow or failed image decoding in the final observed state. Full physical-device and wide-desktop coverage remains for release QA.
+
 ## October 1: sourced NeuroCAD achievements
 
 Make the product's MFDS Innovative Medical Device designation the primary achievement in a solid brand-blue linked panel, with designation number and date directly below. Pair it with a prominent, dated 50,000+ clinical-use count, linked to the report supporting that measure. The separate hospital-adoption article makes emergency-care use concrete. Keep the shared slide title/subtitle hierarchy and clinical illustration; this emphasis belongs in the body. Reuse one achievement renderer in presentation, compact fallback and reading mode. Each news link opens a new tab with keyboard focus treatment and a minimum44px target. Details identifies publishers and reporting dates, distinguishes the2020 designation from later2023 events, and keeps the lab-provided100+ departments figure separate from article-supported usage. Do not imply designation or a usage count establishes improved patient outcomes.

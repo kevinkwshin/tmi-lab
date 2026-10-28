@@ -1,5 +1,9 @@
 # TMI-lab
 
+V2 design is being previewed on `codex/v2`; the live site remains on `main`.
+The GitHub tag `v1-before-v2-20261028` preserves the prior release. See
+[V2 preview and V1 recovery](docs/v2-and-restore.md) for both build modes and restoration.
+
 Bilingual website for the **Translational Medical Intelligence Lab**, Inha University College of Medicine, led by **Keewon Shin, PhD**.
 
 - Website: https://tmi-lab.org/

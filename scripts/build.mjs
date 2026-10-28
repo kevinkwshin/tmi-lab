@@ -1,6 +1,10 @@
 import { mkdir, readFile, writeFile, cp, rm } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
-import { renderPage } from '../src/render.mjs';
+import { renderPage as renderV1 } from '../src/render.mjs';
+import { renderPage as renderV2 } from '../src/v2-render.mjs';
+
+const legacy = process.env.SITE_DESIGN === 'v1';
+const renderPage = legacy ? renderV1 : renderV2;
 
 const languageScript = await readFile('src/language.js', 'utf8');
 const siteUrl = new URL(process.env.SITE_URL || 'https://kevinkwshin.github.io/tmi-lab/');
@@ -8,7 +12,7 @@ if (!siteUrl.pathname.endsWith('/')) siteUrl.pathname += '/';
 await rm('dist', { recursive: true, force: true });
 await mkdir('dist/en', { recursive: true });
 await cp('public', 'dist', { recursive: true });
-const styles = await Promise.all(['src/tokens.css', 'src/layout.css', 'src/presentation.css', 'src/research.css', 'src/deck.css', 'src/stories.css', 'src/visuals.css', 'src/editorial.css', 'src/research-illustrations.css', 'src/clinical-scenes.css', 'src/identity.css', 'src/scholar-overview.css', 'src/people-overview.css'].map(p => readFile(p, 'utf8')));
+const styles = await Promise.all((legacy ? ['src/tokens.css', 'src/layout.css', 'src/presentation.css', 'src/research.css', 'src/deck.css', 'src/stories.css', 'src/visuals.css', 'src/editorial.css', 'src/research-illustrations.css', 'src/clinical-scenes.css', 'src/identity.css', 'src/scholar-overview.css', 'src/people-overview.css'] : ['src/v2.css', 'src/identity.css']).map(p => readFile(p, 'utf8')));
 const css = styles.join('\n');
 const stylesheet = `styles.css?v=${createHash('sha256').update(css).digest('hex').slice(0, 12)}`;
 await writeFile('dist/styles.css', css);
