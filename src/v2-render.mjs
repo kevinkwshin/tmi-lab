@@ -51,7 +51,7 @@ export function renderPage(lang, siteUrl, languageScript, stylesheet = 'styles.c
 <main id="main">
 <section class="hero wrap" id="welcome" aria-labelledby="hero-title">
 <div class="hero-top"><p class="eyebrow"><span class="blue-dot" aria-hidden="true"></span>INHA UNIVERSITY · DIGITAL MEDICINE</p></div>
-<div class="hero-grid"><div class="hero-copy"><p class="hero-kicker" lang="en">Translational Medical Intelligence Lab</p><h1 id="hero-title">${copy.heroTitle.map(line=>`<span>${esc(line)}</span>`).join(' ')}</h1><p class="hero-description">${esc(copy.heroDescription)}</p><div class="hero-actions">${link('#research',t('연구 분야 보기','Research areas'),'button')}${link('#translation',t('기술이전 사례','Technology transfers'))}</div></div>
+<div class="hero-grid"><div class="hero-copy"><p class="hero-kicker" lang="en">Translational Medical Intelligence Lab</p><h1 id="hero-title">${copy.heroTitle.map(line=>`<span>${esc(line)}</span>`).join(' ')}</h1>${copy.heroTagline.length ? `<p class="hero-tagline" lang="en">${copy.heroTagline.map(line=>`<span>${esc(line)}</span>`).join(' ')}</p>` : ''}<p class="hero-description">${esc(copy.heroDescription)}</p><div class="hero-actions">${link('#research',t('연구 분야 보기','Research areas'),'button')}${link('#translation',t('기술이전 사례','Technology transfers'))}</div></div>
 <div class="hero-identity">${identityLogo(lang,asset,esc,'hero-logo')}<p class="hero-logo-caption">Translational Medical Intelligence Lab</p></div></div>
 <div class="hero-foot"><p>${esc(c.footer.affiliation)}</p><a href="#research" class="scroll-link">${t('아래로 스크롤하여 살펴보기','Scroll to discover')}<span aria-hidden="true">↓</span></a></div>
 </section>

@@ -1,9 +1,10 @@
 // V2 editorial copy stays separate from the preserved V1 content.
 export const v2Copy = {
   ko: {
-    pageTitle: 'TMI-lab | 인하대학교 의료영상·생체신호 AI 연구실',
-    heroTitle: ['의료영상·생체신호', 'AI 연구실'],
-    heroDescription: '의료영상, 생체신호, 임상기록을 분석하는 AI를 연구합니다. 주요 연구 주제는 영상 품질 평가, 판독 지원, 환자별 변화 예측입니다.',
+    pageTitle: 'TMI-lab | Translational Medical Intelligence Lab · 인하대학교',
+    heroTitle: ['복잡한 의료정보를,', '임상을 위한 지능으로.'],
+    heroTagline: ['From Too Much Information', 'to Translational Medical Intelligence.'],
+    heroDescription: 'TMI-lab은 의료 데이터를 해석하고, 실제 진료에 활용할 수 있는 AI를 연구합니다.',
     researchTitle: '주요 연구 분야',
     researchIntro: '영상과 생체신호 분석을 기반으로 진료 과정에서 필요한 정보를 찾고, 환자별 변화를 예측하는 방법을 연구합니다.',
     researchSummaries: [
@@ -34,9 +35,10 @@ export const v2Copy = {
     contactTitle: '공동연구 및 문의'
   },
   en: {
-    pageTitle: 'TMI-lab | Medical imaging and biosignal AI · Inha University',
-    heroTitle: ['Medical imaging', '& biosignal AI'],
-    heroDescription: 'We develop AI methods for medical images, biosignals and clinical records. Our research covers image quality, interpretation support and prediction of patient-specific changes.',
+    pageTitle: 'TMI-lab | Translational Medical Intelligence Lab · Inha University',
+    heroTitle: ['From Too Much Information', 'to Translational', 'Medical Intelligence.'],
+    heroTagline: [],
+    heroDescription: 'TMI-lab studies medical data and AI methods for use in clinical care.',
     researchTitle: 'Research areas',
     researchIntro: 'We use imaging and biosignal analysis to identify information needed in clinical workflows and model changes in individual patients.',
     researchSummaries: [

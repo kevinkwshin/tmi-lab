@@ -150,6 +150,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 .hero h1 { font-size: clamp(30px, 3.65vw, 56px); line-height: 1.4; font-weight: 650; }
 .hero h1 > span { display: block; }
 .hero h1 > span:last-child { color: var(--blue); }
+.hero h1:lang(en) { font-size: clamp(24px, 2.7vw, 40px); }
+.hero-tagline { margin-top: 22px; color: var(--muted); font-size: 14px; line-height: 1.8; }
+.hero-tagline > span { display: block; }
 .hero-description { max-width: 42ch; margin-top: 26px; font-size: 16px; line-height: 1.95; color: var(--muted); }
 .hero-actions { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; margin-top: 28px; }
 .hero-actions .text-link { border: 0; }
@@ -422,6 +425,7 @@ input[type=search] { width: 320px; max-width: 100%; min-height: 48px; padding: 1
   .hero-top .eyebrow { font-size: 10px; letter-spacing: .02em; }
   .hero-grid { grid-template-columns: 1fr; gap: 32px; min-height: 0; padding-block: 30px; }
   .hero h1 { font-size: clamp(28px, 8.5vw, 40px); line-height: 1.45; }
+  .hero h1:lang(en) { font-size: clamp(20px, 5.7vw, 26px); }
   .hero-description { margin-top: 22px; max-width: 44ch; font-size: 15px; line-height: 1.95; }
   .hero-actions { margin-top: 24px; gap: 20px; }
   .hero-actions .button { font-size: 14px; }
