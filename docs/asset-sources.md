@@ -1,6 +1,12 @@
 # Content and image sources
 
-## Supplied logo video (2026-10-01)
+## Supplied replacement logo video (2026-10-30)
+
+The user supplied `LOGO_video_TMI-lab.mp4` for the V1 site. The current `public/assets/tmi-logo-film.mp4` retains the supplied 1280×720, 24fps H.264 video through a passthrough export, with the audio removed and MP4 metadata placed before the media data for web loading. Duration is approximately 10 seconds. No visual retouching, cropping, scaling or video re-encoding was applied. `public/assets/tmi-logo-video-poster.jpg` is the replacement video's first frame. The original file remains untouched.
+
+The shared logo component versions both asset URLs with `v=20261030` so existing visitors receive the replacement rather than a cached video or poster. The V1 layout, copy and playback lifecycle remain unchanged. The V2 experiment is preserved on `codex/v2`.
+
+## Previous supplied logo video (2026-10-01; replaced 2026-10-30)
 
 The user supplied `gemini_generated_video_93afe2e7.mp4` to replace the welcome logo animation. `public/assets/tmi-logo-film.mp4` preserves its original 1280×720, 24fps H.264 video stream and 10 second duration; its audio stream was removed and MP4 metadata moved to the front for web loading. `public/assets/tmi-logo-video-poster.jpg` is the first frame, extracted as a static fallback. No image generation, visual retouching or video re-encoding was applied. The supplied video's original framing and lettering are preserved.
 

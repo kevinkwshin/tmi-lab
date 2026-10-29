@@ -1,5 +1,9 @@
 # TMI-lab design system
 
+## October 30: replacement supplied video on V1
+
+Use the user's `LOGO_video_TMI-lab.mp4` in the existing V1 logo component, preserving its original 1280×720 frames, 24fps rate and approximately 10-second duration. Prepare a silent MP4 with front-loaded metadata through passthrough export and replace the poster with its first frame. Version both asset URLs for existing visitors. Preserve V1 copy, layout, natural looping, pause/play, interruption and static fallback behavior. Keep V2 separately on `codex/v2`.
+
 ## October 1: sourced NeuroCAD achievements
 
 Make the product's MFDS Innovative Medical Device designation the primary achievement in a solid brand-blue linked panel, with designation number and date directly below. Pair it with a prominent, dated 50,000+ clinical-use count, linked to the report supporting that measure. The separate hospital-adoption article makes emergency-care use concrete. Keep the shared slide title/subtitle hierarchy and clinical illustration; this emphasis belongs in the body. Reuse one achievement renderer in presentation, compact fallback and reading mode. Each news link opens a new tab with keyboard focus treatment and a minimum44px target. Details identifies publishers and reporting dates, distinguishes the2020 designation from later2023 events, and keeps the lab-provided100+ departments figure separate from article-supported usage. Do not imply designation or a usage count establishes improved patient outcomes.

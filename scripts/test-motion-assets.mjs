@@ -21,7 +21,7 @@ try {
    let release,requested;
    const hold=new Promise(resolve=>{release=resolve;});
    const requestStarted=new Promise(resolve=>{requested=resolve;});
-   await page.route(`**/${asset}`,async route=>{
+   await page.route(url=>url.pathname.endsWith(`/${asset}`),async route=>{
     requested();
     if(scenario==='failed') return route.abort();
     await hold;

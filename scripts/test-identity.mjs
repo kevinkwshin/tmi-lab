@@ -33,8 +33,8 @@ try {
   await mark.locator('.brand-poster').evaluate(image=>image.decode());
   assert.equal(await page.locator('.identity-flow').count(),0,'Removed hero line graphic stays absent');
   assert.equal(await mark.locator('svg.brand-motion,[data-mascot-wave],[data-mascot-smile],[data-mascot-goose],[data-mascot-blink],[data-mascot-resting-hand]').count(),0,'Video replaces all SVG mascot parts');
-  assert.match(await mark.locator('.brand-poster').getAttribute('src'),/tmi-logo-video-poster\.jpg$/);
-  assert.match(await video.getAttribute('data-src'),/tmi-logo-film\.mp4$/);
+  assert.match(await mark.locator('.brand-poster').getAttribute('src'),/tmi-logo-video-poster\.jpg(?:\?v=[\w-]+)?$/);
+  assert.match(await video.getAttribute('data-src'),/tmi-logo-film\.mp4(?:\?v=[\w-]+)?$/);
   const attributes=await video.evaluate(node=>({muted:node.muted,loop:node.loop,inline:node.playsInline,preload:node.preload,controls:node.controls,fit:getComputedStyle(node).objectFit}));
   assert.deepEqual(attributes,{muted:true,loop:true,inline:true,preload:'none',controls:false,fit:'contain'});
   await playing(page);
