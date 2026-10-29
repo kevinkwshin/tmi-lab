@@ -25,6 +25,8 @@ Use the tag to compare or recover exact historical files when needed. Do not for
 
 An editorial, naturally scrolling research site: large navy and clinical-blue type, a compact masthead, original medical concept illustrations, an emphasized NeuroCAD translation chapter, original research figures behind native disclosures, selected papers before citation metrics, complete searchable publications, patent records, PI history and contact. The original character video remains on the opening. All scientific data and source links are reused rather than invented.
 
+The October 29 revision uses factual lab and section descriptions in `src/v2-copy.mjs`, normal Korean title spacing, a larger original logo in the opening, text-only research index cards, and a visible NeuroCAD product screenshot. Concept illustrations are placed with their corresponding explanations rather than repeated in the index.
+
 No production deployment, audience change, external fonts, analytics, new service dependency, or Sites registration is part of this preview.
 
 V2 uses WebP copies (quality 90, with a lossless copy for digital twins; same pixel dimensions and framing) of the five existing concept illustrations. Their original PNGs and provenance remain untouched; scientific evidence images are unchanged.

@@ -1,5 +1,13 @@
 # TMI-lab design system
 
+## V2 revision — October 29, 2026
+
+User review identified cramped Korean tracking, competing hero graphics and generic promotional wording. Use normal Korean title spacing (0em), explicit Korean system-font fallbacks and readable body copy. Keep only modest Latin tracking. Do not reintroduce the previous -0.055em / -0.067em title rules.
+
+The opening pairs a factual lab introduction with the original logo video at a useful size. Research index cards contain text rather than duplicating the illustrations in the detailed research sections. The actual NeuroCAD product interface is visible and enlargeable in the main transfer case; the triage concept is supplemental and labelled. Use short factual section names, with bilingual V2 copy maintained in `src/v2-copy.mjs`. Keep V1 source and content intact.
+
+Checked the revised Korean and English pages at the user's 425px browser width: normal Korean title spacing, no horizontal overflow, successful image loading, menu visibility and closing, language-anchor preservation, and product-image enlargement/Escape/focus restoration. Source-data preservation and internal-link checks pass for both languages. Wider desktop and physical-device release checks remain outstanding.
+
 ## V2 preview — October 28, 2026
 
 The `codex/v2` branch introduces a separate, naturally scrolling editorial design in `src/v2-render.mjs` and `src/v2.css`. Its large navy/blue typography, original concept illustrations, distinct NeuroCAD chapter, research evidence disclosures, selected publications and compact PI profile supersede the V1 slide-composition rules below for this preview only. Retain the original character video, both languages, scientific-image proportions, source attribution, complete publication and patent records, research caveats and reduced-motion behavior.
