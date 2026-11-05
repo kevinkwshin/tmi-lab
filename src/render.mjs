@@ -21,6 +21,7 @@ export function renderPage(lang, siteUrl, languageScript, stylesheet = 'styles.c
   const c = content[lang];
   const ko = lang === 'ko';
   const root = ko ? './' : '../';
+  const languageSwitcher = `<div class="language" role="group" aria-label="${c.ui.language}"><a href="${root}?lang=ko" data-language="ko" lang="ko" aria-label="KO · 한국어" ${ko ? 'aria-current="page"' : ''}>KO</a><a href="${root}en/?lang=en" data-language="en" lang="en" aria-label="EN · English" ${!ko ? 'aria-current="page"' : ''}>EN</a></div>`;
   const pageUrl = new URL(ko ? './' : 'en/', siteUrl).href;
   const illustrations = new Set(['neurocad-triage-journey','neurocad-triage-clean','research-workflow-concept','research-twin-concept','research-precision-concept','mission-clinical-research','workflow-ct-comparison']);
   const asset = (name) => `${root}assets/${name}.${name === 'tmi-logo-film' ? 'mp4' : name === 'tmi-logo-video-poster' ? 'jpg' : illustrations.has(name) ? 'png' : 'webp'}`;
@@ -46,15 +47,15 @@ export function renderPage(lang, siteUrl, languageScript, stylesheet = 'styles.c
 <link rel="icon" href="${root}favicon.svg" type="image/svg+xml">
 <script>document.documentElement.classList.add('js');</script>
 <script>${languageScript}</script>
-<link rel="stylesheet" href="${escape(root + stylesheet)}"><script src="${root}site.js" defer></script><script src="${root}deck.js" defer></script><script src="${root}visuals.js" defer></script><script src="${root}clinical-scenes.js" defer></script><script src="${root}identity.js?v=20261001-video" defer></script><script src="${root}scroll.js" defer></script>
+<link rel="stylesheet" href="${escape(root + stylesheet)}"><script src="${root}site.js?v=20261105-mobile-brand" defer></script><script src="${root}deck.js" defer></script><script src="${root}visuals.js" defer></script><script src="${root}clinical-scenes.js" defer></script><script src="${root}identity.js?v=20261001-video" defer></script><script src="${root}scroll.js?v=20261105-mobile-brand" defer></script>
 <script type="application/ld+json">${JSON.stringify(schema).replaceAll('<', '\\u003c')}</script>
 </head>
 <body>
 <a class="skip action" href="#main">${c.ui.skip}</a>
 <header class="site-header"><div class="header-inner container">
 <a class="brand" href="${root}" aria-label="${c.ui.home}"><span class="brand-title"><span class="brand-mark" lang="en">TMI-lab</span><span class="brand-expansion" lang="${lang}">${ko ? '(중개의료지능 연구실)' : '(<span class="brand-initial">T</span>ranslational <span class="brand-initial">M</span>edical <span class="brand-initial">I</span>ntelligence)'}</span></span><span class="brand-description" lang="en">Inha University College of Medicine</span></a>
-<nav class="nav" id="main-nav" aria-label="${ko ? '주 메뉴' : 'Main navigation'}">${c.nav.map(n => `<a href="#${n.id}">${n.label}</a>`).join('')}</nav>
-<div class="header-controls"><div class="language" role="group" aria-label="${c.ui.language}"><a href="${root}?lang=ko" data-language="ko" lang="ko" aria-label="KO · 한국어" ${ko ? 'aria-current="page"' : ''}>KO</a><a href="${root}en/?lang=en" data-language="en" lang="en" aria-label="EN · English" ${!ko ? 'aria-current="page"' : ''}>EN</a></div><button class="menu-toggle" type="button" aria-controls="main-nav" aria-expanded="false" aria-label="${c.ui.menu}" data-open="${c.ui.menu}" data-close="${c.ui.close}"><span aria-hidden="true">☰</span></button></div>
+<nav class="nav" id="main-nav" aria-label="${ko ? '주 메뉴' : 'Main navigation'}">${c.nav.map(n => `<a href="#${n.id}">${n.label}</a>`).join('')}<div class="mobile-language">${languageSwitcher}</div></nav>
+<div class="header-controls">${languageSwitcher}<button class="menu-toggle" type="button" aria-controls="main-nav" aria-expanded="false" aria-label="${c.ui.menu}" data-open="${c.ui.menu}" data-close="${c.ui.close}"><span aria-hidden="true">☰</span></button></div>
 </div><div class="reading-progress" aria-hidden="true"><span></span></div></header>
 <main id="main">
 <section class="hero container" id="welcome" data-slide="${ko ? '소개' : 'Welcome'}" aria-labelledby="hero-title">${overview('welcome')}<div class="slide-detail reading-content" id="detail-welcome" data-detail="welcome">

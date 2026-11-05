@@ -6,7 +6,7 @@ const previous = dock.querySelector('[data-slide-prev]');
 const next = dock.querySelector('[data-slide-next]');
 const mode = dock.querySelector('[data-reading]');
 const progress = document.querySelector('.reading-progress span');
-const navigation = [...document.querySelectorAll('.nav a')];
+const navigation = [...document.querySelectorAll('.nav > a[href^="#"]')];
 const dialog = document.querySelector('.reading-dialog');
 let current = 0;
 let rendered = -1;

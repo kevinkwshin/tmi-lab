@@ -6,11 +6,12 @@ function closeMenu(restoreFocus = false) {
   nav.classList.remove('is-open');
   if (restoreFocus) toggle.focus();
 }
-toggle.addEventListener('click', () => {
+toggle.addEventListener('click', (event) => {
   const open = toggle.getAttribute('aria-expanded') !== 'true';
   toggle.setAttribute('aria-expanded', String(open));
   toggle.setAttribute('aria-label', open ? toggle.dataset.close : toggle.dataset.open);
   nav.classList.toggle('is-open', open);
+  if (open && event.detail === 0) nav.querySelector('a')?.focus();
 });
 nav.addEventListener('click', (event) => { if (event.target.closest('a')) closeMenu(); });
 document.addEventListener('keydown', (event) => {
