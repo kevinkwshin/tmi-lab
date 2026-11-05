@@ -11,7 +11,7 @@ export const content = {
     hero: {
       eyebrow: 'Inha University · Digital Medicine',
       titleLines: [ 'TMI-lab' ],
-      description: '의료 데이터의 복잡성을 임상적 통찰로 바꾸고, 진료의 다음 결정을 돕는 AI를 연구합니다.',
+      description: '의료영상·생체신호·전자의무기록(EMR)을 분석해 디지털 바이오마커를 찾고, 진료 워크플로우와 환자별 판단을 돕는 AI를 연구합니다.',
       primary: '기술이전 사례',
       secondary: '연구 살펴보기',
       caption: '의료영상의 해부학적 구조를 이해하고 정량화하는 연구'
@@ -46,7 +46,7 @@ export const content = {
         {
           title: '정밀의료 · 근거기반 치료',
           question: '같은 진단을 넘어, 환자별 치료의 근거로',
-          body: '영상 속 미세한 구조와 생체신호의 패턴을 정량화하고, 예측이 얼마나 신뢰할 만한지 함께 평가합니다. 환자별 위험과 치료 반응을 해석하는 근거기반 정밀의료를 지향합니다.',
+          body: '의료영상과 생체신호, 전자의무기록(EMR)을 분석해 디지털 바이오마커를 찾고, 환자별 위험과 치료 반응을 파악하는 방법을 연구합니다. 측정값과 예측의 신뢰도도 함께 평가합니다.',
           tags: [ 'Quantitative imaging', 'Treatment response', 'Uncertainty' ]
         }
       ]
@@ -135,7 +135,7 @@ export const content = {
     hero: {
       eyebrow: 'Inha University · Digital Medicine',
       titleLines: [ 'TMI-lab' ],
-      description: 'We turn complex medical data into intelligence for clinical decisions.',
+      description: 'We study digital biomarkers from medical images, biosignals and electronic medical records (EMR), and develop AI to support clinical decisions and workflows.',
       primary: 'Technology transfer',
       secondary: 'Research',
       caption: 'Research in understanding and quantifying anatomical structures in medical images'
@@ -175,7 +175,7 @@ export const content = {
         {
           title: 'Precision medicine',
           question: 'Beyond a shared diagnosis, evidence for the individual',
-          body: 'We quantify subtle structures in images and patterns in biosignals, while assessing how much confidence to place in each prediction. These foundations support our research toward individual risk assessment and treatment response.',
+          body: 'We analyze medical images, biosignals and electronic medical records (EMR) to identify digital biomarkers and study individual risk and treatment response. We also assess the reliability of measurements and predictions.',
           tags: [ 'Quantitative imaging', 'Treatment response', 'Uncertainty' ]
         }
       ]

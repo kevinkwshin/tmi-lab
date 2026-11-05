@@ -106,7 +106,7 @@ try {
     const button=await toggle.boundingBox();
     assert(bounds.x+bounds.width<button.x,'Compact playback button stays outside the video and tagline');
    }
-   if(width>=1280)assert(await page.locator('.identity-opening .page-lead').evaluate(node=>node.getBoundingClientRect().height<=parseFloat(getComputedStyle(node).lineHeight)+2),'Desktop description remains one line');
+   if(width>=1280)assert(await page.locator('.identity-opening .page-lead').evaluate(node=>node.getBoundingClientRect().height<=2*parseFloat(getComputedStyle(node).lineHeight)+2),'Desktop introduction stays within two lines');
    await page.emulateMedia({reducedMotion:'reduce'});
    await page.waitForTimeout(100);
    await paused(mark);
