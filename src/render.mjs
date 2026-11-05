@@ -54,7 +54,7 @@ export function renderPage(lang, siteUrl, languageScript, stylesheet = 'styles.c
 <a class="skip action" href="#main">${c.ui.skip}</a>
 <header class="site-header"><div class="header-inner container">
 <a class="brand" href="${root}" aria-label="${c.ui.home}"><span class="brand-title"><span class="brand-mark" lang="en">TMI-lab</span><span class="brand-expansion" lang="${lang}">${ko ? '(중개의료지능 연구실)' : '(<span class="brand-initial">T</span>ranslational <span class="brand-initial">M</span>edical <span class="brand-initial">I</span>ntelligence)'}</span></span><span class="brand-description" lang="en">Inha University College of Medicine</span></a>
-<nav class="nav" id="main-nav" aria-label="${ko ? '주 메뉴' : 'Main navigation'}">${c.nav.map(n => `<a href="#${n.id}">${n.label}</a>`).join('')}<div class="mobile-language">${languageSwitcher}</div></nav>
+<nav class="nav" id="main-nav" aria-label="${ko ? '주 메뉴' : 'Main navigation'}">${c.nav.map(n => `<a href="#${n.id}">${n.label}</a>`).join('')}</nav>
 <div class="header-controls">${languageSwitcher}<button class="menu-toggle" type="button" aria-controls="main-nav" aria-expanded="false" aria-label="${c.ui.menu}" data-open="${c.ui.menu}" data-close="${c.ui.close}"><span aria-hidden="true">☰</span></button></div>
 </div><div class="reading-progress" aria-hidden="true"><span></span></div></header>
 <main id="main">
