@@ -110,12 +110,10 @@ figcaption { font-size:var(--text-xs); color:var(--muted); line-height:1.6; marg
 }
 @media(max-width:640px) {
   .header-inner { column-gap:var(--s3); row-gap:var(--s1); padding-block:var(--s3); }
-  .brand { flex:0 1 100%; }
   .brand-title { flex-wrap:nowrap; align-items:center; gap:6px; }
   .brand .brand-mark { flex-shrink:0; line-height:1.2; }
   .brand-expansion { min-width:0; font-size:var(--text-sm); }
   .brand-expansion:lang(ko) { white-space:nowrap; }
-  .header-controls { flex-basis:100%; justify-content:flex-end; margin-left:0; }
   .header-controls>.language { padding:0; gap:0; border:0; }
   .hero { grid-template-columns:1fr; padding-top:var(--s10); gap:var(--s10); }
   .hero .eyebrow { font-size:var(--text-xs); margin-bottom:var(--s5); }
