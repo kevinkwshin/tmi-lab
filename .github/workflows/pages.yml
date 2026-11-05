@@ -5,6 +5,7 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '17 0 * * 1'
+    - cron: '17 0 * * 0,2-6'
 permissions:
   contents: read
   pages: write
@@ -15,6 +16,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      scholar_refresh: ${{ steps.scholar.outcome }}
     permissions:
       contents: write
       pages: write
@@ -28,7 +31,7 @@ jobs:
           node-version: '24'
       - name: Refresh ORCID-linked publications
         id: publications
-        if: github.event_name != 'push'
+        if: github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && github.event.schedule == '17 0 * * 1')
         continue-on-error: true
         run: npm run update:publications
       - name: Report preserved publication list
@@ -46,8 +49,7 @@ jobs:
         if: steps.scholar.outcome == 'failure'
         run: |
           echo '::warning title=Scholar refresh unavailable::Using the last verified Scholar snapshot. Citation counts and the checked date are unchanged; site checks and deployment will continue.'
-          echo '### Scholar refresh unavailable' >> "$GITHUB_STEP_SUMMARY"
-          echo 'The public profile could not be verified. The site uses the last verified snapshot and its original checked date. See the refresh step for the error; a later scheduled or manual run can try again.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'The site keeps the last verified Scholar snapshot. The next daily run will make a new collection attempt. The Scholar refresh health check will report this failure after deployment.' >> "$GITHUB_STEP_SUMMARY"
       - run: npm run check
       - run: npm test
       - run: npm run build
@@ -77,3 +79,14 @@ jobs:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
+  scholar-refresh-health:
+    name: Verify Scholar refresh
+    needs: [build, deploy]
+    if: ${{ always() && needs.build.outputs.scholar_refresh == 'failure' && needs.deploy.result == 'success' }}
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Report failed refresh after deployment
+        run: |
+          echo '::error title=Scholar refresh failed::The website was deployed with the last verified citation data. See the Scholar refresh annotation and build summary for the collection error. A new attempt is scheduled for the next day.'
+          exit 1

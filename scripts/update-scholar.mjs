@@ -1,4 +1,4 @@
-import {readFile, writeFile, rename, rm} from 'node:fs/promises';
+import {readFile, writeFile, appendFile, rename, rm} from 'node:fs/promises';
 import {fileURLToPath, pathToFileURL} from 'node:url';
 
 export const profileId = 'prJCNYoAAAAJ';
@@ -75,12 +75,51 @@ export async function refreshScholar({fetchImpl = fetch, output = snapshotPath, 
   return metrics;
 }
 
+const commandText = value => String(value).replaceAll('%', '%25').replaceAll('\r', '%0D').replaceAll('\n', '%0A');
+const summaryText = value => String(value ?? 'unavailable').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('%', '&#37;').replaceAll('\r', '&#13;').replaceAll('\n', '&#10;');
+
+export async function reportScholarRefresh({metrics, error, output = snapshotPath, env = process.env, log = console.log} = {}) {
+  if (env.GITHUB_ACTIONS !== 'true') return;
+  const annotation = (level, title, message) => {
+    try { log(`::${level} title=${title}::${commandText(message)}`); } catch { /* Reporting must not replace the refresh result. */ }
+  };
+  const reason = error && (error.message ?? String(error));
+  if (error) annotation('error', 'Google Scholar refresh failed', reason);
+  if (!env.GITHUB_STEP_SUMMARY) return;
+  try {
+    let saved = metrics;
+    if (!saved) {
+      try { saved = JSON.parse(await readFile(output, 'utf8')); }
+      catch (readError) { annotation('warning', 'Google Scholar report incomplete', `Could not read the last successful snapshot: ${readError.message}`); }
+    }
+    const summary = [
+      '## Google Scholar refresh',
+      '',
+      error ? 'Refresh failed. The previous snapshot and checked date are unchanged.' : 'Refresh completed.',
+      '',
+      ...(error ? [`- Reason: <code>${summaryText(reason)}</code>`] : []),
+      `- Last successful check: <code>${summaryText(saved?.checked)}</code>`,
+      `- Citations: <code>${summaryText(saved?.citations)}</code>`,
+      `- h-index: <code>${summaryText(saved?.hIndex)}</code>`,
+      `- i10-index: <code>${summaryText(saved?.i10Index)}</code>`,
+      '',
+      ''
+    ].join('\n');
+    await appendFile(env.GITHUB_STEP_SUMMARY, summary, 'utf8');
+  } catch (reportError) {
+    annotation('warning', 'Google Scholar report incomplete', `Could not write the job summary: ${reportError.message}`);
+  }
+}
+
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   try {
     const metrics = await refreshScholar();
     console.log(`Scholar verified ${metrics.checked}: ${metrics.citations} citations, h-index ${metrics.hIndex}, i10-index ${metrics.i10Index}.`);
+    await reportScholarRefresh({metrics});
   } catch (error) {
-    console.error(`Scholar refresh failed; the previous snapshot and checked date are unchanged. ${error.message}`);
+    const message = `Scholar refresh failed; the previous snapshot and checked date are unchanged. ${error.message}`;
+    console.error(process.env.GITHUB_ACTIONS === 'true' ? commandText(message) : message);
     process.exitCode = 1;
+    await reportScholarRefresh({error});
   }
 }
