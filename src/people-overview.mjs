@@ -13,7 +13,7 @@ export function peopleOverview(lang, asset, escape) {
           <section class="faculty-education"><h4>${text('학력', 'Education')}</h4><p><span class="faculty-date">2023</span><strong>${text('의공학 박사', 'PhD · Biomedical Engineering')}</strong><span>${text('울산대학교', 'University of Ulsan')}</span></p><p class="faculty-earlier">${text('한양대학교 기계공학 석사·학사', 'MS / BS · Mechanical Engineering, Hanyang University')}</p></section>
           <section class="faculty-service"><h4>${text('학술 활동', 'Academic service')}</h4><p><span class="faculty-date">2024–</span><strong>MICCAI</strong><span>Area/Program Chair</span></p><p><span class="faculty-date">2025–</span><strong>${text('대한의료인공지능학회', 'Korean Society of AI in Medicine')}</strong><span>${text('학술위원', 'Scientific Committee Member')}</span></p></section>
         </div>
-        <aside class="faculty-project"><p class="faculty-project-label">${text('수행과제', 'Current project')}<span>${text('핵심연구A · 연구책임자', 'Core Research A · Principal Investigator')}</span></p><p class="faculty-project-full">${project}</p><p class="faculty-project-short">${text('멀티모달 추적관찰 기반 심혈관 질환 조기 예측 AI', 'Multimodal longitudinal AI for early cardiovascular disease prediction')}</p></aside>
+        <aside class="faculty-project"><p class="faculty-project-label">${text('수행과제', 'Current project')}<span>${escape(person.projectRole)}</span></p><p class="faculty-project-full">${project}</p><p class="faculty-project-short">${text('멀티모달 추적관찰 기반 심혈관 질환 조기 예측 AI', 'Multimodal longitudinal AI for early cardiovascular disease prediction')}</p></aside>
       </div>
     </article>`;
 }

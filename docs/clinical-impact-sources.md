@@ -9,4 +9,4 @@
 
 Original private CV and presentation files are not included in the public site or repository.
 
-- **Current project:** User-provided title and role on 2026-09-22: 건강진단의 멀티모달 추적관찰 데이터 기반 심혈관 질환 조기 예측 AI 시스템 개발 (핵심연구A, 연구책임자). English is a descriptive translation, not an asserted official award title. No dates, grant identifier, funder, or budget were provided or inferred.
+- **Current project.** The lab supplied the title 건강진단의 멀티모달 추적관찰 데이터 기반 심혈관 질환 조기 예측 AI 시스템 개발 and PI role on 2026-09-22. On 2026-11-11 the lab provided the funding and period as “한국연구재단 핵심연구A 연구책임자 (2026~2030)”. The English profile uses a descriptive translation.

@@ -76,8 +76,12 @@
   .deck-people .faculty-credentials { display: none; }
 }
 @container slide-body (max-height: 285px) {
-  .deck-people .faculty-credentials, .deck-people .faculty-project { display: none; }
+  .deck-people .faculty-kicker, .deck-people .faculty-credentials, .deck-people .faculty-project-full, .deck-people .faculty-project-short { display: none; }
+  .deck-people .faculty-project-label { margin: 0; }
   .deck-people .faculty-portrait img { max-height: min(80cqh, 190px); }
+}
+@container slide-body (max-height: 230px) {
+  .deck-people .faculty-project { display: none; }
 }
 @container slide-body (max-height: 130px) {
   .deck-people .faculty-kicker, .deck-people .faculty-portrait figcaption { display: none; }
