@@ -9,6 +9,8 @@
 .faculty-identity h3 { font-size:clamp(32px,3.4vw,48px); font-weight:600; letter-spacing:-.045em; line-height:1.1; }
 .faculty-role { font-size:var(--text-sm); margin-top:var(--s2); }
 .faculty-affiliation { color:var(--muted); font-size:var(--text-sm); line-height:1.5; margin-top:var(--s1); }
+.faculty-affiliation:lang(ko), .profile-identity:lang(ko) .meta { white-space:pre-line; }
+.profile-identity:lang(ko) { flex-wrap:wrap; }
 .faculty-bio { font-size:var(--text-sm); line-height:1.55; max-width:66ch; text-wrap:pretty; }
 .faculty-credentials { display:grid; grid-template-columns:1fr 1.2fr; gap:var(--s8); padding-top:var(--s4); border-top:1px solid var(--line); }
 .faculty-credentials h4 { margin:0 0 var(--s2); color:var(--blue); font-size:var(--text-xs); font-weight:600; }
