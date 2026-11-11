@@ -7,7 +7,7 @@ await mkdir(out,{recursive:true});
 const browser = await chromium.launch({headless:true,executablePath:process.env.BROWSER_PATH,args:['--no-proxy-server']});
 const results = [];
 const errors = [];
-const scenes = [['translation','triage'],['mission','mission'],['research-imaging','twin'],['research-signals','precision']];
+const scenes = [['translation','triage'],['research-imaging','twin'],['research-signals','precision']];
 const pose = (scene,part) => scene.locator(`[data-scene-part="${part}"]`).evaluate(node => {
   const style = getComputedStyle(node);
   const matrix = new DOMMatrix(style.transform);
@@ -64,13 +64,6 @@ try {
           await frame(scene,.86);
           const front=await pose(scene,'triage-priority');
           assert(back.x-front.x>250 && front.y-back.y>200,'The CT card itself advances from the back to the front');
-        } else if(kind==='mission') {
-          await frame(scene,.1); const first=await pose(scene,'mission-forward-a');
-          await frame(scene,.25); const second=await pose(scene,'mission-forward-a');
-          assert(second.x-first.x>80 && second.opacity>.9,'Arrow follows the forward clinical route');
-          await frame(scene,.65); const feedbackStart=await pose(scene,'mission-return');
-          await frame(scene,.95); const feedbackEnd=await pose(scene,'mission-return');
-          assert(feedbackStart.x-feedbackEnd.x>500,'Feedback arrow returns toward the clinical question');
         } else if(kind==='twin') {
           await frame(scene,.36);
           assert((await pose(scene,'twin-option-a')).opacity>.9 && (await pose(scene,'twin-option-b')).opacity<.1,'First surgical option is highlighted alone');
@@ -93,6 +86,17 @@ try {
         results.push({lang,width,height,kind,choreography:true,zoom:true,resume:true});
       }
     }
+    await page.locator('[data-reading]').click();
+    const mission = page.locator('#detail-mission [data-clinical-scene="mission"]');
+    await mission.evaluate(node => node.scrollIntoView({block:'center', behavior:'instant'}));
+    await page.waitForFunction(() => document.querySelector('#detail-mission [data-clinical-scene]').dataset.sceneState === 'playing');
+    await frame(mission,.1); const first=await pose(mission,'mission-forward-a');
+    await frame(mission,.25); const second=await pose(mission,'mission-forward-a');
+    assert(second.x-first.x>80 && second.opacity>.9,'Arrow follows the forward clinical route');
+    await frame(mission,.65); const feedbackStart=await pose(mission,'mission-return');
+    await frame(mission,.95); const feedbackEnd=await pose(mission,'mission-return');
+    assert(feedbackStart.x-feedbackEnd.x>500,'Feedback arrow returns toward the clinical question');
+    results.push({lang,kind:'mission',reading:true,choreography:true});
     await page.close();
   }
 } finally {

@@ -167,3 +167,91 @@
 @media(max-height:600px) {
  .deck-heading .deck-lead { margin-top:var(--s1); }
 }
+
+/* The eight slide summaries share the space between the heading and the controls. */
+.deck-curated .deck-body {
+  container: slide-body / size;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  align-content: stretch;
+}
+.deck-curated .deck-summary { align-self: center; min-width: 0; }
+.deck-actions button.text-link, .identity-opening .intro-detail {
+  color: var(--blue);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  border-radius: 0;
+  padding-inline: 0;
+}
+.identity-opening .intro-detail {
+  margin-inline-start: .4em;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.deck-actions button.text-link:hover, .identity-opening .intro-detail:hover { color: var(--blue-hover); }
+.transfer-partner { color: var(--blue); font-weight: 600; font-size: var(--text-sm); }
+.transfer-summary .translation-proof { margin-bottom: 0; max-width: 28rem; }
+.study-summary {
+  max-width: 37ch;
+  color: var(--ink);
+  font-size: clamp(17px, 1.65vw, 23px);
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+.deck-curated .deck-body .clinical-scene .evidence-media img {
+  width: 100%;
+  height: min(100cqh, 420px);
+  object-fit: contain;
+}
+.deck-curated .scene-comparison { --scene-scan-size: clamp(64px, 36cqh, 180px); }
+
+@media(max-width:760px) {
+  .study-summary { max-width: none; font-size: var(--text-base); }
+  .deck-translation .deck-summary { gap: var(--s3); }
+  .transfer-summary .translation-proof {
+    display: flex;
+    align-items: center;
+    gap: var(--s3);
+    margin-top: var(--s2);
+  }
+  .transfer-summary .neurocad-designation { padding: var(--s3); }
+  .transfer-summary .neurocad-designation strong { font-size: var(--text-base); }
+  .transfer-summary .neurocad-proof-meta>span+span { display: none; }
+  .transfer-summary .neurocad-usage { display: block; border: 0; }
+  .transfer-summary .neurocad-usage>strong { font-size: var(--text-2xl); }
+  .transfer-summary .neurocad-usage b { font-size: var(--text-sm); }
+  .deck-curated .deck-body .clinical-scene .evidence-media img { height: min(53cqh, 320px); }
+  .deck-curated .scene-comparison { --scene-scan-size: clamp(54px, 20cqh, 128px); }
+}
+
+/* Short landscape screens give priority to the visual and the detail action. */
+@container slide-body (max-height: 300px) and (max-width: 715px) {
+  .study-summary { font-size: var(--text-sm); line-height: 1.5; }
+  .deck-translation .transfer-summary .translation-proof { display: none; }
+}
+@container slide-body (max-height: 230px) and (max-width: 715px) {
+  .study-summary { display: none; }
+  .deck-curated .deck-summary { gap: var(--s2); }
+  .deck-curated .deck-body .clinical-scene .evidence-media img { height: min(76cqh, 180px); }
+  .faculty-profile .faculty-credentials { display: none; }
+}
+@container slide-body (max-height: 202px) {
+  .deck-curated .scene-comparison-header, .deck-curated .scene-review-note { display: none; }
+  .deck-curated .scene-comparison { --scene-scan-size: clamp(32px, 36cqh, 72px); }
+  .deck-curated .report-row { min-height: 0; padding-block: 2px; }
+  .deck-translation .transfer-summary .translation-proof { display: none; }
+  .faculty-profile .faculty-project, .faculty-profile .faculty-credentials { display: none; }
+  .faculty-profile .faculty-portrait img { max-height: 90cqh; }
+}
+@container slide-body (max-height: 130px) {
+  .deck-curated .report-row, .deck-curated .study-summary, .deck-curated .faculty-bio, .deck-curated .faculty-bio-short { display: none; }
+  .deck-curated .scene-comparison { --scene-scan-size: min(60cqh, 86px); }
+  .deck-curated .deck-summary:has(.study-summary) { grid-template-columns: minmax(0,1fr); }
+  .deck-curated .clinical-scene { max-width: 480px; width: 100%; justify-self: center; }
+  .deck-contact .page-copy { display: none; }
+  .deck-contact .page-contact { grid-column: 1/-1; }
+  .deck-contact .page-contact p { margin-top: 0; }
+  .deck-contact .page-contact a { min-height: 0; }
+}

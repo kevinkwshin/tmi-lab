@@ -72,7 +72,13 @@
  .faculty-project-full { display:none; }
  .faculty-project-short { display:block; }
 }
-@media(max-height:559px), (max-width:359px) and (max-height:639px) {
- .deck-people.deck-compact .people-fallback { display:block; }
- .deck-people.deck-compact .faculty-profile { display:none; }
+@container slide-body (max-width: 540px) and (max-height: 370px) {
+  .deck-people .faculty-credentials { display: none; }
+}
+@container slide-body (max-height: 285px) {
+  .deck-people .faculty-credentials, .deck-people .faculty-project { display: none; }
+  .deck-people .faculty-portrait img { max-height: min(80cqh, 190px); }
+}
+@container slide-body (max-height: 130px) {
+  .deck-people .faculty-kicker, .deck-people .faculty-portrait figcaption { display: none; }
 }

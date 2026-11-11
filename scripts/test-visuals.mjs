@@ -19,17 +19,10 @@ try {
     const ids = () => page.locator('[id]').evaluateAll(elements => elements.map(element => element.id));
     const initialIds = await ids();
     assert.equal(new Set(initialIds).size, initialIds.length, 'IDs must be unique before interaction');
-    const target = await page.evaluate(() => slides.findIndex(slide => [...slide.querySelectorAll('.evidence-media')].some(anchor => !anchor.closest('[data-clinical-scene]'))));
-    assert(target >= 0, 'Deck must contain an actual image anchor');
-    await page.evaluate(index => go(index, true), target);
-    await page.waitForTimeout(110);
-    assert(await page.locator('.is-current .evidence-reveal-mask').count() > 0, 'Current image must have a real mask during entry');
-    await capture('reveal-mid');
-    await page.evaluate(() => go(Math.min(current + 1, slides.length - 1), true));
-    assert.equal(await page.locator('[data-slide]:not(.is-current) .evidence-reveal-mask').count(), 0, 'New navigation removes outgoing masks immediately');
-    await page.waitForTimeout(820);
+    const target = await page.evaluate(() => slides.findIndex(slide => slide.id === 'translation'));
+    assert(target >= 0, 'The NeuroCAD case remains accessible from the deck');
     await page.evaluate(index => go(index, false), target);
-    const anchor = page.locator('.is-current .evidence-media').first();
+    const anchor = page.locator('.is-current .slide-overview .evidence-media').first();
     await anchor.locator('img').evaluate(image => image.decode());
     await anchor.focus();
     await page.keyboard.press('Enter');
@@ -37,7 +30,7 @@ try {
     await page.waitForFunction(() => document.querySelector('.image-dialog').open);
     assert.equal(await page.evaluate(() => document.activeElement.matches('.image-dialog-close')), true);
     assert.equal(await dialog.locator('img').getAttribute('src'), await anchor.getAttribute('href').then(href => new URL(href, page.url()).href));
-    assert.equal(await dialog.locator('.image-dialog-caption').textContent(), await anchor.evaluate(node => node.closest('figure').querySelector('figcaption').textContent.trim()));
+    assert.equal(await dialog.locator('.image-dialog-caption').textContent(), await anchor.locator('img').getAttribute('alt'));
     await page.waitForTimeout(100);
     await capture('zoom-mid');
     await page.keyboard.press('Escape');
@@ -75,23 +68,24 @@ try {
     await dialog.locator('button').click();
     assert.equal(await dialog.evaluate(node => node.open), false, 'Reduced-motion close is immediate');
     await page.evaluate(index => { go(Math.max(0, index - 1), false); go(index, true); }, target);
-    assert.equal(await page.locator('.evidence-reveal-mask').count(), 0, 'Reduced motion never masks content');
     await anchor.click();
     assert.equal(await dialog.locator('img').evaluate(image => image.getAnimations().length), 0, 'Reduced-motion open is immediate');
     await capture('reduced-motion');
     await dialog.locator('button').click();
     await page.emulateMedia({reducedMotion:'no-preference'});
     await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
-    const routeIndex = await page.evaluate(() => slides.findIndex(slide => slide.querySelector('.clinical-route')));
-    assert(routeIndex >= 0, 'Deck contains clinical route');
-    await page.evaluate(index => { go(index === 0 ? 1 : index - 1, false); go(index, true); }, routeIndex);
-    await page.waitForTimeout(90);
-    const route = await page.locator('.is-current .clinical-route li').evaluateAll(stages => stages.map(stage => ({opacity:Number(getComputedStyle(stage).opacity), animations:stage.getAnimations().length})));
-    assert(route.some(stage => stage.animations), 'Clinical stages animate once on entry');
-    await capture('route-mid');
-    await page.waitForTimeout(820);
-    assert.equal(await page.locator('.clinical-route li').evaluateAll(stages => stages.flatMap(stage => stage.getAnimations()).length), 0, 'Route emphasis finishes within 760ms');
-    await capture('route-settled');
+    await page.evaluate(() => navigateTo(document.getElementById('research-imaging'), false));
+    const studyButton = page.locator('.is-current .slide-overview [data-read="detail-research-imaging"]');
+    await studyButton.click();
+    const original = page.locator('.reading-dialog[open] .research-plate img').first();
+    await original.scrollIntoViewIfNeeded();
+    await original.evaluate(image => image.decode());
+    assert.equal(await original.evaluate(image => image.closest('a').href), await original.evaluate(image => image.currentSrc));
+    assert(await original.evaluate(image => !!image.closest('figure').querySelector('figcaption').textContent.trim()), 'Original research figure retains its caption');
+    await capture('original-in-study');
+    await page.keyboard.press('Escape');
+    await page.locator('.reading-dialog').waitFor({state:'hidden'});
+    assert(await studyButton.evaluate(node => node === document.activeElement));
     assert.deepEqual(await ids(), initialIds, 'Interactions never clone source IDs');
     await page.evaluate(index => go(index, false), target);
     if (viewport.width <= 768) {
@@ -119,7 +113,7 @@ try {
     }
     for (const source of ['research-imaging','research-signals']) {
       await page.evaluate(id => navigateTo(document.getElementById(id), false), source);
-      const concept = page.locator('.is-current .research-illustration .evidence-media');
+      const concept = page.locator('.is-current .slide-overview .research-illustration .evidence-media');
       await concept.locator('img').evaluate(image => image.decode());
       await concept.click();
       await page.waitForFunction(() => document.querySelector('.image-dialog').open);
@@ -144,7 +138,7 @@ try {
     await page.video().saveAs(videoPath);
     await page.video().delete();
     assert((await stat(videoPath)).size > 0, 'Motion recording must be nonempty');
-    results.push({lang, viewport, passed:true, video:videoPath, scenarios:['entry reveal', 'next-slide cancellation', 'Enter open', 'original image and caption', 'Escape mid-open', 'focus return', 'image fit', 'overlay wheel/keyboard', 'backdrop close', 'modifier link', 'reduced motion toggle/open/close', 'staged clinical route', 'unique IDs', 'resize cancellation', ...(viewport.width <= 768 ? ['real touch swipe from image advances once', 'touch tap opens image'] : [])], captures:`${prefix}-*.png`});
+    results.push({lang, viewport, passed:true, video:videoPath, scenarios:['Enter open', 'original image and caption', 'Escape mid-open', 'focus return', 'image fit', 'overlay wheel/keyboard', 'backdrop close', 'modifier link', 'reduced motion toggle/open/close', 'original in study detail', 'unique IDs', 'resize cancellation', ...(viewport.width <= 768 ? ['real touch swipe from image advances once', 'touch tap opens image'] : [])], captures:`${prefix}-*.png`});
   }
   assert.deepEqual(errors, []);
   await writeFile(`${evidence}/results.json`, JSON.stringify({passed:true, results, errors}, null, 2));

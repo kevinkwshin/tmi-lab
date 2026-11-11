@@ -1,144 +1,105 @@
 import assert from 'node:assert/strict';
-import {mkdir, writeFile} from 'node:fs/promises';
+import { mkdir } from 'node:fs/promises';
 import path from 'node:path';
-import {publications} from '../src/publications.mjs';
-import {content} from '../src/content.mjs';
-import {scholarProfile} from '../src/scholar.mjs';
-const {chromium} = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
-const browser = await chromium.launch({headless:true, executablePath:process.env.BROWSER_PATH, args:['--no-proxy-server']});
+import { content } from '../src/content.mjs';
+import { patents } from '../src/patents.mjs';
+import { publications } from '../src/publications.mjs';
+import { scholarProfile } from '../src/scholar.mjs';
+
+const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
+const browser = await chromium.launch({ headless: true, executablePath: process.env.BROWSER_PATH, args: ['--no-proxy-server'] });
 const base = process.env.TEST_URL || 'http://127.0.0.1:4173/dist/';
 const evidence = process.env.EVIDENCE_DIR || '.omo/evidence/shared-slide-frame';
-await mkdir(evidence, {recursive:true});
-const frames = [];
+const ids = ['welcome', 'translation', 'research', 'research-imaging', 'research-signals', 'publications', 'people', 'contact'];
+const viewports = [[1440, 900], [1280, 640], [768, 1024], [390, 844], [375, 667], [320, 568], [667, 375]];
+await mkdir(evidence, { recursive: true });
+
+async function checkDialog(page, id, check) {
+  const button = page.locator('.is-current .slide-overview [data-read="' + id + '"]');
+  await button.click();
+  const dialog = page.locator('.reading-dialog[open]');
+  assert.equal(await dialog.locator('[id="' + id + '"]').count(), 1, 'The selected content is inside the modal');
+  await check(dialog);
+  await page.keyboard.press('Escape');
+  await dialog.waitFor({ state: 'hidden' });
+  assert(await button.evaluate(node => node === document.activeElement), 'Closing must return focus to its trigger');
+}
+
 try {
   for (const language of ['ko', 'en']) {
-    const page = await browser.newPage({viewport:{width:1280,height:800}, reducedMotion:'reduce'});
+    const page = await browser.newPage({ reducedMotion: 'reduce' });
     const errors = [];
     page.on('pageerror', error => errors.push(String(error)));
-    await page.goto(`${base}${language === 'en' ? 'en/' : ''}?lang=${language}`);
-    await page.waitForFunction(() => document.querySelector('.deck-page'));
-    const coverage = await page.evaluate(() => {
-      const text = [...document.querySelectorAll('.slide-overview')].map(e => e.textContent.replace(/\s+/g, ' ').trim()).join(' ');
-      const fields = '.research-body,.research-brief dd,.study-intro p,.transfer > p,.patent h3';
-      return [...document.querySelectorAll(`.slide-detail :is(${fields})`)].map(e => e.textContent.replace(/\s+/g, ' ').trim()).filter(value => !text.includes(value));
-    });
-    assert.deepEqual(coverage, [], 'The deck must retain the reading content');
-    assert.equal(await page.locator('[data-deck-continuation="people"],main > #activity').count(), 0);
-    assert.deepEqual(await page.locator('#people .slide-detail .career-columns li').allTextContents(), [...content[language].people.education,...content[language].people.career]);
-    assert.equal(await page.locator('#people .profile-study').count(), 0);
-    assert.deepEqual(await page.locator('.related-studies .profile-study h3').allTextContents(), scholarProfile.studies.map(s => s[language].title));
-    assert.equal(await page.locator('#people .slide-detail .citation-bars li').count(), 7);
-    const assertFrame = async () => {
-      const geometry = await page.evaluate(() => {
-        const frame = document.querySelector('.is-current .deck-page');
-        if (!frame) return null;
-        const bounds = frame.getBoundingClientRect();
-        const heading = frame.querySelector('.deck-heading').getBoundingClientRect();
-        const actions = frame.querySelector('.deck-actions').getBoundingClientRect();
-        const body = frame.querySelector('.deck-body');
-        const bodyBounds = body.getBoundingClientRect();
-        const content = [...body.children].map(element => element.getBoundingClientRect());
-        const top = Math.min(...content.map(rect => rect.top));
-        const bottom = Math.max(...content.map(rect => rect.bottom));
-        return {id:frame.closest('[data-slide]').id, width:innerWidth, height:innerHeight,
-          headingOffset:heading.top - bounds.top, actionOffset:bounds.bottom - actions.bottom,
-          headingSize:getComputedStyle(frame.querySelector('h2')).fontSize,
-          headingColor:getComputedStyle(frame.querySelector('h2')).color,
-          bodyCenterOffset:Math.abs((top + bottom) / 2 - (bodyBounds.top + bodyBounds.bottom) / 2),
-          bodyOverflow:top < bodyBounds.top - 2 || bottom > bodyBounds.bottom + 2 || body.scrollWidth > body.clientWidth + 2,
-          frameOverflow:actions.bottom > bounds.bottom + 2 || heading.bottom > bodyBounds.top + 2,
-          background:getComputedStyle(frame.closest('[data-slide]')).backgroundColor};
-      });
-      if (geometry) {
-        frames.push({language,...geometry});
-        await writeFile(path.join(evidence,'frames.json'), JSON.stringify(frames,null,2));
-        await page.screenshot({path:path.join(evidence,`${language}-${geometry.width}x${geometry.height}-${geometry.id}.png`)});
-        const label = `${language} ${geometry.width}x${geometry.height} ${geometry.id}`;
-        if (/^(publications|patents)(--\d+)?$/.test(geometry.id)) {
-          assert.equal(await page.locator('.is-current .deck-heading .deck-lead:visible').count(), 1, `${label}: the research introduction must remain visible below the title`);
+    await page.goto(base + (language === 'en' ? 'en/' : '') + '?lang=' + language);
+    await page.locator('main > #welcome.is-current').waitFor();
+    for (const [width, height] of viewports) {
+      await page.setViewportSize({ width, height });
+      await page.keyboard.press('Home');
+      assert.deepEqual(await page.locator('main > [data-slide]').evaluateAll(nodes => nodes.map(node => node.id)), ids);
+      for (const [index, id] of ids.entries()) {
+        if (index > 0) await page.locator('[data-slide-next]').click();
+        const slide = page.locator('main > #' + id + '.is-current');
+        await slide.waitFor();
+        assert.equal(await page.locator('.slide-position').textContent(), String(index + 1).padStart(2, '0') + ' / 08');
+        assert.equal(await page.locator('main > [data-slide]:visible').count(), 1);
+        const inaccessible = await slide.locator('.slide-overview :is(h1,h2,button,a):visible').evaluateAll(nodes => {
+          const top = document.querySelector('.site-header').getBoundingClientRect().bottom;
+          const dock = document.querySelector('.slide-controls').getBoundingClientRect();
+          return nodes.filter(node => {
+            const box = node.getBoundingClientRect();
+            const behindDock = box.right > dock.left + 1 && box.left < dock.right - 1 && box.bottom > dock.top + 1 && box.top < dock.bottom - 1;
+            return box.left < -1 || box.right > innerWidth + 1 || box.top < top - 1 || box.bottom > innerHeight + 1 || behindDock;
+          }).map(node => node.textContent.trim() || node.getAttribute('aria-label'));
+        });
+        assert.deepEqual(inaccessible, [], [language, width, height, id, 'headings and controls must fit'].join(' '));
+        if (id === 'contact') {
+          assert(await slide.locator('.slide-overview [href^="mailto:"]').isVisible());
+          assert(await page.locator('[data-slide-next]').isDisabled());
         }
-        assert(Math.abs(geometry.headingOffset) < 2, `${label}: heading must start at the common top anchor`);
-        assert(Math.abs(geometry.actionOffset) < 2, `${label}: actions must end at the common bottom anchor`);
-        assert(geometry.bodyCenterOffset < 2, `${label}: body must be centered between heading and actions`);
-        assert.equal(geometry.bodyOverflow, false, `${label}: body must fit the available height and width`);
-        assert.equal(geometry.frameOverflow, false, `${label}: frame zones must not overlap`);
-        assert.equal(geometry.background, geometry.id === 'contact' ? 'rgb(12, 56, 107)' : 'rgb(255, 255, 255)', `${label}: white canvas with the requested blue contact closing`);
-        assert.equal(geometry.headingColor, geometry.id === 'contact' ? 'rgb(255, 255, 255)' : 'rgb(16, 45, 80)', `${label}: heading contrast follows its canvas`);
-      }
-    };
-    const desktopIds = await page.locator('main > [data-slide]').evaluateAll(es => es.map(e => e.id));
-    assert.equal(desktopIds.filter(id => id.startsWith('patents')).length, 1, 'Desktop patents must stay on one slide');
-    for (const id of desktopIds) {
-      await page.evaluate(id => navigateTo(document.getElementById(id), false), id);
-      await assertFrame();
-    }
-    assert.deepEqual(await page.locator('.slide-detail .citation-bars li').evaluateAll(es => es.map(e => e.getAttribute('aria-label').match(/\d+/g).map(Number))), scholarProfile.trend.map(({year,count}) => [year,count]));
-    assert.equal(await page.locator('[data-deck-continuation="publications"]').count(), 0);
-    assert.deepEqual(await page.locator('#publications .scholar-year').evaluateAll(es => es.map(e => e.getAttribute('aria-label').match(/\d+/g).slice(0,2).map(Number))), scholarProfile.trend.map(({year,count}) => [year,count]));
-    assert.equal(await page.locator('#publications .scholar-year-partial').count(), Number(scholarProfile.trend.some(point => point.year === Number(scholarProfile.checked.slice(0,4)))));
-    assert.equal(await page.locator('#publications .deck-actions a[href*="scholar.google"]').getAttribute('target'), '_blank');
-    assert.deepEqual(await page.locator('[data-paper] h3').allTextContents(), publications.map(p => p.title));
-    const product = page.locator('#translation .deck-actions a.action');
-    assert.equal(await product.getAttribute('href'), 'https://corelinesoft.com/en-gb/aview/brain/neurocad/');
-    assert.equal(await product.getAttribute('target'), '_blank');
-    await page.evaluate(() => navigateTo(document.getElementById('translation'), false));
-    assert.equal(await page.locator('.is-current .slide-overview').innerText().then(t => /연구실 제공|lab-provided/i.test(t)), false);
-    assert.equal(await page.locator('.is-current .slide-overview a[href*="corelinesoft"][href*="neurocad"]').count(), 1);
-    await page.locator('.is-current [data-read="translation-sources"]').click();
-    assert.match(await page.locator('.reading-dialog').innerText(), /2026/);
-    await page.keyboard.press('Escape');
-    await page.evaluate(() => navigateTo(document.getElementById('people'), false));
-    await page.locator('.is-current [data-read="detail-people"]').click();
-    assert.equal(await page.locator('.reading-dialog .career-columns li').count(), content[language].people.education.length + content[language].people.career.length);
-    await page.keyboard.press('Escape');
-    await page.evaluate(() => navigateTo(document.getElementById('publications'), false));
-    await page.locator('[data-reading]').click();
-    assert.equal(await page.evaluate(() => document.documentElement.classList.contains('presentation')), false);
-    assert.equal(await page.locator('[data-deck-continuation]:visible').count(), 0);
-    await page.locator('[data-reading]').click();
-    assert.equal(await page.evaluate(() => document.querySelector('.is-current').dataset.deckSource), 'publications');
-    await page.locator('.is-current .slide-overview [data-read]').click();
-    assert.equal(await page.locator('.reading-dialog').evaluate(e => e.open), true);
-    assert.equal(await page.locator('.reading-dialog [data-paper]').count(), publications.length);
-    await page.keyboard.press('Escape');
-    await page.setViewportSize({width:375,height:667});
-    await page.waitForTimeout(250);
-    assert.equal(await page.evaluate(() => document.querySelector('.is-current').dataset.deckSource), 'publications');
-    const ids = await page.locator('main > [data-slide]').evaluateAll(es => es.map(e => e.id));
-    assert.equal(ids.filter(id => id.startsWith('publications')).length, 1);
-    assert.equal(ids.filter(id => id.startsWith('people')).length, 1);
-    assert.equal(ids.filter(id => id.startsWith('activity')).length, 0);
-    for (const id of ids) {
-      await page.evaluate(id => navigateTo(document.getElementById(id), false), id);
-      assert.equal(await page.evaluate(() => scrollY), 0);
-      assert.equal(await page.locator('main > [data-slide]:visible').count(), 1);
-      await assertFrame();
-    }
-    for (const viewport of [{width:1440,height:900},{width:768,height:1024},{width:1280,height:640},{width:320,height:568},{width:375,height:480}]) {
-      await page.setViewportSize(viewport);
-      await page.waitForTimeout(250);
-      const resizedIds = await page.locator('main > [data-slide]').evaluateAll(es => es.map(e => e.id));
-      if (viewport.width > 1000) assert.equal(resizedIds.filter(id => id.startsWith('patents')).length, 1, 'Resized desktop patents must stay on one slide');
-      for (const id of resizedIds) {
-        await page.evaluate(id => navigateTo(document.getElementById(id), false), id);
-        await assertFrame();
       }
     }
-    for (const viewport of [{width:1024,height:768},{width:1024,height:761},{width:1024,height:741},{width:1024,height:681},{width:1024,height:650},{width:1024,height:640},{width:1001,height:560},{width:1440,height:560},{width:1280,height:480}]) {
-      await page.setViewportSize(viewport);
-      await page.waitForTimeout(250);
-      assert.equal(await page.locator('[data-deck-continuation="patents"]').count(), 0, `${language} ${viewport.width}x${viewport.height}: patents must remain one slide`);
-      await page.evaluate(() => navigateTo(document.getElementById('patents'), false));
-      if (viewport.height >= 560) assert.equal(await page.locator('#patents .slide-overview .patent').count(), 5);
-      await assertFrame();
-      await page.locator('.is-current [data-read="detail-patents"]').click();
-      assert.equal(await page.locator('.reading-dialog .patent').count(), 5);
-      await page.keyboard.press('Escape');
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.keyboard.press('Home');
+    await page.locator('[data-slide-next]').click();
+    await checkDialog(page, 'detail-transfers', async dialog => {
+      for (const transfer of content[language].translation.items.filter(item => item.name !== 'AVIEW NeuroCAD')) {
+        assert((await dialog.innerText()).includes(transfer.name));
+      }
+    });
+    for (const id of ['research', 'research-imaging', 'research-signals']) {
+      await page.locator('[data-slide-next]').click();
+      await checkDialog(page, 'detail-' + id, async dialog => {
+        assert(await dialog.locator('.research-plate').count() > 0, 'Full original figures remain available');
+      });
     }
+    await page.locator('[data-slide-next]').click();
+    const annual = await page.locator('#publications .scholar-year').evaluateAll(nodes => nodes.map(node => node.getAttribute('aria-label').match(/\d+/g).slice(0, 2).map(Number)));
+    assert.deepEqual(annual, scholarProfile.trend.map(({ year, count }) => [year, count]));
+    await checkDialog(page, 'publication-content', async dialog => {
+      assert.deepEqual(await dialog.locator('[data-paper] h3').allTextContents(), publications.map(paper => paper.title));
+      const search = dialog.locator('#publication-search');
+      await search.fill(publications[0].title);
+      assert(await dialog.locator('[data-paper]:visible').count() > 0);
+      assert(await dialog.locator('[data-paper]:visible').count() < publications.length);
+    });
+    await checkDialog(page, 'patent-content', async dialog => {
+      assert.equal(await dialog.locator('.patent').count(), patents.length);
+    });
+    await page.screenshot({ path: path.join(evidence, language + '-results-mobile.png') });
+    await page.locator('[data-slide-next]').click();
+    await checkDialog(page, 'detail-people', async dialog => {
+      assert.deepEqual(await dialog.locator('.career-columns li').allTextContents(), [...content[language].people.education, ...content[language].people.career]);
+    });
+    await page.locator('[data-reading]').click();
+    assert.equal(await page.locator('html.presentation').count(), 0);
+    assert(await page.locator('#detail-research .research-plate').first().isVisible());
+    await page.locator('[data-reading]').click();
+    assert.equal(await page.locator('.slide-position').textContent(), '07 / 08');
     assert.deepEqual(errors, []);
     await page.close();
   }
-  console.log('Deck content, continuation, modes, modal, resize and navigation: PASS');
+  console.log('PASS: eight slides, seven advances, responsive controls, research details, outputs, reading mode and focus.');
 } finally {
   await browser.close();
 }

@@ -64,10 +64,8 @@ try {
   await videoPaused(video);
   await page.evaluate(()=>dispatchEvent(new Event('afterprint')));
   await videoPlaying(video);
-  await page.evaluate(()=>{
-    document.dispatchEvent(new CustomEvent('image:open'));
-    document.querySelector('.reading-dialog').showModal();
-  });
+  await page.locator('.identity-opening [data-read="detail-mission"]').click();
+  assert(await page.locator('.reading-dialog[open] [data-clinical-scene="mission"]').isVisible());
   await videoPaused(video);
   await page.screenshot({path:`${out}/welcome-dialog.png`});
   await page.locator('.reading-dialog button').click();
@@ -79,7 +77,7 @@ try {
   assert(await page.evaluate(()=>window.__videoResizePauses)>0,'Responsive layout pauses video before resuming');
   await page.screenshot({path:`${out}/welcome-resumed.png`});
   results.push({id:'welcome',nativeVideo:true,activeNavigation:true,reducedMotion:true,visibilitySignal:true,printSignals:true,dialog:true,resizeResume:true,measuredProgress:true,artifacts:['actions.zip','welcome-dialog.png','welcome-reduced.png','welcome-resumed.png']});
-  for (const id of ['translation','mission','research-imaging','research-signals','research']) {
+  for (const id of ['translation','research-imaging','research-signals','research']) {
     await page.evaluate(id => navigateTo(document.getElementById(id),false), id);
     await playing(page);
     await page.evaluate(() => navigateTo(document.getElementById('contact'),false));

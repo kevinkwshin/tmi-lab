@@ -1,53 +1,83 @@
 import { content } from './content.mjs';
-import { researchEvidence } from './research.mjs';
-import { patents } from './patents.mjs';
-import { researchStories } from './stories.mjs';
+import { clinicalScene } from './clinical-scenes.mjs';
 import { scholarOverview } from './scholar-overview.mjs';
 import { peopleOverview } from './people-overview.mjs';
 import { identityLogo } from './identity.mjs';
 import { neurocadProof } from './neurocad-evidence.mjs';
 
-// Full source material stays in the adjacent detail view and reading document.
 export function slideOverviews(lang, asset, escape) {
   const c = content[lang];
-  const ko = lang === 'ko';
-  const text = (kr, en) => ko ? kr : en;
-  const button = (id, title, label = text('자세히 보기', 'Explore in detail')) => `<button class="action" data-read="detail-${id}" data-title="${escape(title)}">${escape(label)} <span aria-hidden="true">↗</span></button>`;
-  const sizes = Object.fromEntries(researchEvidence[lang].flatMap(e => e.images).map(f => [f.name, [f.width, f.height]]));
-  Object.assign(sizes, {'tmi-logo':[1200,810], neurocad:[1200,650], 'shoulder-landmarks':[800,956], 'keewon-shin':[640,795]});
-  const image = (name, alt, caption, cls = '') => `<figure class="page-figure ${cls}"><img src="${asset(name)}" width="${sizes[name][0]}" height="${sizes[name][1]}" alt="${escape(alt)}" ${name === 'tmi-logo' ? 'fetchpriority="high"' : 'loading="lazy"'}><figcaption>${escape(caption)}</figcaption></figure>`;
-  const layout = (id, tag, title, body, visual, action, cls = '', context = '') => `<div class="page-composition ${cls}"><div class="page-copy"><p class="page-eyebrow">${escape(tag)}</p><${id === 'welcome' ? 'h1' : 'h2'}>${escape(title)}</${id === 'welcome' ? 'h1' : 'h2'}>${body ? `<p class="page-lead">${escape(body)}</p>` : ''}${context}</div>${visual}<div class="page-actions">${action || button(id,title)}</div></div>`;
-  const paragraph = (body, cls = '') => `<p class="page-context ${cls}">${escape(body)}</p>`;
+  const text = (ko, en) => lang === 'ko' ? ko : en;
+  const researchIds = ['research', 'research-imaging', 'research-signals'];
+  const detailButton = (target, label, title = label, style = 'action') => `
+    <button type="button" class="${style}" data-read="${target}" data-title="${escape(title)}" aria-haspopup="dialog">${escape(label)}</button>`;
+  const frame = (id, title, lead, summary, actions) => `
+    <div class="deck-page deck-curated deck-${id}">
+      <header class="deck-heading"><h2>${escape(title)}</h2>${lead ? `<p class="deck-lead">${escape(lead)}</p>` : ''}</header>
+      <div class="deck-body"><div class="deck-summary">${summary}</div></div>
+      <div class="deck-actions">${actions}</div>
+    </div>`;
+
   const pages = {};
-  pages.welcome = `<div class="page-composition page-welcome identity-opening"><div class="page-copy"><p class="page-eyebrow">${escape(c.hero.eyebrow)}</p><h1 class="identity-title" lang="en"><span><span>From <span class="identity-initial">T</span>oo <span class="identity-initial">M</span>uch <span class="identity-initial">I</span>nformation</span></span> <span><span>to <span class="identity-initial">T</span>ranslational <span class="identity-initial">M</span>edical <span class="identity-initial">I</span>ntelligence</span></span></h1><p class="page-lead">${escape(c.hero.description)}</p></div><div class="identity-visual">${identityLogo(lang,asset,escape)}</div><div class="identity-directions"><span class="identity-directions-label">${text('연구 목표','Research goals')}</span>${c.research.items.map((r,i)=>`<a href="#${['research','research-imaging','research-signals'][i]}">${escape(r.title)}</a>`).join('')}</div><div class="page-actions"><a class="action" href="#translation">${c.hero.primary} <span aria-hidden="true">↓</span></a><a class="text-link" href="#research">${c.hero.secondary}</a></div></div>`;
-  pages.translation = layout('translation',text('연구의 임상 적용','Clinical translation'),text('연구에서 임상으로, 생명을 위한 기술','From research to care. Technology for life'),
-    c.translation.subtitle,
-    image('neurocad',text('AVIEW NeuroCAD 뇌 CT 분석 화면','AVIEW NeuroCAD brain CT analysis'), 'Coreline Soft · AVIEW NeuroCAD'),
-    `<a class="action" href="https://corelinesoft.com/en-gb/aview/brain/neurocad/" target="_blank" rel="noopener noreferrer">${text('공식 제품 소개','Product site')} <span aria-hidden="true">↗</span></a><button class="text-link evidence-button" data-read="translation-sources" data-title="${text('근거 및 출처','Evidence & sources')}">${text('근거 및 출처','Evidence & sources')}</button>`,
-    'page-product', neurocadProof(lang, escape));
-  pages.transfers = layout('transfers',text('기술이전','Technology transfer'),text('연구가 이어진 기술들','A portfolio of translation'),text('촬영 품질부터 정량적 평가까지, 진료 과정의 구체적인 문제를 해결합니다.','From image quality to quantitative assessment: AI for specific steps in care'),
-    `<div class="page-list">${c.translation.items.filter(t=>t.name!=='AVIEW NeuroCAD').map(t=>`<article><p class="meta">${t.year} · ${escape(t.recipient)}</p><h3>${escape(t.name)}</h3><p>${escape(t.summary)}</p></article>`).join('')}</div>`,null,'page-listing');
-  pages.mission = layout('mission','Our mission',text('정보를 지능으로, 연구를 임상으로','From information to intelligence'),
-    c.intro.subtitle,
-    `<ol class="page-steps">${c.approach.steps.map(s=>`<li><h3>${escape(s.title)}</h3><p>${escape(s.body)}</p></li>`).join('')}</ol>`,null,'page-mission',paragraph(c.intro.body,'page-extended'));
-  c.research.items.forEach((r,i)=>{
-    const id=['research','research-imaging','research-signals'][i];
-    const e=researchEvidence[lang][i];
-    const f=e.images[0];
-    pages[id]=layout(id,text('연구 분야','Research'),`${text('연구 목표','Research goal')} ${i+1} - ${r.title}`,r.question,
-      `${image(f.name,f.alt,f.caption)}<dl class="page-brief"><div><dt>${text('연구 방법','Method')}</dt><dd>${escape(e.method)}</dd></div><div><dt>${text('임상적 의의','Clinical relevance')}</dt><dd>${escape(e.value)}</dd></div></dl>`,
-      button(id,r.title,text('연구 자료와 근거','Study & evidence')),'page-research',paragraph(r.body,'page-extended')).replace(`<h2>${escape(`${text('연구 목표','Research goal')} ${i+1} - ${r.title}`)}</h2>`, `<h2><span class="research-goal-label">${text('연구 목표','Research goal')} ${i+1}</span><span class="research-goal-separator"> - </span>${escape(r.title)}</h2>`);
+  pages.welcome = `
+    <div class="page-composition page-welcome identity-opening">
+      <div class="page-copy">
+        <p class="page-eyebrow">${escape(c.hero.eyebrow)}</p>
+        <h1 class="identity-title" lang="en"><span><span>From <span class="identity-initial">T</span>oo <span class="identity-initial">M</span>uch <span class="identity-initial">I</span>nformation</span></span> <span><span>to <span class="identity-initial">T</span>ranslational <span class="identity-initial">M</span>edical <span class="identity-initial">I</span>ntelligence</span></span></h1>
+        <p class="page-lead">${escape(c.hero.description)} ${detailButton('detail-mission', text('연구실 개요', 'About the lab'), undefined, 'intro-detail')}</p>
+      </div>
+      <div class="identity-visual">${identityLogo(lang,asset,escape)}</div>
+      <div class="identity-directions"><span class="identity-directions-label">${text('연구 목표','Research goals')}</span>${c.research.items.map((r,i)=>`<a href="#${researchIds[i]}">${escape(r.title)}</a>`).join('')}</div>
+      <div class="page-actions"><a class="action" href="#translation">${c.hero.primary} <span aria-hidden="true">↓</span></a><a class="text-link" href="#research">${c.hero.secondary}</a></div>
+    </div>`;
+
+  pages.translation = frame(
+    'translation', 'AVIEW NeuroCAD',
+    text('뇌 CT에서 출혈이 의심되는 환자를 먼저 판독하도록 돕습니다.',
+         'Flagging suspected hemorrhage on brain CT for priority review.'),
+    `<div class="transfer-summary"><p class="transfer-partner">${text('2024년 · 코어라인소프트 기술이전', '2024 · Technology transfer to Coreline Soft')}</p>
+      ${neurocadProof(lang, escape)}</div>${clinicalScene('triage', lang, asset, escape)}`,
+    detailButton('detail-translation', text('NeuroCAD 자세히 보기', 'Explore NeuroCAD'), 'AVIEW NeuroCAD') +
+    detailButton('detail-transfers', text('다른 기술이전 사례', 'Other transfers'), text('기술이전 사례', 'Technology transfers'), 'text-link')
+  );
+
+  const scenes = ['workflow', 'twin', 'precision'];
+  const questions = [
+    text('판독에서 놓치기 쉬운 변화를 어떻게 찾을 수 있을까?', 'How can we spot changes that are easy to miss in radiology reports?'),
+    text('환자마다 다른 치료 후 변화를 미리 볼 수 있을까?', 'Can we predict how an individual patient will change after treatment?'),
+    text('같은 진단을 받은 환자들의 위험과 치료 반응은 어떻게 다를까?', 'How do risk and treatment response vary among patients with the same diagnosis?')
+  ];
+  const summaries = [
+    text('이전 검사와 추적 검사 판독문을 비교해 서로 맞지 않는 기록을 찾는 AI를 연구합니다.',
+         'We compare earlier and follow-up reports to find inconsistencies that need a second look.'),
+    text('수술 전 영상과 임상정보로 수술 후의 해부학적 변화를 예측하는 환자별 모델을 연구합니다.',
+         'We use preoperative images and clinical data to study how each patient’s anatomy may change after surgery.'),
+    text('영상·생체신호·전자의무기록(EMR)에서 환자별 위험과 치료 반응을 파악할 디지털 바이오마커를 찾습니다.',
+         'We look for digital biomarkers of risk and treatment response in images, biosignals and electronic medical records (EMR).')
+  ];
+  c.research.items.forEach((r, i) => {
+    const id = researchIds[i];
+    pages[id] = frame(id, r.title, questions[i],
+      `<p class="study-summary">${escape(summaries[i])}</p>${clinicalScene(scenes[i], lang, asset, escape)}`,
+      detailButton(`detail-${id}`, text('연구 자료와 근거', 'Study & evidence'), r.title));
   });
-  pages.publications=scholarOverview(lang,escape);
-  pages.patents=layout('patents',text('연구 성과','Research output'),text('특허','Patents & applications'),text('의료 AI의 임상 적용을 뒷받침하는 기술','Technologies supporting clinical applications of medical AI'),
-    `<div class="page-list">${patents.filter(p=>p.area==='medical').slice(0,3).map((p,i)=>`<article><p class="meta">${p.year} · ${text(p.granted?'등록':'공개 출원',p.granted?'Granted':'Published application')}</p><h3>${text(['CT 영상 분류·분할','혈관 분석','심전도 분석'][i],['CT classification & segmentation','Vessel analysis','ECG analysis'][i])}</h3><p>${escape(p.summary[lang])}</p><p class="meta page-extended">${p.number}</p></article>`).join('')}</div>`,
-    button('patents',text('특허','Patents'),text('전체 특허 보기','Browse all patents')),'page-listing');
-  pages.people=peopleOverview(lang,asset,escape);
-  pages.contact=layout('contact','Contact',text('연구 협력 및 문의','Research collaboration'),text('임상 질문을 함께 정의하고, 데이터 분석에서 검증까지 연구를 연결합니다.','Define a clinical question together, then connect data analysis with validation.'),
-    `<div class="page-contact"><p class="page-contact-topics">${text('의료영상 · 생체신호 · 멀티모달 AI 공동연구','Research in medical imaging, biosignals and multimodal AI')}</p><a href="mailto:kevinkwshin@inha.ac.kr">kevinkwshin@inha.ac.kr</a><p>${escape(c.contact.location)}</p><p class="meta">${escape(c.footer.affiliation)}</p></div>`,
-    `<p class="page-copyright">© 2026 Translational Medical Intelligence Lab</p>`,'page-contact-layout');
-  for (const [id, stories] of Object.entries(researchStories(lang, asset, escape))) {
-    pages[id] = pages[id].replace('<div class="page-actions">', `${stories}<div class="page-actions">`);
-  }
+
+  pages.publications = frame(
+    'publications', text('연구 성과', 'Research output'), '',
+    scholarOverview(lang, escape),
+    detailButton('publication-content', text('전체 논문 · 검색', 'All papers & search'), text('논문', 'Publications')) +
+    detailButton('patent-content', text('전체 특허 보기', 'View patents'), text('특허', 'Patents'), 'text-link')
+  );
+  pages.people = frame(
+    'people', text('구성원 소개', 'People'), '',
+    peopleOverview(lang, asset, escape),
+    detailButton('detail-people', text('학력 · 주요 경력 · 수행과제', 'Education · Career · Project'), c.people.name)
+  );
+  pages.contact = frame(
+    'contact', text('연구 협력 및 문의', 'Research collaboration'), '',
+    `<div class="page-copy"><p class="page-lead">${text('의료영상·생체신호·멀티모달 AI 공동연구', 'Collaborative research in medical imaging, biosignals and multimodal AI')}</p></div>
+     <div class="page-contact"><a href="mailto:kevinkwshin@inha.ac.kr">kevinkwshin@inha.ac.kr</a><p>${escape(c.contact.location)}</p><p class="meta">${escape(c.footer.affiliation)}</p></div>`,
+    '<p class="page-copyright">© 2026 Translational Medical Intelligence Lab</p>'
+  );
   return pages;
 }

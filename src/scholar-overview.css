@@ -88,3 +88,32 @@
 @media(max-width:760px) and (max-height:740px) {
  .deck-publications .scholar-year { grid-template-rows:var(--s16) var(--s8); }
 }
+
+.scholar-source a { text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: .22em; }
+.scholar-source a:hover { text-decoration-color: var(--blue); }
+.scholar-source a span { display: inline; margin: 0; font-size: var(--text-xs); }
+@container slide-body (max-height: 280px) {
+  .deck-publications .scholar-overview-top { padding-bottom: var(--s1); }
+  .deck-publications .scholar-chart-heading { margin-bottom: var(--s3); }
+  .deck-publications .scholar-year { grid-template-rows: min(27cqh, 76px) var(--s6); }
+  .deck-publications .scholar-grid { bottom: var(--s6); }
+  .deck-publications .scholar-overview-metrics { padding-bottom: 0; gap: var(--s2); }
+  .deck-publications .scholar-overview-metrics dd { font-size: var(--text-xl); }
+}
+@container slide-body (max-height: 300px) and (max-width: 715px) {
+  .deck-publications .scholar-source span:not([aria-hidden]), .deck-publications .scholar-chart-heading, .deck-publications figcaption span { display: none; }
+  .deck-publications .scholar-checked { max-width: none; }
+  .deck-publications .scholar-source { font-size: var(--text-sm); }
+  .deck-publications .scholar-overview-metrics { margin-block: var(--s2) var(--s4); }
+  .deck-publications .scholar-year { grid-template-rows: min(20cqh, 60px) var(--s6); }
+  .deck-publications .scholar-overview-chart figcaption { margin-top: var(--s2); }
+}
+@container slide-body (max-height: 168px) {
+  .deck-publications .scholar-overview-top { padding: 0; }
+  .deck-publications .scholar-overview-chart { display: none; }
+  .deck-publications .scholar-overview { display: block; }
+  .deck-publications .scholar-overview-metrics { display: grid; grid-template-columns: 1.6fr 1fr 1fr; margin: var(--s2) 0 0; }
+  .deck-publications .scholar-overview-metrics>div { padding: 0; border: 0; }
+  .deck-publications .scholar-source span:not([aria-hidden]) { display: none; }
+  .deck-publications .scholar-checked { max-width: none; }
+}

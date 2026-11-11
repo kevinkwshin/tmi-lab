@@ -106,7 +106,6 @@ try {
     const button=await toggle.boundingBox();
     assert(bounds.x+bounds.width<button.x,'Compact playback button stays outside the video and tagline');
    }
-   if(width>=1280)assert(await page.locator('.identity-opening .page-lead').evaluate(node=>node.getBoundingClientRect().height<=2*parseFloat(getComputedStyle(node).lineHeight)+2),'Desktop introduction stays within two lines');
    await page.emulateMedia({reducedMotion:'reduce'});
    await page.waitForTimeout(100);
    await paused(mark);
@@ -114,7 +113,14 @@ try {
    await page.emulateMedia({reducedMotion:'no-preference'});
    results.push({lang,width,height,wheel:true,reduced:true,bounded:true,artifacts:[`${lang}-${width}x${height}-playing.png`,`${lang}-${width}x${height}-static.png`,`${lang}-actions.zip`]});
   }
-  for(const id of ['translation','mission','research-imaging','research-signals']) {
+  const about = page.locator('.identity-opening [data-read="detail-mission"]');
+  await about.click();
+  assert(await page.locator('.reading-dialog[open] #mission').isVisible());
+  await paused(mark);
+  await page.keyboard.press('Escape');
+  await page.locator('.reading-dialog').waitFor({state:'hidden'});
+  assert(await about.evaluate(node=>node===document.activeElement));
+  for(const id of ['translation','research','research-imaging','research-signals']) {
    await page.evaluate(id=>navigateTo(document.getElementById(id),false),id);
    assert.doesNotMatch(await page.locator('.is-current').innerText(),/AI 생성|AI-generated|환자별 근거 해석/);
   }

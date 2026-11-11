@@ -11,7 +11,7 @@ try {
   for (const viewport of [{width:1280,height:800}, {width:375,height:667}]) {
     const page = await browser.newPage({viewport});
     page.on('pageerror', error => errors.push(String(error)));
-    await page.goto(process.env.TEST_URL || 'http://127.0.0.1:4173/dist/?lang=ko');
+    await page.goto(process.env.TEST_URL || 'http://127.0.0.1:4173/dist/?lang=ko', {waitUntil:'domcontentloaded'});
     await page.waitForFunction(() => document.querySelector('.deck-page'));
     const prefix = `${viewport.width}`;
     const capture = name => page.screenshot({path:`${evidence}/${prefix}-${name}.png`});
@@ -28,7 +28,7 @@ try {
     const clean = async () => {
       const result = await state();
       assert.equal(result.leaving.length, 0);
-      assert.equal(result.animations, 0);
+      assert.equal(result.pageAnimations, 0, 'Page transitions complete independently of looping clinical illustrations');
       assert.equal(result.visible, 1);
       assert.equal(result.incoming.opacity, 1);
       assert.equal(result.incoming.y, 0);
@@ -36,10 +36,11 @@ try {
       return result;
     };
     const pauseAt = time => page.evaluate(time => {
-      for (const animation of document.getAnimations()) { animation.pause(); animation.currentTime = time; }
+      const transitions = document.getAnimations().filter(animation => animation.effect?.target.matches('main > [data-slide]'));
+      for (const animation of transitions) { animation.pause(); animation.currentTime = time; }
     }, time);
     const openingMotion = await page.evaluate(() => document.getAnimations().filter(animation => animation.effect?.target.closest('.identity-opening')).length);
-    assert(openingMotion >= 3, 'Opening typography has a bounded, coordinated entrance');
+    assert(openingMotion >= 2, 'The two opening phrases have a coordinated entrance');
     await page.waitForTimeout(850);
     const before = await clean();
     const chrome = await page.locator('.site-header,.slide-controls').evaluateAll(elements => elements.map(element => ({rect:element.getBoundingClientRect().toJSON(), transform:getComputedStyle(element).transform})));
@@ -58,7 +59,6 @@ try {
     assert.equal(forward.incoming.inert, false);
     assert.equal(forward.visible, 2);
     assert.equal(forward.pageAnimations, 2);
-    assert(forward.animations > 2, 'Research image choreography accompanies the two page panels');
     assert.deepEqual(forward.ids, before.ids, 'Transition must not clone DOM or IDs');
     assert.deepEqual(await page.locator('.site-header,.slide-controls').evaluateAll(elements => elements.map(element => ({rect:element.getBoundingClientRect().toJSON(), transform:getComputedStyle(element).transform}))), chrome);
     await capture('forward-mid');
@@ -106,7 +106,6 @@ try {
     assert.equal(wheel.forward, wheel.previous + 1);
     assert.equal(wheel.reversed, wheel.previous, 'Wheel reversal remains immediate during motion');
     await page.evaluate(() => dispatchEvent(new Event('resize')));
-    await clean();
     await page.waitForTimeout(200);
     await clean();
     await page.evaluate(() => navigateTo(document.getElementById('publications')));

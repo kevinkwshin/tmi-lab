@@ -3,20 +3,25 @@ export const content = {
     nav: [
       { id: 'translation', label: '기술이전' },
       { id: 'research', label: '연구' },
-      { id: 'publications', label: '논문' },
-      { id: 'patents', label: '특허' },
+      { id: 'publications', label: '연구 성과' },
       { id: 'people', label: '구성원' },
       { id: 'contact', label: '연락처' }
     ],
     hero: {
       eyebrow: 'Inha University · Digital Medicine',
       titleLines: [ 'TMI-lab' ],
-      description: '의료영상·생체신호·전자의무기록(EMR)을 분석해 디지털 바이오마커를 찾고, 진료 워크플로우와 환자별 판단을 돕는 AI를 연구합니다.',
+      description: '진료 현장의 질문에서 출발해, 의료영상·생체신호·전자의무기록(EMR)에서 디지털 바이오마커를 찾고 진료 워크플로우와 환자별 판단을 돕는 AI를 연구합니다.',
       primary: '기술이전 사례',
       secondary: '연구 살펴보기',
       caption: '의료영상의 해부학적 구조를 이해하고 정량화하는 연구'
     },
-    intro: { label: 'Our mission', title: '정보를 지능으로,\n연구를 임상으로', subtitle: '좋은 예측을 넘어, 진료의 변화로', body: '좋은 예측은 진료의 변화를 만들어야 합니다. 영상과 생체신호, 임상기록을 연결해 진료 과정의 병목을 줄이고, 치료 후의 변화를 예측하며, 환자별 선택을 뒷받침하는 근거를 만듭니다.' },
+    intro: {
+      label: 'Our mission',
+      title: '정보를 지능으로,\n연구를 임상으로',
+      subtitle: '좋은 예측을 넘어, 진료의 변화로',
+      opening: '중개의료지능 연구실(TMI-lab)은 의료 현장의 문제를 데이터와 AI로 풀어가는 연구실입니다. ‘From Too Much Information to Translational Medical Intelligence’는 넘쳐나는 의료정보를 실제 진료에 도움이 되는 지식과 기술로 바꾸겠다는 뜻입니다. 같은 TMI라는 약자에 연구실의 이름과 연구 방향을 함께 담았습니다.',
+      body: '좋은 예측은 진료의 변화를 만들어야 합니다. 영상과 생체신호, 임상기록을 연결해 진료 과정의 병목을 줄이고, 치료 후의 변화를 예측하며, 환자별 선택을 뒷받침하는 근거를 만듭니다.'
+    },
     approach: {
       label: 'OUR APPROACH',
       title: '문제 정의부터 적용을 위한 평가까지',
@@ -127,15 +132,14 @@ export const content = {
     nav: [
       { id: 'translation', label: 'Translation' },
       { id: 'research', label: 'Research' },
-      { id: 'publications', label: 'Publications' },
-      { id: 'patents', label: 'Patents' },
+      { id: 'publications', label: 'Research output' },
       { id: 'people', label: 'People' },
       { id: 'contact', label: 'Contact' }
     ],
     hero: {
       eyebrow: 'Inha University · Digital Medicine',
       titleLines: [ 'TMI-lab' ],
-      description: 'We study digital biomarkers from medical images, biosignals and electronic medical records (EMR), and develop AI to support clinical decisions and workflows.',
+      description: 'Starting with clinical questions, we study digital biomarkers from medical images, biosignals and electronic medical records (EMR), and develop AI to support clinical decisions and workflows.',
       primary: 'Technology transfer',
       secondary: 'Research',
       caption: 'Research in understanding and quantifying anatomical structures in medical images'
@@ -144,6 +148,7 @@ export const content = {
       label: 'Our mission',
       title: 'From information\nto intelligence',
       subtitle: 'From a useful prediction to a change in care',
+      opening: 'TMI-lab studies how data and AI can address problems in clinical practice. Our motto, “From Too Much Information to Translational Medical Intelligence”, expresses our aim to turn abundant medical information into knowledge and technology that support care. Both phrases share the initials TMI, linking the lab’s name with its research direction.',
       body: 'Better predictions should lead to better clinical decisions. We connect imaging, biosignals and clinical records to address workflow bottlenecks, anticipate treatment outcomes and build evidence for individual care.'
     },
     approach: {

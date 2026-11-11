@@ -1,5 +1,5 @@
 const motion = matchMedia('(prefers-reduced-motion: reduce)');
-let slides = [...deckSources];
+const slides = [...document.querySelectorAll('main > [data-slide]')];
 const header = document.querySelector('.site-header');
 const dock = document.querySelector('.slide-controls');
 const previous = dock.querySelector('[data-slide-prev]');
@@ -20,13 +20,16 @@ let wheelTotal = 0;
 let gestureUsed = false;
 let decayingWheel = false;
 let touch;
-let contentHome;
+let contentMarker;
 let trigger;
 const topOf = slide => slide.getBoundingClientRect().top + scrollY - header.offsetHeight;
 const overlayOpen = () => dialog.open || document.querySelector('.image-dialog')?.open || navigation[0]?.closest('.nav').classList.contains('is-open');
 
 function update() {
-  if (!active) current = slides.reduce((best, slide, index) => Math.abs(topOf(slide) - scrollY) < Math.abs(topOf(slides[best]) - scrollY) ? index : best, 0);
+  if (!active) {
+    const atEnd = scrollY + innerHeight >= document.documentElement.scrollHeight - 2;
+    current = atEnd ? slides.length - 1 : Math.max(0, slides.findLastIndex(slide => topOf(slide) <= scrollY + 2));
+  }
   if (rendered === current) return;
   rendered = current;
   const slide = slides[current];
@@ -93,16 +96,26 @@ function go(index, animate = true) {
 }
 document.addEventListener('image:open', () => cancelTransition());
 function closeReading() {
-  if (!contentHome) return;
-  contentHome.append(dialog.querySelector('.reading-content'));
-  contentHome = undefined;
+  if (dialog.open || !contentMarker) return;
+  const content = dialog.querySelector('.dialog-content').firstElementChild;
+  const linkedDetail = content.contains(document.getElementById(location.hash.slice(1)));
+  contentMarker.replaceWith(content);
+  contentMarker = undefined;
+  if (linkedDetail) history.replaceState(null, '', `#${slides[current].id}`);
   document.documentElement.classList.remove('dialog-open');
   trigger?.focus({preventScroll:true});
 }
 dialog.addEventListener('close', closeReading);
 function openReading(content, title, returnTarget) {
+  if (!content) return;
+  if (dialog.contains(content)) {
+    content.scrollIntoView({block:'start'});
+    return;
+  }
+  if (dialog.open) { dialog.close(); closeReading(); }
   cancelTransition();
-  contentHome = content.parentElement;
+  contentMarker = document.createComment('reading content');
+  content.before(contentMarker);
   trigger = returnTarget;
   dialog.querySelector('#reading-title').textContent = title;
   dialog.querySelector('.dialog-content').append(content);
@@ -114,30 +127,19 @@ document.addEventListener('click', event => {
   const button = event.target.closest('[data-read]');
   if (button) openReading(document.getElementById(button.dataset.read), button.dataset.title, button);
 });
-function configure(align = true) {
-  const wasActive = active;
-  const sourceId = slides[current].dataset.deckSource || slides[current].id;
-  const blockId = slides[current].querySelector('[data-deck-block]')?.dataset.deckBlock;
+function configure() {
   cancelTransition();
   document.documentElement.style.setProperty('--header-height', `${header.offsetHeight}px`);
   active = !reading;
   if (dialog.open) { dialog.close(); closeReading(); }
   document.documentElement.classList.toggle('presentation', active);
-  slides = active ? buildDeck() : [...deckSources];
-  current = slides.findIndex(slide => slide.id === sourceId);
-  if (active && blockId) {
-    const match = slides.findIndex(slide => slide.dataset.deckSource === sourceId && slide.querySelector(`[data-deck-block="${blockId}"]`));
-    if (match >= 0) current = match;
-  }
-  current = Math.max(0, current);
   rendered = -1;
   lastWheel = lastDelta = wheelTotal = 0;
   gestureUsed = decayingWheel = false;
   mode.hidden = false;
   mode.textContent = active ? mode.dataset.readingLabel : mode.dataset.slidesLabel;
   mode.setAttribute('aria-pressed', String(!active));
-  if (align || active || wasActive) go(current, false);
-  else update();
+  go(current, false);
 }
 mode.addEventListener('click', () => { reading = active; configure(); });
 previous.addEventListener('click', () => go(current - 1));
@@ -194,9 +196,10 @@ addEventListener('keydown', event => {
   go(event.key === 'Home' ? 0 : event.key === 'End' ? slides.length - 1 : current + direction);
 });
 function navigateTo(target, animate = true) {
-  const detail = target?.closest('.slide-detail');
-  const slide = target?.closest('[data-slide]') || document.getElementById(detail?.dataset.detail);
+  if (!target) return false;
+  const slide = target.closest('[data-slide]') || (dialog.contains(target) && contentMarker?.parentElement.closest('[data-slide]'));
   if (!slide) return false;
+  const detail = target.closest('.reading-content');
   if (dialog.open && !dialog.contains(target)) { dialog.close(); closeReading(); }
   go(slides.indexOf(slide), animate);
   if (active && detail) {
@@ -206,8 +209,8 @@ function navigateTo(target, animate = true) {
       openReading(detail, button?.dataset.title || slide.dataset.slide, button || slide);
     }
     history.replaceState(null, '', `#${target.id}`);
-    target.scrollIntoView({block:'start', behavior:'instant'});
   }
+  if (detail && target !== detail) target.scrollIntoView({block:'start', behavior:'instant'});
   if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
   target.focus({preventScroll:true});
   return true;
@@ -217,7 +220,12 @@ document.addEventListener('click', event => {
   if (!active || !link || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
   if (navigateTo(document.getElementById(link.hash.slice(1)))) event.preventDefault();
 });
-addEventListener('hashchange', () => navigateTo(document.getElementById(location.hash.slice(1)), false));
+function hashTarget() {
+  const id = location.hash.slice(1);
+  // Old slide links such as #research--3 now land on the corresponding topic.
+  return document.getElementById(id) || document.getElementById(id.replace(/--\d+$/, ''));
+}
+addEventListener('hashchange', () => navigateTo(hashTarget(), false));
 document.addEventListener('focusin', event => {
   if (!active || dialog.open) return;
   const slide = event.target.closest('[data-slide]');
@@ -228,13 +236,22 @@ addEventListener('scroll', () => {
   positionFrame = requestAnimationFrame(() => { positionFrame = 0; update(); });
 }, {passive:true});
 let resizeTimer;
-addEventListener('resize', () => { cancelTransition(); clearTimeout(resizeTimer); resizeTimer = setTimeout(() => configure(false), 150); });
+addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    document.documentElement.style.setProperty('--header-height', `${header.offsetHeight}px`);
+    if (dialog.open || document.querySelector('.image-dialog')?.open) return;
+    if (active) go(current, false);
+    else {
+      cancelTransition();
+      update();
+    }
+  }, 150);
+});
 motion.addEventListener('change', cancelTransition);
-const initialHash = location.hash.slice(1);
-const initial = document.getElementById(initialHash) || document.getElementById(initialHash.split('--')[0]);
+const initial = hashTarget();
 const initialSlide = initial?.closest('[data-slide]');
 if (initialSlide) current = slides.indexOf(initialSlide);
 dock.hidden = false;
 configure();
-if (document.getElementById(initialHash)?.dataset.deckContinuation) navigateTo(document.getElementById(initialHash), false);
 if (initial && initial !== initialSlide) navigateTo(initial, false);

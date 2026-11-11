@@ -31,8 +31,7 @@ The generated website is in `dist/`. Serve that directory with a static HTTP ser
 | `src/tokens.css` | Color, typography, spacing, and control tokens |
 | `src/layout.css` | Responsive page layouts |
 | `src/presentation.css` | Slide composition, reading dialogs, continuous reading |
-| `src/stories.mjs` · `src/stories.css` | Research narratives, authentic evidence figures, responsive story pages |
-| `public/deck.js` | Shared frames and responsive continuation pages |
+| `src/slide-overviews.mjs` | Eight bilingual presentation slides and links to their full source material |
 | `public/visuals.js` · `src/visuals.css` | Image reveals, clinical-pathway emphasis, accessible original-image viewer |
 | `public/site.js` | Language anchors, mobile navigation, publication filtering |
 | `public/scroll.js` | One-gesture slide navigation, reading mode, collection dialogs, reduced-motion support |
@@ -65,15 +64,15 @@ Automatic discovery covers articles linked to this ORCID in Crossref. Publisher 
 
 ## Navigation
 
-Slides use a fixed viewport on desktop and mobile. Wheel gestures, vertical touch swipes, Arrow and Page keys, Home/End, header links, and the section dock navigate between pages. No presentation page owns a scrolling area. Short and narrow screens use semantic continuation pages; exceptionally short viewports retain compact overviews with explicit access to details. **Read page / 연속 보기** enables the complete scrolling document.
+Desktop and mobile follow the same eight slides: introduction, technology transfer, clinical workflow, digital twins, precision medicine, research output, people and contact. Use the dock, header links, wheel, vertical swipe, Arrow or Page keys, or Home/End to navigate. **Read page / 연속 보기** opens the complete scrolling document.
 
-Research pages connect the goal, method and clinical significance to original figures. Image curtains and staged pathway emphasis accompany page transitions. Click or tap a figure to expand the original; swiping from an image still changes pages. Escape, Close, or the viewer backdrop closes it and returns focus. Reduced motion makes these effects immediate.
+Each research slide presents its clinical question and a representative visual. Its detail button opens the methods, clinical significance and original figures. Close the panel to return to the same slide. The technology transfer slide features AVIEW NeuroCAD and links to the other cases.
 
-Publications and People each retain one overview page. Full publication search, patents, education, career, the current project and the dated Scholar chart remain in labelled detail dialogs and in continuous reading. Research directions emphasize clinical workflow, surgical digital twins, and evidence-based precision medicine. Clinical-impact sources are recorded in `docs/clinical-impact-sources.md`.
+The research output slide shows the dated Scholar chart and opens separate publication search and patent lists. The people slide opens education, career and current project details. Clinical-impact sources are recorded in `docs/clinical-impact-sources.md`.
 
 ## Verification
 
-`npm test` verifies wheel classification. After building and serving the preview at `http://127.0.0.1:4173/dist/`, the browser suites cover frame geometry, complete visible research copy, image interactions and page motion:
+`npm test` checks the eight-slide structure, detail links, wheel input and research data synchronization. After building and serving the preview at `http://127.0.0.1:4173/dist/`, run the browser suites to exercise the deck and its research detail panels at different viewport sizes:
 
 ```sh
 npm run test:deck
