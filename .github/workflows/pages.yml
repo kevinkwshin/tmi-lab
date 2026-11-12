@@ -18,6 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       scholar_refresh: ${{ steps.scholar.outcome }}
+      bibliography_refresh: ${{ steps.bibliography.outcome }}
+      publications_refresh: ${{ steps.publications.outcome }}
     permissions:
       contents: write
       pages: write
@@ -50,18 +52,40 @@ jobs:
         run: |
           echo '::warning title=Scholar refresh unavailable::Using the last verified Scholar snapshot. Citation counts and the checked date are unchanged; site checks and deployment will continue.'
           echo 'The site keeps the last verified Scholar snapshot. The next daily run will make a new collection attempt. The Scholar refresh health check will report this failure after deployment.' >> "$GITHUB_STEP_SUMMARY"
+      - name: Refresh full DOI bibliography metadata
+        id: bibliography
+        if: github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && github.event.schedule == '17 0 * * 1')
+        continue-on-error: true
+        run: npm run update:bibliography
+      - name: Report preserved bibliography metadata
+        if: steps.bibliography.outcome == 'failure'
+        run: |
+          echo '::warning title=Bibliography refresh incomplete::Using verified cached metadata. Missing entries are explicitly omitted from the BibTeX download.'
+          echo '### Bibliography refresh incomplete' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Previously verified full author metadata is retained. Successful DOI responses are merged without deleting earlier records. Review the refresh step for missing DOI metadata.' >> "$GITHUB_STEP_SUMMARY"
       - run: npm run check
       - run: npm test
-      - run: npm run build
+      - name: Cache pinned TeX compiler and packages
+        id: tex-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            .tools/tectonic
+            ~/.cache/Tectonic
+          key: ${{ runner.os }}-tectonic-0.17.0-${{ hashFiles('scripts/install-tectonic.mjs') }}
+      - name: Install checksum-verified TeX compiler
+        if: steps.tex-cache.outputs.cache-hit != 'true'
+        run: npm run setup:tex
+      - run: npm run build:pdf
         env:
           SITE_URL: ${{ vars.SITE_URL || 'https://kevinkwshin.github.io/tmi-lab/' }}
       - name: Save verified research snapshots
-        if: steps.scholar.outcome == 'success' || steps.publications.outcome == 'success'
+        if: steps.scholar.outcome == 'success' || steps.publications.outcome == 'success' || steps.bibliography.outcome == 'success' || steps.bibliography.outcome == 'failure'
         run: |
-          if ! git diff --quiet -- src/scholar-metrics.json src/publications-auto.json; then
+          if ! git diff --quiet -- src/scholar-metrics.json src/publications-auto.json src/bibliography-metadata.json; then
             git config user.name 'github-actions[bot]'
             git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git add src/scholar-metrics.json src/publications-auto.json
+            git add src/scholar-metrics.json src/publications-auto.json src/bibliography-metadata.json
             git commit -m 'Update verified research snapshots' -m 'Preserve each saved snapshot on collection failure. Validated with syntax checks, unit tests and a bilingual build.'
             git push origin HEAD:main
           fi
@@ -89,4 +113,26 @@ jobs:
       - name: Report failed refresh after deployment
         run: |
           echo '::error title=Scholar refresh failed::The website was deployed with the last verified citation data. See the Scholar refresh annotation and build summary for the collection error. A new attempt is scheduled for the next day.'
+          exit 1
+  bibliography-refresh-health:
+    name: Verify bibliography refresh
+    needs: [build, deploy]
+    if: ${{ always() && needs.build.outputs.bibliography_refresh == 'failure' && needs.deploy.result == 'success' }}
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Report incomplete metadata refresh after deployment
+        run: |
+          echo '::error title=Bibliography refresh incomplete::The website and CV were built from cached verified metadata. See the refresh step for missing DOI records.'
+          exit 1
+  publications-refresh-health:
+    name: Verify publication discovery
+    needs: [build, deploy]
+    if: ${{ always() && needs.build.outputs.publications_refresh == 'failure' && needs.deploy.result == 'success' }}
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Report failed publication discovery after deployment
+        run: |
+          echo '::error title=Publication discovery unavailable::The website and CV use the previous verified publication list. Review the ORCID-linked publication refresh step.'
           exit 1

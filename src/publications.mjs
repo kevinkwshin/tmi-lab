@@ -1,4 +1,5 @@
 import automatic from './publications-auto.json' with {type: 'json'};
+import cvRecords from './cv-records.json' with {type: 'json'};
 
 const selectedPublications = [
   {
@@ -111,4 +112,9 @@ export function mergePublications(selected, discovered) {
     (b.published || `${b.year}-01-01`).localeCompare(a.published || `${a.year}-01-01`));
 }
 
-export const publications = mergePublications(selectedPublications, automatic.publications);
+const enteredPublications = cvRecords.journalEntries.map(paper => ({
+  ...paper,
+  // Website summaries may abbreviate; BibTeX and the CV use the full stored names.
+  authors: paper.authors.map(author => author.name || [author.given, author.family, author.suffix].filter(Boolean).join(' ')).join(', '),
+}));
+export const publications = mergePublications(selectedPublications, [...automatic.publications, ...enteredPublications]);

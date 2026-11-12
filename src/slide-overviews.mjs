@@ -5,7 +5,7 @@ import { peopleOverview } from './people-overview.mjs';
 import { identityLogo } from './identity.mjs';
 import { neurocadProof } from './neurocad-evidence.mjs';
 
-export function slideOverviews(lang, asset, escape) {
+export function slideOverviews(lang, asset, escape, records) {
   const c = content[lang];
   const text = (ko, en) => lang === 'ko' ? ko : en;
   const researchIds = ['research', 'research-imaging', 'research-signals'];
@@ -70,7 +70,7 @@ export function slideOverviews(lang, asset, escape) {
   );
   pages.people = frame(
     'people', text('구성원 소개', 'People'), '',
-    peopleOverview(lang, asset, escape),
+    peopleOverview(lang, asset, escape, records),
     detailButton('detail-people', text('학력 · 주요 경력 · 수행과제', 'Education · Career · Project'), c.people.name)
   );
   pages.contact = frame(

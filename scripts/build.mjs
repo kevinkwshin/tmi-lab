@@ -1,13 +1,35 @@
 import { mkdir, readFile, writeFile, cp, rm } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { renderPage } from '../src/render.mjs';
+import {publications} from '../src/publications.mjs';
+import {renderCv, renderCvLatex} from '../src/cv.mjs';
+import {cvProfile} from '../src/cv-profile.mjs';
+import {loadCvRecords} from './cv-records.mjs';
+import {loadBibliographyMetadata, generateBibliography, mergeEnteredBibliography} from './export-bibliography.mjs';
+import {buildCvPdf} from './build-cv-pdf.mjs';
 
 const languageScript = await readFile('src/language.js', 'utf8');
 const siteUrl = new URL(process.env.SITE_URL || 'https://kevinkwshin.github.io/tmi-lab/');
 if (!siteUrl.pathname.endsWith('/')) siteUrl.pathname += '/';
 await rm('dist', { recursive: true, force: true });
 await mkdir('dist/en', { recursive: true });
+await mkdir('dist/cv', {recursive: true});
+await mkdir('dist/en/cv', {recursive: true});
 await cp('public', 'dist', { recursive: true });
+const records = await loadCvRecords();
+const metadata = mergeEnteredBibliography(await loadBibliographyMetadata(), records.journalEntries);
+// DOI imports already contain verified full metadata. Their locally edited roles
+// remain in cv-records.json and are never overwritten by a registry refresh.
+const bibliography = generateBibliography(publications, metadata);
+const updatedAt = [cvProfile.updated, records.updatedAt, metadata.checked].filter(Boolean).sort().at(-1) || '2026-11-11';
+const cvOptions = {publications, bibliography, records, siteUrl: siteUrl.href, updatedAt};
+await writeFile('dist/publications.bib', bibliography.bibtex);
+await writeFile('dist/cv/keewon-shin-cv.tex', renderCvLatex(cvOptions));
+const pdfAvailable = process.argv.includes('--pdf');
+if (pdfAvailable) await buildCvPdf();
+await writeFile('dist/cv/index.html', renderCv('ko', {...cvOptions, pdfAvailable}));
+await writeFile('dist/en/cv/index.html', renderCv('en', {...cvOptions, pdfAvailable}));
+if (bibliography.missing.length) console.warn(`BibTeX coverage ${bibliography.coverage.exported}/${bibliography.coverage.requested}:`, bibliography.missing);
 const styles = await Promise.all(['src/tokens.css', 'src/layout.css', 'src/presentation.css', 'src/research.css', 'src/deck.css', 'src/stories.css', 'src/visuals.css', 'src/editorial.css', 'src/research-illustrations.css', 'src/clinical-scenes.css', 'src/identity.css', 'src/scholar-overview.css', 'src/people-overview.css'].map(p => readFile(p, 'utf8')));
 const css = styles.join('\n');
 const stylesheet = `styles.css?v=${createHash('sha256').update(css).digest('hex').slice(0, 12)}`;
@@ -16,6 +38,6 @@ await writeFile('dist/index.html', renderPage('ko', siteUrl.href, languageScript
 await writeFile('dist/en/index.html', renderPage('en', siteUrl.href, languageScript, stylesheet));
 await writeFile('dist/.nojekyll', '');
 await writeFile('dist/robots.txt', `User-agent: *\nAllow: /\nSitemap: ${siteUrl}sitemap.xml\n`);
-await writeFile('dist/sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${siteUrl}</loc></url><url><loc>${siteUrl}en/</loc></url></urlset>`);
+await writeFile('dist/sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${siteUrl}</loc></url><url><loc>${siteUrl}en/</loc></url><url><loc>${siteUrl}cv/</loc></url><url><loc>${siteUrl}en/cv/</loc></url></urlset>`);
 await writeFile('dist/404.html', `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>TMI-lab · Page not found</title><link rel="stylesheet" href="${siteUrl}${stylesheet}"></head><body><main class="container section"><p class="eyebrow">TMI-lab / 404</p><h1>페이지를 찾을 수 없습니다</h1><p lang="en">This page could not be found.</p><a class="text-link" href="${siteUrl}">TMI-lab 홈 / Home →</a></main></body></html>`);
-console.log('Built Korean and English pages in dist/');
+console.log(`Built Korean and English pages, CV${pdfAvailable ? ' PDF' : ''}, LaTeX and ${bibliography.coverage.exported} BibTeX entries in dist/`);

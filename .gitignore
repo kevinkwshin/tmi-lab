@@ -5,6 +5,7 @@
 .codegraph
 node_modules/
 dist/
+.tools/
 .env
 .env.*
 !.env.example

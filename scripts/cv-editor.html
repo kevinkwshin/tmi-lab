@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TMI-lab · CV 입력</title>
+<style>
+:root{color-scheme:light;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#142f49;background:#f3f7fb;font-size:16px}*{box-sizing:border-box}body{margin:0}main{max-width:1120px;margin:auto;padding:40px 24px 80px}h1{font-size:32px;margin:0 0 12px}h2{font-size:22px;margin:0 0 22px}h3{font-size:17px;margin:0 0 8px}p{line-height:1.6}.eyebrow{font-size:13px;letter-spacing:.14em;font-weight:700;color:#42718e;margin:0 0 12px}.intro{max-width:760px;color:#445b70}.notice{padding:16px 20px;border-left:3px solid #246b91;background:#e7f1f8;line-height:1.7;margin:22px 0}.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 22px}button{font:inherit;cursor:pointer;border:1px solid #bfd0dc;border-radius:8px;padding:10px 16px;min-height:44px;color:#163d58;background:#fff}button:hover{background:#edf4f9}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #70a9d0;outline-offset:2px}button[aria-pressed=true],button.primary{background:#173f5c;color:#fff;border-color:#173f5c}button:disabled{cursor:wait;opacity:.6}.grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:24px;align-items:start}.panel{background:#fff;border:1px solid #dce5ec;border-radius:12px;padding:26px}form{display:grid;gap:17px}label,.label{display:block;font-weight:650;font-size:14px}label small,.hint{display:block;font-size:13px;color:#60788a;font-weight:400;margin-top:6px;line-height:1.5}input:not([type=checkbox]),textarea,select{font:inherit;font-weight:400;display:block;width:100%;margin-top:7px;border:1px solid #b9cad7;background:#fff;border-radius:6px;padding:10px 11px;color:#17384f}input:disabled{background:#f1f4f6;color:#758998}textarea{min-height:100px;resize:vertical}.pair{display:grid;grid-template-columns:1fr 1fr;gap:14px}.checks{display:flex;flex-wrap:wrap;gap:16px;margin:9px 0 0}.checks label,.consent{font-weight:400;display:flex;align-items:center;gap:8px}.actions{display:flex;flex-wrap:wrap;gap:8px;padding-top:6px}.saved{list-style:none;padding:0;margin:0}.saved li{border-top:1px solid #e2eaf0;padding:18px 0}.saved li:first-child{border-top:0;padding-top:0}.meta{color:#60788a;font-size:13px;line-height:1.6;margin:0 0 9px}.saved-title{font-size:15px;font-weight:650;line-height:1.55;margin:0 0 7px;overflow-wrap:anywhere}.small-button{font-size:13px;padding:6px 11px;min-height:34px}.danger{color:#8b3434}.empty{color:#60788a;font-size:14px}.status{min-height:28px;color:#2d6245}.status.error{color:#9a3131}.lookup{display:flex;gap:9px;align-items:flex-end}.lookup label{flex:1;min-width:0}.lookup button{flex-shrink:0}.preview{border:1px solid #c5d9e7;background:#f3f8fc;padding:17px;border-radius:8px}.preview h3{line-height:1.5}.preview p{font-size:14px;margin:8px 0;overflow-wrap:anywhere}details summary{cursor:pointer;font-size:14px;color:#547188}details .extra{display:grid;gap:15px;margin-top:16px}footer{margin-top:26px;color:#61788a;font-size:13px;line-height:1.8}[hidden]{display:none!important}@media(max-width:760px){main{padding:26px 16px 50px}.grid{grid-template-columns:1fr}.panel{padding:20px}.pair{grid-template-columns:1fr}.lookup{align-items:stretch;flex-direction:column}h1{font-size:28px}}
+</style>
+</head>
+<body><main>
+<p class="eyebrow">TMI-LAB / CV</p><h1>연구 기록을 한 번 입력하세요.</h1>
+<p class="intro">논문·학회발표·과제를 저장하면 같은 기록으로 홈페이지와 CV를 만듭니다. 논문은 DOI로 전체 저자와 출판 정보를 불러오고, 본인 기여는 확인한 내용만 직접 표시합니다.</p>
+<div class="notice"><strong>공개할 정보만 입력하세요.</strong> 저장한 기록은 공개 GitHub 저장소와 홈페이지·CV에 반영됩니다. 개인 연락처와 비공개 연구비는 입력하지 마세요. 저장 후 사이트에 반영하려면 변경 파일을 GitHub에 올려야 합니다.</div>
+<p id="status" class="status" role="status" aria-live="polite">기록을 불러오는 중입니다.</p>
+<nav class="tabs" aria-label="입력 종류"><button type="button" data-tab="journalEntries" aria-pressed="true">논문</button><button type="button" data-tab="conferences" aria-pressed="false">학회발표</button><button type="button" data-tab="grants" aria-pressed="false">연구과제</button><button type="button" id="reload">기록 새로고침</button></nav>
+<section class="grid" data-section="journalEntries">
+<div class="panel"><h2 id="journal-heading">논문 추가</h2><form id="journal-form">
+<div class="lookup"><label>DOI 또는 DOI 링크<input name="doi" required placeholder="10.xxxx/… 또는 https://doi.org/…"></label><button type="button" id="lookup">DOI로 찾기</button></div>
+<div id="journal-preview" class="preview" hidden><h3 id="paper-title"></h3><p id="paper-authors"></p><p id="paper-citation"></p><p class="hint">본인의 논문이 맞는지 제목·저자 순서·학술지를 확인한 뒤 저장하세요.</p></div>
+<details id="paper-translations"><summary>영문 CV용 표기 (한글 등 비라틴 원문은 필수)</summary><p class="hint">출판사가 제공한 공식 영어 표기가 있으면 그대로 입력하세요. 원본 서지정보는 보존하며 영어 CV/PDF에만 이 표기를 사용합니다.</p><div class="extra"><label>영문 논문 제목<input name="titleEn" maxlength="2000"></label><label>영문 학술지명<input name="journalEn" maxlength="2000"></label><label>영문 전체 저자<textarea name="authorsEn" placeholder="원문과 같은 순서·인원으로 한 줄에 한 명씩"></textarea></label></div></details>
+<div><span class="label">본인 기여 <span class="hint">공식 논문에 명시된 경우에만 선택하세요. 저자 순서에서 자동 추정하지 않습니다.</span></span><div class="checks"><label><input type="checkbox" name="cofirst">공동 제1저자</label><label><input type="checkbox" name="corresponding">교신저자</label></div></div>
+<div class="actions"><button class="primary" type="submit">확인한 논문 저장</button><button type="button" data-cancel="journalEntries">입력 취소</button></div>
+</form></div><aside class="panel"><h2>직접 추가한 논문</h2><p class="hint">자동 발견·기존 선정 논문과 DOI로 합쳐집니다. 여기서는 직접 추가한 기록을 수정·삭제합니다.</p><ul class="saved" id="journalEntries-list"></ul></aside></section>
+<section class="grid" data-section="conferences" hidden>
+<div class="panel"><h2 id="conference-heading">학회발표 추가</h2><form id="conference-form">
+<label>발표 제목<input name="title" required maxlength="2000"></label>
+<label>학회명<input name="event" required maxlength="500" placeholder="예: RSNA 2026"></label>
+<div class="pair"><label>발표일<input name="date" required placeholder="2026-11-29" pattern="\d{4}(-\d{2})?(-\d{2})?"><small>정확한 날짜가 없으면 연도 또는 연월만 입력하세요.</small></label><label>발표 유형<select name="type"><option value="oral">구두 발표</option><option value="poster">포스터</option><option value="other">기타 / 미확인</option></select></label></div>
+<label>전체 저자<textarea name="authors" placeholder="한 줄에 한 명씩, 공식 저자 순서대로 입력하세요."></textarea><small>실제 이름과 저자 순서를 그대로 유지하세요.</small></label>
+<label>발표자 <small>선택 항목 · 실제 발표자만 입력하세요.</small><input name="presenter" maxlength="300"></label>
+<details><summary>영문 CV용 표기 (한글로 입력한 항목은 필수)</summary><div class="extra"><label>영문 발표 제목<input name="titleEn" maxlength="2000"></label><label>영문 학회명<input name="eventEn" maxlength="2000"></label><label>영문 저자<textarea name="authorsEn" placeholder="원문 저자와 같은 순서로 한 줄에 한 명씩"></textarea></label><label>영문 발표자<input name="presenterEn" maxlength="300"></label></div></details>
+<div><span class="label">본인 기여 (확인된 경우)</span><div class="checks"><label><input type="checkbox" name="cofirst">공동 제1저자</label><label><input type="checkbox" name="corresponding">교신저자</label></div></div>
+<details><summary>DOI·학회 프로그램 링크 추가</summary><div class="extra"><label>DOI<input name="doi" placeholder="선택 항목"></label><label>학회 프로그램 / 초록 링크<input name="url" type="url" placeholder="https://…"></label></div></details>
+<div class="actions"><button class="primary" type="submit">발표 저장</button><button type="button" data-cancel="conferences">입력 취소</button></div>
+</form></div><aside class="panel"><h2>저장된 학회발표</h2><ul class="saved" id="conferences-list"></ul></aside></section>
+<section class="grid" data-section="grants" hidden>
+<div class="panel"><h2 id="grant-heading">연구과제 추가</h2><form id="grant-form">
+<label>과제명<input name="title" required maxlength="2000"></label>
+<label>지원기관<input name="funder" required maxlength="2000" placeholder="예: 한국연구재단"></label>
+<label>사업명<input name="program" maxlength="2000" placeholder="예: 핵심연구A"></label>
+<label>본인 역할<select name="role"><option value="PI">연구책임자 (PI)</option><option value="Co-I">공동연구자 (Co-I)</option><option value="PM">과제관리자 (PM)</option><option value="Collaborator">참여연구자</option></select><small>공식 참여 역할에 맞춰 선택하세요.</small></label>
+<div class="pair"><label>시작일<input name="start" required placeholder="2026-03" pattern="\d{4}(-\d{2})?(-\d{2})?"></label><label>종료일<input name="end" placeholder="2030-02 · 진행 중이면 비워두기" pattern="\d{4}(-\d{2})?(-\d{2})?"></label></div>
+<label>과제번호<input name="grantNumber" maxlength="2000" placeholder="공개 가능한 번호만 입력하세요 (선택)"></label>
+<div><label class="consent"><input type="checkbox" name="publicAmount">연구비를 공개하겠습니다</label><label><span class="hint">공개할 연구비만 입력하세요. 영문 CV에 사용할 통화·숫자·범위를 함께 적으세요.</span><input name="amount" disabled maxlength="200" placeholder="예: KRW 300,000,000 (total)"></label></div>
+<details><summary>영문 과제 정보 (한글로 입력한 항목은 필수)</summary><div class="extra"><label>영문 과제명<input name="titleEn" maxlength="2000"></label><label>영문 지원기관<input name="funderEn" maxlength="2000"></label><label>영문 사업명<input name="programEn" maxlength="2000"></label></div></details>
+<div class="actions"><button class="primary" type="submit">과제 저장</button><button type="button" data-cancel="grants">입력 취소</button></div>
+</form></div><aside class="panel"><h2>저장된 연구과제</h2><ul class="saved" id="grants-list"></ul></aside></section>
+<footer>이 입력 화면은 현재 컴퓨터에서만 실행됩니다. 논문 서지정보는 Crossref에서 조회하며 Google Scholar를 자동 수집하지 않습니다.<br>서지정보의 수정·저자 기여·공개 범위는 저장하기 전에 직접 확인하세요.</footer>
+</main>
+<script nonce="__CV_EDITOR_NONCE__">
+const token = __CV_EDITOR_TOKEN__;
+let records, revision, paperPreview = null, displayedDOI = null;
+const forms = {grants: document.querySelector('#grant-form'), conferences: document.querySelector('#conference-form'), journalEntries: document.querySelector('#journal-form')};
+const headings = {grants: ['연구과제 추가','연구과제 수정'], conferences: ['학회발표 추가','학회발표 수정'], journalEntries: ['논문 추가','논문 수정']};
+const headingIds = {grants: '#grant-heading', conferences: '#conference-heading', journalEntries: '#journal-heading'};
+const message = (text, error = false) => {const box = document.querySelector('#status'); box.textContent = text; box.classList.toggle('error', error);};
+const request = async (path, body) => {
+  const options = {headers: {'X-CV-Token': token}};
+  if (body !== undefined) {options.method = 'POST'; options.headers['Content-Type'] = 'application/json'; options.body = JSON.stringify(body);}
+  const response = await fetch(path, options);
+  const payload = await response.json();
+  if (!response.ok) throw new Error(payload.error || '요청을 완료하지 못했습니다.');
+  return payload;
+};
+function selectTab(section) {
+  document.querySelectorAll('[data-section]').forEach(element => {element.hidden = element.dataset.section !== section;});
+  document.querySelectorAll('[data-tab]').forEach(element => element.setAttribute('aria-pressed', String(element.dataset.tab === section)));
+}
+function resetForm(section) {
+  const form = forms[section]; form.reset(); delete form.dataset.editing;
+  document.querySelector(headingIds[section]).textContent = headings[section][0];
+  if (section === 'grants') form.elements.amount.disabled = true;
+  if (section === 'journalEntries') {paperPreview = null; displayedDOI = null; document.querySelector('#journal-preview').hidden = true;}
+}
+function showPaper(entry) {
+  const form = forms.journalEntries;
+  if (displayedDOI && entry.doi !== displayedDOI) {
+    for (const role of ['cofirst','corresponding']) form.elements[role].checked = false;
+    for (const field of ['titleEn','journalEn','authorsEn']) form.elements[field].value = '';
+  }
+  displayedDOI = entry.doi;
+  paperPreview = entry;
+  document.querySelector('#paper-title').textContent = entry.title;
+  document.querySelector('#paper-authors').textContent = entry.authors.map(author => author.family ? [author.given,author.family,author.suffix].filter(Boolean).join(' ') : author.name).join(', ');
+  document.querySelector('#paper-citation').textContent = [entry.journal, entry.date || entry.published, entry.doi].filter(Boolean).join(' · ');
+  document.querySelector('#journal-preview').hidden = false;
+}
+function edit(section, entry) {
+  resetForm(section); const form = forms[section]; form.dataset.editing = entry.id;
+  for (const [key, value] of Object.entries(entry)) {
+    const control = form.elements.namedItem(key);
+    if (control && typeof value === 'string') control.value = value;
+  }
+  if (section === 'conferences') {form.elements.authors.value = entry.authors.join('\n'); form.elements.authorsEn.value = (entry.authorsEn || []).join('\n');}
+  if (section === 'grants') {form.elements.publicAmount.checked = entry.publicAmount; form.elements.amount.disabled = !entry.publicAmount;}
+  if (section !== 'grants') for (const role of ['cofirst','corresponding']) form.elements[role].checked = (entry.ownRoles || []).includes(role);
+  if (section === 'journalEntries') {form.elements.authorsEn.value = (entry.authorsEn || []).join('\n'); showPaper(entry);}
+  document.querySelector(headingIds[section]).textContent = headings[section][1]; selectTab(section); form.elements[section === 'journalEntries' ? 'doi' : 'title'].focus();
+}
+function renderLists() {
+  for (const section of Object.keys(forms)) {
+    const list = document.querySelector(`#${section}-list`); list.replaceChildren();
+    if (!records[section].length) {const empty = document.createElement('li'); empty.className = 'empty'; empty.textContent = '아직 저장된 항목이 없습니다.'; list.append(empty); continue;}
+    for (const entry of [...records[section]].sort((a,b) => (b.date || b.published || b.start).localeCompare(a.date || a.published || a.start))) {
+      const row = document.createElement('li'), title = document.createElement('p'), meta = document.createElement('p'), actions = document.createElement('div');
+      title.className = 'saved-title'; title.textContent = entry.title;
+      meta.className = 'meta'; meta.textContent = section === 'grants' ? `${entry.funder} · ${entry.start}–${entry.end || '진행 중'} · ${entry.role}` : section === 'conferences' ? `${entry.event} · ${entry.date} · ${({oral:'구두',poster:'포스터',other:'기타'})[entry.type]}` : `${entry.journal} · ${entry.date || entry.published}`;
+      actions.className = 'actions';
+      const modify = document.createElement('button'); modify.type = 'button'; modify.className = 'small-button'; modify.textContent = '수정'; modify.setAttribute('aria-label', `${entry.title} 수정`); modify.addEventListener('click', () => edit(section,entry));
+      const remove = document.createElement('button'); remove.type = 'button'; remove.className = 'small-button danger'; remove.textContent = '삭제'; remove.setAttribute('aria-label', `${entry.title} 삭제`);
+      remove.addEventListener('click', async () => {if (!confirm(`이 기록을 삭제할까요?\n${entry.title}`)) return; const next = structuredClone(records); next[section] = next[section].filter(record => record.id !== entry.id); try {await persist(next); resetForm(section);} catch(error) {message(error.message,true);}});
+      actions.append(modify,remove); row.append(title,meta,actions); list.append(row);
+    }
+  }
+}
+async function persist(next) {
+  const saved = await request('/api/records', {records: next, revision});
+  records = saved.records; revision = saved.revision; renderLists(); message(`저장했습니다. 갱신일 ${records.updatedAt} · GitHub에 변경을 올리면 사이트와 CV에 반영됩니다.`);
+}
+async function load() {
+  const loaded = await request('/api/records'); records = loaded.records; revision = loaded.revision;
+  Object.keys(forms).forEach(resetForm); renderLists(); message(`기록을 불러왔습니다. 마지막 갱신 ${records.updatedAt}`);
+}
+document.querySelectorAll('[data-tab]').forEach(button => button.addEventListener('click', () => selectTab(button.dataset.tab)));
+document.querySelectorAll('[data-cancel]').forEach(button => button.addEventListener('click', () => resetForm(button.dataset.cancel)));
+document.querySelector('#reload').addEventListener('click', () => load().catch(error => message(error.message,true)));
+forms.grants.elements.publicAmount.addEventListener('change', event => {forms.grants.elements.amount.disabled = !event.target.checked; if (!event.target.checked) forms.grants.elements.amount.value = '';});
+forms.journalEntries.elements.doi.addEventListener('input', () => {paperPreview = null; document.querySelector('#journal-preview').hidden = true;});
+document.querySelector('#lookup').addEventListener('click', async event => {
+  const button = event.currentTarget; button.disabled = true; message('DOI의 공식 서지정보를 확인하는 중입니다.');
+  try {const {entry} = await request('/api/lookup', {doi: forms.journalEntries.elements.doi.value}); forms.journalEntries.elements.doi.value = entry.doi; showPaper(entry); message('제목·전체 저자·학술지를 확인한 후 저장하세요.');}
+  catch (error) {message(error.message,true);} finally {button.disabled = false;}
+});
+for (const [section,form] of Object.entries(forms)) form.addEventListener('submit', async event => {
+  event.preventDefault(); const fields = new FormData(form), value = Object.fromEntries(fields); let entry;
+  try {
+    if (section === 'journalEntries') {
+      if (!paperPreview) throw new Error('먼저 DOI로 찾기를 눌러 서지정보를 확인하세요.');
+      entry = {...paperPreview, titleEn: value.titleEn, journalEn: value.journalEn, authorsEn: value.authorsEn.split('\n').map(value => value.trim()).filter(Boolean)};
+    } else if (section === 'conferences') entry = {...value, authors: value.authors.split('\n').map(value => value.trim()).filter(Boolean), authorsEn: value.authorsEn.split('\n').map(value => value.trim()).filter(Boolean)};
+    else entry = {...value, publicAmount: form.elements.publicAmount.checked, amount: form.elements.publicAmount.checked ? value.amount : ''};
+    entry.id = form.dataset.editing || crypto.randomUUID();
+    if (section !== 'grants') entry.ownRoles = ['cofirst','corresponding'].filter(role => form.elements[role].checked);
+    const next = structuredClone(records), index = next[section].findIndex(record => record.id === entry.id);
+    if (index < 0) next[section].push(entry); else next[section][index] = entry;
+    const submit = form.querySelector('[type=submit]'); submit.disabled = true;
+    try {await persist(next); resetForm(section);} finally {submit.disabled = false;}
+  } catch(error) {message(error.message,true);}
+});
+load().catch(error => message(error.message,true));
+</script></body></html>
