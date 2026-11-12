@@ -18,6 +18,12 @@ npm run build
 
 The generated website is in `dist/`. Serve that directory with a static HTTP server for preview. `main` deploys automatically through GitHub Actions to GitHub Pages.
 
+## CV and research record editor
+
+Run `npm run cv:edit` to add or edit grants, conference presentations and DOI-based journal articles through a local form. The same saved records generate `/cv/`, `/en/cv/`, `/publications.bib`, and the LaTeX CV source. GitHub Pages also builds the English CV PDF on deployment. Full instructions and initial import limits are in [CV maintenance](docs/cv-maintenance.md).
+
+`npm run build` remains an offline HTML/BibTeX/LaTeX build. To produce the PDF locally, run `npm run setup:tex` once, then `npm run build:pdf`. The TeX installer downloads a pinned official Tectonic release and verifies its checksum without installing system packages.
+
 ## Edit content
 
 | File | Purpose |

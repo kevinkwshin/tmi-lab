@@ -1,0 +1,201 @@
+{
+  "version": 1,
+  "updatedAt": "2026-11-11",
+  "grants": [
+    {
+      "id": "grant-core-research-1",
+      "title": "건강진단의 멀티모달 추적관찰 데이터 기반 심혈관 질환 조기 예측 AI 시스템 개발",
+      "titleEn": "Development of an AI system for early cardiovascular disease prediction using multimodal longitudinal health screening data",
+      "funder": "한국연구재단",
+      "funderEn": "National Research Foundation of Korea",
+      "program": "핵심연구A",
+      "programEn": "Core Research A",
+      "role": "PI",
+      "start": "2026",
+      "end": "2030",
+      "grantNumber": "",
+      "amount": "",
+      "publicAmount": false
+    }
+  ],
+  "conferences": [
+    {
+      "id": "conference-2025-1",
+      "title": "Automated error detection in longitudinal abdominal CT radiology reporting based on a large language model",
+      "event": "European Congress of Radiology",
+      "date": "2025",
+      "type": "other",
+      "authors": [
+        "Shin, Keewon",
+        "Han, Nayeon",
+        "Kim, Minju"
+      ],
+      "presenter": "",
+      "doi": "",
+      "url": "",
+      "ownRoles": []
+    },
+    {
+      "id": "conference-2024-2",
+      "title": "Leveraging Prompt Engineering for Generative AI-based Automated Error Detection in Longitudinal Oncologic Abdominal CT Radiology Reporting",
+      "event": "Korean Congress of Radiology",
+      "date": "2024",
+      "type": "oral",
+      "authors": [
+        "Shin, Keewon",
+        "Han, Nayeon",
+        "Kim, Minju",
+        "Park, Beom-Jin"
+      ],
+      "presenter": "",
+      "doi": "",
+      "url": "",
+      "ownRoles": []
+    },
+    {
+      "id": "conference-2023-3",
+      "title": "Advanced Oncologist Assistance: Generating Alarms for new Oncologic Issues based on Radiologic Reports of Serial CT Scans with GPT-4",
+      "event": "Radiological Society of North America",
+      "date": "2023",
+      "type": "oral",
+      "authors": [
+        "Han, Nayeon",
+        "Kim, Minju",
+        "Shin, Keewon",
+        "Cho, Yongwon",
+        "Park, Beom-Jin",
+        "Sung, Deuk Jae"
+      ],
+      "presenter": "",
+      "doi": "",
+      "url": "",
+      "ownRoles": []
+    },
+    {
+      "id": "conference-2022-4",
+      "title": "Deep learning-based quantitative image analysis for detecting coronary artery stenosis, calcification, and vulnerable plaque in coronary CT angiography",
+      "event": "AOCR & KCR",
+      "date": "2022",
+      "type": "oral",
+      "authors": [
+        "Shin, Keewon",
+        "Lee, Jiho",
+        "Kim, Daewon",
+        "Kim, Namkug"
+      ],
+      "presenter": "",
+      "doi": "",
+      "url": "",
+      "ownRoles": []
+    },
+    {
+      "id": "conference-2021-5",
+      "title": "Detection of general fracture on various anatomical views of pediatric radiographs of upper and lower extremities with deep learning",
+      "event": "Radiological Society of North America",
+      "date": "2021",
+      "type": "poster",
+      "authors": [
+        "Jeong, Jiheon",
+        "Kim, Daeun",
+        "Kyung, Sunggu",
+        "Ryu, Seung Min",
+        "Jang, Miso",
+        "Yoon, Heemang",
+        "Hong, Gil-Sun",
+        "Shin, Keewon",
+        "Kim, Namkug"
+      ],
+      "presenter": "",
+      "doi": "",
+      "url": "",
+      "ownRoles": []
+    },
+    {
+      "id": "conference-2021-6",
+      "title": "Semi-supervised learning based medical imaging research using generative models",
+      "event": "Korean Medical Informatics Society",
+      "date": "2021",
+      "type": "oral",
+      "authors": [
+        "Shin, Keewon",
+        "Lee, Junsoo",
+        "Kim, Namkug"
+      ],
+      "presenter": "",
+      "doi": "",
+      "url": "",
+      "ownRoles": []
+    },
+    {
+      "id": "conference-2020-7",
+      "title": "Traumatic acute intracranial hemorrhage patient classification and bleeding volume prediction model using Deep Learning",
+      "event": "Korean Society of Artificial Intelligence in Medicine",
+      "date": "2020",
+      "type": "oral",
+      "authors": [
+        "Shin, Keewon",
+        "Kyung, Sunggu",
+        "Hong, Gil-sun",
+        "Kim, Namkug"
+      ],
+      "presenter": "",
+      "doi": "",
+      "url": "",
+      "ownRoles": []
+    },
+    {
+      "id": "conference-2020-8",
+      "title": "Utilization of Deep Learning for Automated Reconstruction of 3D MRI in Treatment of Rotator Cuff Tears",
+      "event": "Orthopaedic Research Society",
+      "date": "2020",
+      "type": "poster",
+      "authors": [
+        "Shin, Keewon",
+        "Kim, Hyo-jun",
+        "Kim, Ho-yeon",
+        "Ko, Kyung-hwan",
+        "Kim, Namkug"
+      ],
+      "presenter": "",
+      "doi": "",
+      "url": "",
+      "ownRoles": []
+    },
+    {
+      "id": "conference-2020-9",
+      "title": "Superresolution Of Bone Slice Thickness At Computed Tomography Using Deep Learning Methodology",
+      "event": "Orthopaedic Research Society",
+      "date": "2020",
+      "type": "poster",
+      "authors": [
+        "Shin, Keewon",
+        "Jang, Ryung-woo",
+        "Ko, Kyung-hwan",
+        "Kim, Namkug"
+      ],
+      "presenter": "",
+      "doi": "",
+      "url": "",
+      "ownRoles": []
+    },
+    {
+      "id": "conference-2019-10",
+      "title": "A semantic segmentation and separation with cascaded 3D U-Net to compare performances of normal controls and patients in cervical spine CT",
+      "event": "Korean Congress of Radiology",
+      "date": "2019",
+      "type": "oral",
+      "authors": [
+        "Shin, Keewon",
+        "Hyun, Heejung",
+        "Byeon, Younghwa",
+        "Song, Young Ji",
+        "Kim, Namkug"
+      ],
+      "presenter": "",
+      "doi": "",
+      "url": "",
+      "ownRoles": []
+    }
+  ],
+  "journalEntries": []
+}

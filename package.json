@@ -5,9 +5,14 @@
   "type": "module",
   "description": "Bilingual Translational Medical Intelligence Lab website",
   "scripts": {
-    "test": "node --test scripts/test-wheel.mjs scripts/test-scholar-sync.mjs scripts/test-publications-sync.mjs scripts/test-slide-structure.mjs",
+    "test": "node --test scripts/test-wheel.mjs scripts/test-scholar-sync.mjs scripts/test-publications-sync.mjs scripts/test-slide-structure.mjs scripts/test-bibliography-export.mjs scripts/test-cv.mjs scripts/test-cv-editor.mjs",
     "update:scholar": "node scripts/update-scholar.mjs",
     "update:publications": "node scripts/update-publications.mjs",
+    "update:bibliography": "node scripts/export-bibliography.mjs --refresh",
+    "export:bib": "node scripts/export-bibliography.mjs",
+    "cv:edit": "node scripts/cv-editor.mjs",
+    "setup:tex": "node scripts/install-tectonic.mjs",
+    "build:pdf": "node scripts/build.mjs --pdf",
     "test:deck": "node scripts/test-deck.mjs",
     "test:stories": "node scripts/test-stories.mjs",
     "test:visuals": "node scripts/test-visuals.mjs",
@@ -18,7 +23,7 @@
     "test:motion-assets": "node scripts/test-motion-assets.mjs",
     "precheck": "node --check src/scholar.mjs && node --check public/visuals.js && node --check src/clinical-scenes.mjs && node --check public/clinical-scenes.js && node --check src/identity.mjs && node --check public/identity.js",
     "build": "node scripts/build.mjs",
-    "check": "node --check src/render.mjs && node --check src/content.mjs && node --check src/publications.mjs && node --check public/site.js && node --check scripts/build.mjs && node --check src/patents.mjs && node --check public/scroll.js && node --check src/language.js && node --check src/research.mjs && node --check src/slide-overviews.mjs"
+    "check": "node --check src/render.mjs && node --check src/content.mjs && node --check src/publications.mjs && node --check public/site.js && node --check scripts/build.mjs && node --check src/patents.mjs && node --check public/scroll.js && node --check src/language.js && node --check src/research.mjs && node --check src/slide-overviews.mjs && node --check scripts/cv-editor.mjs && node --check scripts/cv-records.mjs && node --check src/cv.mjs && node --check scripts/export-bibliography.mjs && node --check scripts/build-cv-pdf.mjs && node --check scripts/install-tectonic.mjs"
   },
   "engines": {
     "node": ">=22"

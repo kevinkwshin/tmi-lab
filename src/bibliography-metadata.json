@@ -1,0 +1,805 @@
+{
+  "version": 1,
+  "coverage": "DOIs in the website publication list only; this is not a complete career bibliography.",
+  "checked": "2026-11-12",
+  "records": {
+    "10.1002/mp.70285": {
+      "doi": "10.1002/mp.70285",
+      "type": "journal-article",
+      "title": "Automated landmark detection and view positioning assessment of shoulder grashey view radiographs using cascade deep learning: A dual‐center validation study",
+      "journal": "Medical Physics",
+      "authors": [
+        {
+          "family": "Ryu",
+          "given": "Seung Min",
+          "orcid": "0000-0001-6946-1428"
+        },
+        {
+          "family": "Park",
+          "given": "Changhyun",
+          "orcid": "0009-0008-5042-7922"
+        },
+        {
+          "family": "Lee",
+          "given": "Junseong",
+          "orcid": "0009-0001-9661-4095"
+        },
+        {
+          "family": "Kim",
+          "given": "Ki‐Hong",
+          "orcid": "0000-0002-9873-7574"
+        },
+        {
+          "family": "Kim",
+          "given": "Seojin",
+          "orcid": "0009-0008-9395-7165"
+        },
+        {
+          "family": "Shin",
+          "given": "Seong‐Kee",
+          "orcid": "0000-0002-5824-4046"
+        },
+        {
+          "family": "Kim",
+          "given": "Seonghyeon",
+          "orcid": "0000-0002-0292-2944"
+        },
+        {
+          "family": "Shin",
+          "given": "Keewon",
+          "orcid": "0000-0002-5028-5716"
+        },
+        {
+          "family": "Koh",
+          "given": "Kyoung‐Hwan",
+          "orcid": "0000-0002-6181-9621"
+        }
+      ],
+      "dates": {
+        "published": "2026-01-24",
+        "online": "2026-01-24",
+        "print": "2026-02"
+      },
+      "date": "2026-01-24",
+      "year": 2026,
+      "volume": "53",
+      "issue": "2",
+      "articleNumber": "e70285",
+      "url": "https://doi.org/10.1002/mp.70285",
+      "source": "https://api.crossref.org/works/10.1002%2Fmp.70285",
+      "verified": "2026-11-12"
+    },
+    "10.1007/s00256-026-05328-7": {
+      "doi": "10.1007/s00256-026-05328-7",
+      "type": "journal-article",
+      "title": "Hierarchical classification of acute and chronic osteoporotic vertebral compression fractures of the lumbar spine using X-ray images",
+      "journal": "Skeletal Radiology",
+      "authors": [
+        {
+          "family": "Kim",
+          "given": "Joohyun"
+        },
+        {
+          "family": "Shin",
+          "given": "Keewon"
+        },
+        {
+          "family": "An",
+          "given": "Sungjae"
+        },
+        {
+          "family": "Lee",
+          "given": "Subum"
+        },
+        {
+          "family": "Kwon",
+          "given": "Woo-Keun"
+        },
+        {
+          "family": "Oh",
+          "given": "Younggyu"
+        },
+        {
+          "family": "Lee",
+          "given": "Kyu-Chong"
+        },
+        {
+          "family": "Park",
+          "given": "Sungjin"
+        },
+        {
+          "family": "Ahn",
+          "given": "Kyung-Sik"
+        },
+        {
+          "family": "Hur",
+          "given": "Junseok W."
+        }
+      ],
+      "dates": {
+        "published": "2026-08-11",
+        "online": "2026-08-11",
+        "print": "2026-12"
+      },
+      "date": "2026-08-11",
+      "year": 2026,
+      "volume": "55",
+      "issue": "12",
+      "pages": "3181-3193",
+      "url": "https://doi.org/10.1007/s00256-026-05328-7",
+      "source": "https://api.crossref.org/works/10.1007%2Fs00256-026-05328-7",
+      "verified": "2026-11-12"
+    },
+    "10.1007/s00261-026-05813-6": {
+      "doi": "10.1007/s00261-026-05813-6",
+      "type": "journal-article",
+      "title": "Deep learning-based detection of pneumoperitoneum on computed tomography: performance and clinical feasibility",
+      "journal": "Abdominal Radiology",
+      "authors": [
+        {
+          "family": "Ryu",
+          "given": "Hyo Seon"
+        },
+        {
+          "family": "Jung",
+          "given": "Se Hoon"
+        },
+        {
+          "family": "Lee",
+          "given": "Inhyeok",
+          "orcid": "0000-0003-4275-3812"
+        },
+        {
+          "family": "Han",
+          "given": "Jiwon"
+        },
+        {
+          "family": "Park",
+          "given": "Ye Ryung"
+        },
+        {
+          "family": "Jeong",
+          "given": "Rae Yoon"
+        },
+        {
+          "family": "Han",
+          "given": "Yeo Eun",
+          "orcid": "0000-0002-3922-9326"
+        },
+        {
+          "family": "Shin",
+          "given": "Keewon",
+          "orcid": "0000-0002-5028-5716"
+        },
+        {
+          "family": "Kwak",
+          "given": "Jung-Myun",
+          "orcid": "0000-0002-2181-4279"
+        }
+      ],
+      "dates": {
+        "published": "2026-10-22",
+        "online": "2026-10-22"
+      },
+      "date": "2026-10-22",
+      "year": 2026,
+      "url": "https://doi.org/10.1007/s00261-026-05813-6",
+      "source": "https://api.crossref.org/works/10.1007%2Fs00261-026-05813-6",
+      "verified": "2026-11-12"
+    },
+    "10.1007/s10278-023-00803-2": {
+      "doi": "10.1007/s10278-023-00803-2",
+      "type": "journal-article",
+      "title": "An Image Turing Test on Realistic Gastroscopy Images Generated by Using the Progressive Growing of Generative Adversarial Networks",
+      "journal": "Journal of Digital Imaging",
+      "authors": [
+        {
+          "family": "Shin",
+          "given": "Keewon",
+          "orcid": "0000-0002-5028-5716"
+        },
+        {
+          "family": "Lee",
+          "given": "Jung Su",
+          "orcid": "0000-0001-5644-0150"
+        },
+        {
+          "family": "Lee",
+          "given": "Ji Young",
+          "orcid": "0000-0002-0764-615X"
+        },
+        {
+          "family": "Lee",
+          "given": "Hyunsu",
+          "orcid": "0000-0003-3631-3028"
+        },
+        {
+          "family": "Kim",
+          "given": "Jeongseok",
+          "orcid": "0000-0003-1007-564X"
+        },
+        {
+          "family": "Byeon",
+          "given": "Jeong-Sik",
+          "orcid": "0000-0002-9793-6379"
+        },
+        {
+          "family": "Jung",
+          "given": "Hwoon-Yong"
+        },
+        {
+          "family": "Kim",
+          "given": "Do Hoon",
+          "orcid": "0000-0002-4250-4683"
+        },
+        {
+          "family": "Kim",
+          "given": "Namkug",
+          "orcid": "0000-0002-3438-2217"
+        }
+      ],
+      "dates": {
+        "published": "2023-03-13",
+        "online": "2023-03-13"
+      },
+      "date": "2023-03-13",
+      "year": 2023,
+      "volume": "36",
+      "issue": "4",
+      "pages": "1760-1769",
+      "url": "https://doi.org/10.1007/s10278-023-00803-2",
+      "source": "https://api.crossref.org/works/10.1007%2Fs10278-023-00803-2",
+      "verified": "2026-11-12"
+    },
+    "10.1007/s13534-024-00432-w": {
+      "doi": "10.1007/s13534-024-00432-w",
+      "type": "journal-article",
+      "title": "Orthopedic surgeon level joint angle assessment with artificial intelligence based on photography: a pilot study",
+      "journal": "Biomedical Engineering Letters",
+      "authors": [
+        {
+          "family": "Ryu",
+          "given": "Seung Min"
+        },
+        {
+          "family": "Shin",
+          "given": "Keewon"
+        },
+        {
+          "family": "Doh",
+          "given": "Chang Hyun"
+        },
+        {
+          "family": "Ben",
+          "given": "Hui"
+        },
+        {
+          "family": "Park",
+          "given": "Ji Yeon"
+        },
+        {
+          "family": "Koh",
+          "given": "Kyoung-Hwan"
+        },
+        {
+          "family": "Shin",
+          "given": "Hangsik",
+          "orcid": "0000-0002-3353-0310"
+        },
+        {
+          "family": "Jeon",
+          "given": "In-ho"
+        }
+      ],
+      "dates": {
+        "published": "2024-09-28",
+        "online": "2024-09-28",
+        "print": "2025-01"
+      },
+      "date": "2024-09-28",
+      "year": 2024,
+      "volume": "15",
+      "issue": "1",
+      "pages": "131-142",
+      "url": "https://doi.org/10.1007/s13534-024-00432-w",
+      "source": "https://api.crossref.org/works/10.1007%2Fs13534-024-00432-w",
+      "verified": "2026-11-12"
+    },
+    "10.1007/s13534-025-00458-8": {
+      "doi": "10.1007/s13534-025-00458-8",
+      "type": "journal-article",
+      "title": "Enhancement of phonocardiogram segmentation using convolutional neural networks with Fourier transform module",
+      "journal": "Biomedical Engineering Letters",
+      "authors": [
+        {
+          "family": "Park",
+          "given": "Changhyun"
+        },
+        {
+          "family": "Shin",
+          "given": "Keewon"
+        },
+        {
+          "family": "Seo",
+          "given": "Jinew"
+        },
+        {
+          "family": "Lim",
+          "given": "Hyunseok"
+        },
+        {
+          "family": "Kim",
+          "given": "Gyeong Hoon"
+        },
+        {
+          "family": "Seo",
+          "given": "Woo-Young"
+        },
+        {
+          "family": "Kim",
+          "given": "Sung-Hoon"
+        },
+        {
+          "family": "Kim",
+          "given": "Namkug",
+          "orcid": "0000-0002-3438-2217"
+        }
+      ],
+      "dates": {
+        "published": "2025-01-31",
+        "online": "2025-01-31",
+        "print": "2025-03"
+      },
+      "date": "2025-01-31",
+      "year": 2025,
+      "volume": "15",
+      "issue": "2",
+      "pages": "401-413",
+      "url": "https://doi.org/10.1007/s13534-025-00458-8",
+      "source": "https://api.crossref.org/works/10.1007%2Fs13534-025-00458-8",
+      "verified": "2026-11-12"
+    },
+    "10.1016/j.acra.2024.10.050": {
+      "doi": "10.1016/j.acra.2024.10.050",
+      "type": "journal-article",
+      "title": "Enhancing Oncological Surveillance Through Large Language Model-Assisted Analysis: A Comparative Study of GPT-4 and Gemini in Evaluating Oncological Issues From Serial Abdominal CT Scan Reports",
+      "journal": "Academic Radiology",
+      "authors": [
+        {
+          "family": "Han",
+          "given": "Na Yeon"
+        },
+        {
+          "family": "Shin",
+          "given": "Keewon"
+        },
+        {
+          "family": "Kim",
+          "given": "Min Ju",
+          "orcid": "0000-0003-0979-9835"
+        },
+        {
+          "family": "Park",
+          "given": "Beom Jin"
+        },
+        {
+          "family": "Sim",
+          "given": "Ki Choon"
+        },
+        {
+          "family": "Han",
+          "given": "Yeo Eun"
+        },
+        {
+          "family": "Sung",
+          "given": "Deuk Jae"
+        },
+        {
+          "family": "Choi",
+          "given": "Jae Woong"
+        },
+        {
+          "family": "Yeom",
+          "given": "Suk Keu"
+        }
+      ],
+      "dates": {
+        "published": "2025-05",
+        "print": "2025-05"
+      },
+      "date": "2025-05",
+      "year": 2025,
+      "volume": "32",
+      "issue": "5",
+      "pages": "2385-2391",
+      "url": "https://doi.org/10.1016/j.acra.2024.10.050",
+      "source": "https://api.crossref.org/works/10.1016%2Fj.acra.2024.10.050",
+      "verified": "2026-11-12"
+    },
+    "10.1016/j.compbiomed.2023.107532": {
+      "doi": "10.1016/j.compbiomed.2023.107532",
+      "type": "journal-article",
+      "title": "Enhancing the performance of premature ventricular contraction detection in unseen datasets through deep learning with denoise and contrast attention module",
+      "journal": "Computers in Biology and Medicine",
+      "authors": [
+        {
+          "family": "Shin",
+          "given": "Keewon",
+          "orcid": "0000-0002-5028-5716"
+        },
+        {
+          "family": "Kim",
+          "given": "Hyunjung",
+          "orcid": "0000-0001-6226-8342"
+        },
+        {
+          "family": "Seo",
+          "given": "Woo-Young"
+        },
+        {
+          "family": "Kim",
+          "given": "Hyun-Seok"
+        },
+        {
+          "family": "Shin",
+          "given": "Jae-Man",
+          "orcid": "0009-0005-4808-501X"
+        },
+        {
+          "family": "Kim",
+          "given": "Dong-Kyu"
+        },
+        {
+          "family": "Park",
+          "given": "Yong-Seok",
+          "orcid": "0000-0002-3752-2211"
+        },
+        {
+          "family": "Kim",
+          "given": "Sung-Hoon"
+        },
+        {
+          "family": "Kim",
+          "given": "Namkug",
+          "orcid": "0000-0002-3438-2217"
+        }
+      ],
+      "dates": {
+        "published": "2023-11",
+        "print": "2023-11"
+      },
+      "date": "2023-11",
+      "year": 2023,
+      "volume": "166",
+      "pages": "107532",
+      "articleNumber": "107532",
+      "url": "https://doi.org/10.1016/j.compbiomed.2023.107532",
+      "source": "https://api.crossref.org/works/10.1016%2Fj.compbiomed.2023.107532",
+      "verified": "2026-11-12"
+    },
+    "10.1016/j.media.2022.102489": {
+      "doi": "10.1016/j.media.2022.102489",
+      "type": "journal-article",
+      "title": "Improved performance and robustness of multi-task representation learning with consistency loss between pretexts for intracranial hemorrhage identification in head CT",
+      "journal": "Medical Image Analysis",
+      "authors": [
+        {
+          "family": "Kyung",
+          "given": "Sunggu",
+          "orcid": "0000-0002-7582-9484"
+        },
+        {
+          "family": "Shin",
+          "given": "Keewon"
+        },
+        {
+          "family": "Jeong",
+          "given": "Hyunsu"
+        },
+        {
+          "family": "Kim",
+          "given": "Ki Duk",
+          "orcid": "0000-0002-9659-897X"
+        },
+        {
+          "family": "Park",
+          "given": "Jooyoung",
+          "orcid": "0000-0002-7641-3827"
+        },
+        {
+          "family": "Cho",
+          "given": "Kyungjin"
+        },
+        {
+          "family": "Lee",
+          "given": "Jeong Hyun"
+        },
+        {
+          "family": "Hong",
+          "given": "GilSun",
+          "orcid": "0000-0002-0068-9413"
+        },
+        {
+          "family": "Kim",
+          "given": "Namkug"
+        }
+      ],
+      "dates": {
+        "published": "2022-10",
+        "print": "2022-10"
+      },
+      "date": "2022-10",
+      "year": 2022,
+      "volume": "81",
+      "pages": "102489",
+      "articleNumber": "102489",
+      "url": "https://doi.org/10.1016/j.media.2022.102489",
+      "source": "https://api.crossref.org/works/10.1016%2Fj.media.2022.102489",
+      "verified": "2026-11-12"
+    },
+    "10.1016/j.xcrm.2026.103020": {
+      "doi": "10.1016/j.xcrm.2026.103020",
+      "type": "journal-article",
+      "title": "Transforming large language models into medical specialists via knowledge injection",
+      "journal": "Cell Reports Medicine",
+      "authors": [
+        {
+          "family": "Kim",
+          "given": "Kiduk"
+        },
+        {
+          "family": "Song",
+          "given": "Jeong Min"
+        },
+        {
+          "family": "Kim",
+          "given": "Dong Yeong"
+        },
+        {
+          "family": "Nam",
+          "given": "Yoojin"
+        },
+        {
+          "family": "Park",
+          "given": "Sangah"
+        },
+        {
+          "family": "Shin",
+          "given": "Keewon"
+        },
+        {
+          "family": "Jo",
+          "given": "Wooyoung"
+        },
+        {
+          "family": "Kim",
+          "given": "Namkug",
+          "orcid": "0000-0002-3438-2217"
+        }
+      ],
+      "dates": {
+        "published": "2026-09",
+        "print": "2026-09"
+      },
+      "date": "2026-09",
+      "year": 2026,
+      "pages": "103020",
+      "articleNumber": "103020",
+      "url": "https://doi.org/10.1016/j.xcrm.2026.103020",
+      "source": "https://api.crossref.org/works/10.1016%2Fj.xcrm.2026.103020",
+      "verified": "2026-11-12"
+    },
+    "10.1148/radiol.220171": {
+      "doi": "10.1148/radiol.220171",
+      "type": "journal-article",
+      "title": "Deep Learning–based Detection of Solid and Cystic Pancreatic Neoplasms at Contrast-enhanced CT",
+      "journal": "Radiology",
+      "authors": [
+        {
+          "family": "Park",
+          "given": "Hyo Jung",
+          "orcid": "0000-0002-2364-9940"
+        },
+        {
+          "family": "Shin",
+          "given": "Keewon",
+          "orcid": "0000-0002-5028-5716"
+        },
+        {
+          "family": "You",
+          "given": "Myung-Won",
+          "orcid": "0000-0001-6262-5784"
+        },
+        {
+          "family": "Kyung",
+          "given": "Sung-Gu",
+          "orcid": "0000-0002-7582-9484"
+        },
+        {
+          "family": "Kim",
+          "given": "So Yeon",
+          "orcid": "0000-0001-6853-8577"
+        },
+        {
+          "family": "Park",
+          "given": "Seong Ho",
+          "orcid": "0000-0002-1257-8315"
+        },
+        {
+          "family": "Byun",
+          "given": "Jae Ho",
+          "orcid": "0000-0003-2076-9979"
+        },
+        {
+          "family": "Kim",
+          "given": "Namkug",
+          "orcid": "0000-0002-3438-2217"
+        },
+        {
+          "family": "Kim",
+          "given": "Hyoung Jung",
+          "orcid": "0000-0003-3391-5621"
+        }
+      ],
+      "dates": {
+        "published": "2023-01",
+        "print": "2023-01"
+      },
+      "date": "2023-01",
+      "year": 2023,
+      "volume": "306",
+      "issue": "1",
+      "pages": "140-149",
+      "url": "https://doi.org/10.1148/radiol.220171",
+      "source": "https://api.crossref.org/works/10.1148%2Fradiol.220171",
+      "verified": "2026-11-12"
+    },
+    "10.1186/s12885-024-12268-9": {
+      "doi": "10.1186/s12885-024-12268-9",
+      "type": "journal-article",
+      "title": "Integrated clinical and genomic models using machine-learning methods to predict the efficacy of paclitaxel-based chemotherapy in patients with advanced gastric cancer",
+      "journal": "BMC Cancer",
+      "authors": [
+        {
+          "family": "Choi",
+          "given": "Yonghwa"
+        },
+        {
+          "family": "Lee",
+          "given": "Jangwoo"
+        },
+        {
+          "family": "Shin",
+          "given": "Keewon"
+        },
+        {
+          "family": "Lee",
+          "given": "Ji Won"
+        },
+        {
+          "family": "Kim",
+          "given": "Ju Won"
+        },
+        {
+          "family": "Lee",
+          "given": "Soohyeon"
+        },
+        {
+          "family": "Choi",
+          "given": "Yoon Ji"
+        },
+        {
+          "family": "Park",
+          "given": "Kyong Hwa"
+        },
+        {
+          "family": "Kim",
+          "given": "Jwa Hoon"
+        }
+      ],
+      "dates": {
+        "published": "2024-04-20",
+        "online": "2024-04-20"
+      },
+      "date": "2024-04-20",
+      "year": 2024,
+      "volume": "24",
+      "issue": "1",
+      "articleNumber": "502",
+      "url": "https://doi.org/10.1186/s12885-024-12268-9",
+      "source": "https://api.crossref.org/works/10.1186%2Fs12885-024-12268-9",
+      "verified": "2026-11-12"
+    },
+    "10.1371/journal.pone.0274075": {
+      "doi": "10.1371/journal.pone.0274075",
+      "type": "journal-article",
+      "title": "Can deep learning reduce the time and effort required for manual segmentation in 3D reconstruction of MRI in rotator cuff tears?",
+      "journal": "PLOS ONE",
+      "authors": [
+        {
+          "family": "Kim",
+          "given": "Hyojune"
+        },
+        {
+          "family": "Shin",
+          "given": "Keewon"
+        },
+        {
+          "family": "Kim",
+          "given": "Hoyeon"
+        },
+        {
+          "family": "Lee",
+          "given": "Eui-sup"
+        },
+        {
+          "family": "Chung",
+          "given": "Seok Won"
+        },
+        {
+          "family": "Koh",
+          "given": "Kyoung Hwan",
+          "orcid": "0000-0002-6181-9621"
+        },
+        {
+          "family": "Kim",
+          "given": "Namkug",
+          "orcid": "0000-0002-3438-2217"
+        }
+      ],
+      "dates": {
+        "published": "2022-10-10",
+        "online": "2022-10-10"
+      },
+      "date": "2022-10-10",
+      "year": 2022,
+      "volume": "17",
+      "issue": "10",
+      "pages": "e0274075",
+      "url": "https://doi.org/10.1371/journal.pone.0274075",
+      "source": "https://api.crossref.org/works/10.1371%2Fjournal.pone.0274075",
+      "verified": "2026-11-12"
+    },
+    "10.3389/frai.2026.1602119": {
+      "doi": "10.3389/frai.2026.1602119",
+      "type": "journal-article",
+      "title": "Deep learning-based assessment of coronary artery disease using curved-multiplanar reconstruction: comprehensive evaluation of stenosis, calcification, and plaque",
+      "journal": "Frontiers in Artificial Intelligence",
+      "authors": [
+        {
+          "family": "Shin",
+          "given": "Keewon"
+        },
+        {
+          "family": "Kim",
+          "given": "Namkug"
+        },
+        {
+          "family": "Leipsic",
+          "given": "Jonathan A."
+        },
+        {
+          "family": "Lee",
+          "given": "Ji Ho"
+        },
+        {
+          "family": "Kim",
+          "given": "Dae-Won"
+        }
+      ],
+      "dates": {
+        "published": "2026-03-19",
+        "online": "2026-03-19"
+      },
+      "date": "2026-03-19",
+      "year": 2026,
+      "volume": "9",
+      "articleNumber": "1602119",
+      "url": "https://doi.org/10.3389/frai.2026.1602119",
+      "source": "https://api.crossref.org/works/10.3389%2Ffrai.2026.1602119",
+      "verified": "2026-11-12"
+    }
+  },
+  "failures": [],
+  "lastAttempt": "2026-11-12"
+}
