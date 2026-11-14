@@ -1,7 +1,7 @@
 {
   "profileId": "prJCNYoAAAAJ",
-  "checked": "2026-11-06",
-  "citations": 1118,
+  "checked": "2026-11-14",
+  "citations": 1120,
   "hIndex": 15,
   "i10Index": 18,
   "trend": [
@@ -23,15 +23,15 @@
     },
     {
       "year": 2024,
-      "count": 201
+      "count": 202
     },
     {
       "year": 2025,
-      "count": 279
+      "count": 278
     },
     {
       "year": 2026,
-      "count": 198
+      "count": 200
     }
   ]
 }
